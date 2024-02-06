@@ -15,7 +15,7 @@ def encode(name, i):
 
 
 def exists(model_id):
-	cmd = "curl https://api.github.com/repos/hvidy/{0}".format(model_id)
+	cmd = "curl https://api.github.com/repos/ModelAtlasofTheEarth/{0}".format(model_id)
 	output = json.loads(run_command_check_output(cmd))
 
 	if "message" in output:
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	# Get issue
 	auth = Auth.Token(token)
 	g = Github(auth=auth)
-	repo = g.get_repo("hvidy/PIPE-4002-EarthByte-ModelAtlas")
+	repo = g.get_repo("ModelAtlasofTheEarth/Model_Submission")
 	issue = repo.get_issue(number = issue_number)
 
 	# Parse issue body

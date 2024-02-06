@@ -106,7 +106,7 @@ jobs:
         id: create-model-repo
         env:
           GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
-          OWNER: hvidy
+          OWNER: ModelAtlasOfTheEarth
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           TEMPLATE: ModelAtlasOfTheEarth/mate_model_template
           FLAGS: --public
@@ -119,7 +119,7 @@ jobs:
       - name: write metadata
         env:
           GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
-          OWNER: hvidy
+          OWNER: ModelAtlasOfTheEarth
           REPO: ${{ steps.create-model-repo.outputs.repo_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
