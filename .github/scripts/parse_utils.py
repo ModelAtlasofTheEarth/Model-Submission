@@ -1,10 +1,40 @@
+import os
 import re
 import requests
 import filetype
+import subprocess
 from filetypes import Svg
 
 from improved_request_utils import get_record, search_organization
 from parse_metadata_utils import parse_author, parse_organization
+
+def validate_slug(proposed_slug):
+    error_log = ""
+
+    try:
+        slug_bits = proposed_slug.split("-")
+        assert len(slug_bits) == 3, "Warning: slug should be in the format `familyname-year-keyword`\n"
+        assert len(slug_bits[1]) == 4, "Warning: year should be in the format `yyyy`\n"
+        int(slug_bits[1])
+    except ValueError:
+        error_log += "Warning: slug should be in the format `familyname-year-keyword` where year is a number in the format `yyyy`\n"
+    except AssertionError as err:
+        error_log += err
+
+    cmd = "python3 .github/scripts/generate_identifier.py"
+
+    try:
+        slug = subprocess.check_output(cmd, shell=True, text=True, stderr=open(os.devnull)).strip()
+        if proposed_slug != slug:
+            error_log += f"Warning: Model repo cannot be created with proposed slug `{proposed_slug}`. \n"
+            error_log += f"Either propose a new slug or repo will be created with name `{slug}`. \n"
+    except Exception as err:
+        slug = ""
+        error_log += "Error: Unable to create valid repo name... \n"
+        error_log += f"`{err}`\n"
+
+    return slug, error_log
+
 
 def parse_name_or_orcid(name_or_orcid):
     error_log = ""

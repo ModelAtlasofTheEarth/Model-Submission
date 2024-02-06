@@ -1,11 +1,9 @@
-import os
 import re
-import subprocess
 import pandas as pd
 
 from improved_request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug
 
 
 def parse_issue(issue):
@@ -30,19 +28,11 @@ def parse_issue(issue):
 
     # slug
     proposed_slug = data["-> slug"].strip()
-    cmd = "python3 .github/scripts/generate_identifier.py"
-    try:
-        slug = subprocess.check_output(cmd, shell=True, text=True, stderr=open(os.devnull)).strip()
-        data_dict["slug"] = slug
-        if proposed_slug != slug:
-            error_log += "**Model Repository Slug**\n"
-            error_log += f"Warning: Model repo cannot be created with proposed slug `{proposed_slug}`. \n"
-            error_log += f"Either propose a new slug or repo will be created with name `{slug}`. \n"
-    except Exception as err:
-        data_dict["slug"] = ""
-        error_log += "**Model Repository Slug**\n"
-        error_log += "Error: Unable to create valid repo name... \n"
-        error_log += f"`{err}`\n"
+
+    slug, log = validate_slug(proposed_slug)
+    data_dict["slug"] = slug
+    if log:
+        error_log += "**Model Repository Slug**\n" + log + '\n'
 
     # FoR codes
     about_record = {
