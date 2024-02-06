@@ -169,18 +169,18 @@ def parse_issue(issue):
     if type(selection) is str:
         error_log += "**Include model code?**\n" + selection + "\n"
 
-    # model code URI/DOI
-    model_code_uri = data["-> model code URI/DOI"].strip()
+    # model code/inputs DOI
+    model_code_uri = data["-> model code/inputs DOI"].strip()
 
     if model_code_uri == "_No response_":
-        error_log += "**Model code URI/DOI**\n"
+        error_log += "**Model code DOI**\n"
         error_log += "Warning: No URI/DOI provided. \n"
     else:
         response = check_uri(model_code_uri)
         if response == "OK":
             data_dict["model_code_uri"] = model_code_uri
         else:
-            error_log += "**Model code URI/DOI**\n" + response + "\n"
+            error_log += "**Model code DOI**\n" + response + "\n"
 
     # include model output data
     model_output = data["-> include model output data?"].strip().split("\n")
@@ -192,17 +192,17 @@ def parse_issue(issue):
         error_log += "**Include model output data?**\n" + selection + "\n"
 
     # model output URI/DOI
-    model_output_uri = data["-> model output URI/DOI"].strip()
+    model_output_uri = data["-> model output DOI"].strip()
 
     if model_output_uri == "_No response_":
-        error_log += "**Model output URI/DOI**\n"
+        error_log += "**Model output DOI**\n"
         error_log += "Warning: No URI/DOI provided. \n"
     else:
         response = check_uri(model_output_uri)
         if response == "OK":
             data_dict["model_output_uri"] = model_output_uri
         else:
-            error_log += "**Model output URI/DOI**\n" + response + "\n"
+            error_log += "**Model output DOI**\n" + response + "\n"
 
 
     #############
