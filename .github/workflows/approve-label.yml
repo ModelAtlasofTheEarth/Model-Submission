@@ -105,7 +105,7 @@ jobs:
       - name: create model repo
         id: create-model-repo
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
           OWNER: hvidy
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           TEMPLATE: hvidy/mate_template
@@ -118,7 +118,7 @@ jobs:
       # parse metadata and write files to repo
       - name: write metadata
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
           OWNER: hvidy
           REPO: ${{ steps.create-model-repo.outputs.repo_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
