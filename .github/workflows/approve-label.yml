@@ -32,7 +32,7 @@ jobs:
       - name: generate report
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
         run: |
           python3 .github/scripts/write_report.py
 
