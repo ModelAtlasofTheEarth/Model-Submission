@@ -55,9 +55,9 @@ def dict_to_report(issue_dict):
     report += "\n"
 
     # scientific keywords
-    if issue_dict["keywords"]:
+    if issue_dict["scientific_keywords"]:
         report += "**Scientific Keywords**\n"
-        for keyword in issue_dict["keywords"]:
+        for keyword in issue_dict["scientific_keywords"]:
             report += f"- {keyword} \n"
         report += "\n"
 
