@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: jenschelkopf/issue-label-notification-action@1.3
         with:
-          recipients: review requested=@ModelAtlastofTheEarth/model_reviewers
+          recipients: review requested=@ModelAtlasofTheEarth/model_reviewers
           message: 'A review of this submission has been requested from {recipients}'
 
   createRepoAuthorization:
