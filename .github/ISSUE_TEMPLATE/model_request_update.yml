@@ -130,7 +130,7 @@ body:
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
     description: "Does your model code/input data have an existing DOI?"
     
-- type: input
+- type: textarea
   id: code_notes 
   attributes:
     label: -> model code/input notes
@@ -155,7 +155,7 @@ body:
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
     description: "Does your model output data have an existing DOI?"
 
-- type: input
+- type: textarea
   id: data_notes 
   attributes:
     label: -> model output data notes
