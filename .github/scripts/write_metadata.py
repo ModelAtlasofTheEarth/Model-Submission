@@ -30,10 +30,10 @@ metadata = dict_to_metadata(data)
 issue.create_comment("# M@TE crate \n"+str(metadata))
 
 # Move files to repo
-model_repo.create_file(".metadata/mate.json","add mate.json",metadata)
+model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
 
 # Copy web material to repo
-copy_files(model_repo, "website_files/", data)
+copy_files(model_repo, "website_material/graphics/", data)
 
 # Report creation of repository
 issue.create_comment(f"Model repository created at https://github.com/{model_owner}/{model_repo_name}")
