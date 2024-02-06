@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: jenschelkopf/issue-label-notification-action@1.3
         with:
-          recipients: review requested=@hvidy
+          recipients: review requested=@model_reviewers
           message: 'A review of this submission has been requested from {recipients}'
 
   createRepoAuthorization:
@@ -100,7 +100,7 @@ jobs:
       # parse metadata and write files to repo
       - name: write metadata
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
           OWNER: ModelAtlasOfTheEarth
           REPO: ${{ steps.create-model-repo.outputs.repo_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
