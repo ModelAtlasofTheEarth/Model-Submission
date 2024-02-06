@@ -19,12 +19,6 @@ def dict_to_report(issue_dict):
     report += "**Model Repository Slug**\n"
     report += f"Model repo will be created with name `{issue_dict['slug']}` \n\n"
 
-    # FoR codes
-    report += "**Field of Research (FoR) Codes**\n"
-    for for_code in issue_dict["for_codes"]:
-        report += f"- `{for_code['@id']}`: {for_code['name']} \n"
-    report += "\n"
-
     # license
     report += "**License**\n"
     if "url" in issue_dict["license"]:

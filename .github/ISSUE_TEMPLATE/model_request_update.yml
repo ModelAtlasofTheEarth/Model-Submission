@@ -16,8 +16,8 @@ body:
   id: creator 
   attributes:
     label: -> creator/contributor ORCID (or name) 
-    placeholder: "0000-0002-1270-4377 (Sam Carey)"
-    description: "Please provide your ORCID Id (or GivenName Familyname)"
+    placeholder: "0000-0002-1270-4377 (Carey, Sam)"
+    description: "Please provide your ORCID iD (or Familyname(s), GivenName(s))"
   validations:
     required: true
   
@@ -25,20 +25,11 @@ body:
   id: slug 
   attributes:
     label: -> slug
-    placeholder: "carey_1965_expansion"
-    description: "Please provide a slug for you model. This will be the name of your model. Use the format 'familyname_year_keyword'"
+    placeholder: "carey-1965-expansion"
+    description: "Please provide a slug for you model. This will be the name of your model. Use the format 'familyname-year-keyword'"
   validations:
     required: true
 
-- type: input
-  id: for_codes
-  attributes:
-    label: -> field of Research (FoR) Codes
-    placeholder: "370604, 370609"
-    description: "Please add FoR Codes, separated by commas (see https://vocabs.ardc.edu.au/viewById/316)"
-  validations:
-    required: true
-    
 - type: dropdown
   id: model-license
   attributes:
@@ -96,8 +87,8 @@ body:
   id: model_authors
   attributes:
     label: -> model authors
-    placeholder: "ORCID Id (or John Citizen)"
-    description: "Please provide ORCID Ids for software framework authors (or GivenName Familyname). Separate with commas or by lines. If no input provided, authors from publication DOI will be used"
+    placeholder: "ORCID iD (or Citizen, Jane)"
+    description: "Please provide ORCID iDs for model authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from publication DOI will be used"
     
 - type: input
   id: keywords
@@ -189,8 +180,8 @@ body:
   id: software_framework_authors
   attributes:
     label: -> software framework authors
-    placeholder: "ORCID Id (or John Citizen)"
-    description: "Please provide ORCID Ids for software framework authors (or GivenName Familyname). If no input provided, Title from software framework DOI will be used"
+    placeholder: "ORCID iD (or Citizen, Jane)"
+    description: "Please provide ORCID iDs for software framework authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, Title from software framework DOI will be used"
 
 - type: input
   id: software_keywords

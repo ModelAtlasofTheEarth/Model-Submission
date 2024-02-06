@@ -45,18 +45,13 @@ def parse_issue(issue):
         error_log += f"`{err}`\n"
 
     # FoR codes
-    for_codes = [x.strip() for x in data["-> field of Research (FoR) Codes"].split(",")]
-    for_code_lut = pd.read_csv(".github/scripts/for_codes.csv", dtype=str)
-
-    about_record = []
-    for for_code in for_codes:
-        record = for_code_lut.loc[for_code_lut["code"] == for_code]
-        if record.empty:
-            error_log += "**Field of Research (FoR) Codes**\n"
-            error_log += f"Error: FoR code `{for_code}` not found in look-up table\n"
-        else:
-            for_id = "#FoR_"+record.code.values[0]
-            about_record.append({"@id": for_id, "@type": "DefinedTerm", "name": record.name.values[0]})
+    about_record = {
+        "@id": "https://linked.data.gov.au/def/anzsrc-for/2020/370401",
+        "@type": "DefinedTerm",
+        "name": "Computational modelling and simulation in earth sciences",
+        "termCode": "370401"
+        }
+    
     data_dict["for_codes"] = about_record
 
     # license
