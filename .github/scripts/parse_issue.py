@@ -138,7 +138,7 @@ def parse_issue(issue):
         error_log += "**Scientific keywords**\n"
         error_log += "Warning: No keywords given \n"
 
-    data_dict["keywords"] = keywords
+    data_dict["scientific_keywords"] = keywords
 
     # funder
     funders = [x.strip() for x in data["-> funder"].split(",")]
