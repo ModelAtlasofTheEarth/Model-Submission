@@ -9,4 +9,4 @@
 
 _Workflows are currently in development!_
 
-To submit a model, open a new issue using the [model request template](url)
+To submit a model, open a new issue using the [New model request](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues/new/choose)
