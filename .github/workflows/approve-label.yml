@@ -108,7 +108,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
           OWNER: hvidy
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          TEMPLATE: hvidy/mate_template
+          TEMPLATE: ModelAtlasOfTheEarth/mate_model_template
           FLAGS: --public
         run: |
           REPO_NAME=$(python3 .github/scripts/generate_identifier.py)
