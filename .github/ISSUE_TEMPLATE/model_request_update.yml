@@ -174,14 +174,14 @@ body:
   attributes:
     label: -> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM) 
     placeholder: "Underworld2"
-    description: "If no input provided, Title from software framework DOI will be used"
+    description: "If no input provided, title from software framework DOI will be used"
 
 - type: textarea
   id: software_framework_authors
   attributes:
     label: -> software framework authors
     placeholder: "ORCID iD (or Citizen, Jane)"
-    description: "Please provide ORCID iDs for software framework authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, Title from software framework DOI will be used"
+    description: "Please provide ORCID iDs for software framework authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from software framework DOI will be used"
 
 - type: input
   id: software_keywords
