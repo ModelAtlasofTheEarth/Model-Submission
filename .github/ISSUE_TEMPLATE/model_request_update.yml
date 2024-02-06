@@ -119,16 +119,23 @@ body:
     options:
       - label: "yes"
       - label: "no"
-    description: "Will you submit code (scripts, input data, build details) as part of your M@TE model?"
+    description: "Are you intending to submit code (scripts, input data, build details) as part of your M@TE model?"
   validations:
     required: true
 
 - type: input
   id: code_doi 
   attributes:
-    label: -> model code URI/DOI
+    label: -> model code/inputs DOI
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
-    description: "Does your model code have an existing DOI/URI"
+    description: "Does your model code/input data have an existing DOI?"
+    
+- type: input
+  id: code_notes 
+  attributes:
+    label: -> model code/input notes
+    placeholder: "Model is setup with a Python script, model.py, with X parameter provided as an argument"
+    description: "Please provide a basic description of your output data"
   
 - type: checkboxes
   id: data_include
@@ -137,18 +144,23 @@ body:
     options:
       - label: "yes"
       - label: "no"
-    description: "Will you submit model output data as part of your M@TE model?"
+    description: "Are you intending to submit your model output data as part of your M@TE model?"
   validations:
     required: true
 
 - type: input
   id: data_doi 
   attributes:
-    label: -> model output URI/DOI
+    label: -> model output data DOI
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
-    description: "Does your model output data have an existing DOI/URI"
+    description: "Does your model output data have an existing DOI?"
 
-
+- type: input
+  id: data_notes 
+  attributes:
+    label: -> model output data notes
+    placeholder: "output data consists of 1000 *.vtk files, each represting an output timestep"
+    description: "Please provide a basic description of your output data"
 
 - type: markdown
   attributes:
