@@ -126,7 +126,7 @@ body:
 - type: input
   id: code_doi 
   attributes:
-    label: -> model code/inputs DOI
+    label: -> model code/inputs DOI (or URL. e.g., github repo.)
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
     description: "Does your model code/input data have an existing DOI?"
     
@@ -135,7 +135,7 @@ body:
   attributes:
     label: -> model code/input notes
     placeholder: "Model is setup with a Python script, model.py, with X parameter provided as an argument"
-    description: "Please provide a basic description of your output data"
+    description: "Please provide a basic description of your model code/input"
   
 - type: checkboxes
   id: data_include
@@ -151,8 +151,8 @@ body:
 - type: input
   id: data_doi 
   attributes:
-    label: -> model output data DOI
-    placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
+    label: -> model output data DOI (or URL. e.g., github repo.)
+    placeholder: "https://doi.org/10.47366/sabia.x5n1a3."
     description: "Does your model output data have an existing DOI?"
 
 - type: textarea
