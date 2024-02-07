@@ -15,7 +15,7 @@ Request a review:
 * by adding a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label to the issue
 
 Model repository creation
-* The `model_reviewers` team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
+* The https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
 * this trigger the creation of a repository for your model based in this template
 
 Upload model to NCI Server (National Comoutational Infrastructure) 
