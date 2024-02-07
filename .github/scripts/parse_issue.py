@@ -27,7 +27,7 @@ def parse_issue(issue):
         error_log += "**Creator/Contributor**\n" + log +"\n"
 
     # slug
-    proposed_slug = data["-> slugg"].strip()
+    proposed_slug = data["-> slug"].strip()
 
     slug, log = validate_slug(proposed_slug)
     data_dict["slug"] = slug
