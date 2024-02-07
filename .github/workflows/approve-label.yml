@@ -137,3 +137,28 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           python3 .github/scripts/write_metadata.py
+
+      # steps if failure
+      - name: workflow url
+        if: failure()
+        id: workflow-url
+        run: |
+          echo "workflow_url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+
+      - name: comment on failure
+        if: failure()
+        uses: GrantBirki/comment@v2.0.8
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          file: .github/templates/repo-workflow-fail.md
+          vars: |
+            repo_name: ${{ steps.create-model-repo.outputs.repo_name }}
+            workflow_url: ${{ steps.workflow-url.outputs.workflow_url }}
+
+      - name: add fail label
+        if: failure()
+        uses: actions-ecosystem/action-add-labels@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: workflow_error
+    
