@@ -11,6 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Comment on issue
+      - name: Comment on submission
+        uses: GrantBirki/comment@v2.0.8
+        with:
+          file: .github/templates/new-model.md
+
       # setup python
       - name: setup python
         uses: actions/setup-python@v5
