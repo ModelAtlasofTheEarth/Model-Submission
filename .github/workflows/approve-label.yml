@@ -15,6 +15,7 @@ jobs:
       - name: Comment on submission
         uses: GrantBirki/comment@v2.0.8
         with:
+          issue-number: ${{ github.event.issue.number }}
           file: .github/templates/new-model.md
 
       # setup python
