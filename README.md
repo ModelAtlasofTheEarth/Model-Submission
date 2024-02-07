@@ -29,12 +29,12 @@ _Note: Workflows are currently in development!_
 * add a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label to the issue
 
 **Model repository creation**
-* The [model_reviewers`](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
+* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
 * this triggers the creation of a repository for your model based in this template
 
 **Upload model to our [NCI](https://nci.org.au/) Server**
-* Add an htts://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
-* The [model_reviewers`](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to provide accesss to out server
+* Add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
+* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to provide accesss to out server
 * This will allow the large file payload to be added to you model
 
 Model published
