@@ -34,6 +34,29 @@ jobs:
         run: |
           python3 .github/scripts/write_report.py
 
+      # steps if failure
+      - name: workflow url
+        if: failure()
+        id: workflow-url
+        run: |
+          echo "workflow_url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+
+      - name: comment on failure
+        if: failure()
+        uses: GrantBirki/comment@v2.0.8
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          file: .github/templates/parse-workflow-fail.md
+          vars: |
+            workflow_url: ${{ steps.workflow-url.outputs.workflow_url }}
+
+      - name: add fail label
+        if: failure()
+        uses: actions-ecosystem/action-add-labels@v1.1.0
+        with:
+          labels: workflow_error
+
+
   requestReview:
     if: contains(github.event.label.name, 'review requested')
     runs-on: ubuntu-latest
