@@ -28,14 +28,14 @@ def handle_request_errors(func):
         try:
             return func(*args, **kwargs), ""
         except requests.exceptions.HTTPError as e:
-            logger.error(f"HTTP error: {e.response.status_code} - {e.response.reason}")
+            logger.error(f"HTTP error: {e.response.status_code} - {e.response.reason}\n")
         except requests.exceptions.ConnectionError:
-            logger.error("Connection error")
+            logger.error("Connection error\n")
         except requests.exceptions.Timeout:
-            logger.error("Request timed out")
+            logger.error("Request timed out\n")
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error fetching metadata: {e}")
-        return None, "An error occurred during the request."
+            logger.error(f"Error fetching metadata: {e}\n")
+        return None, "An error occurred during the request.\n"
     return wrapper
 
 @handle_request_errors
@@ -71,10 +71,10 @@ def search_organization(org_url):
     - org_url (str): The URL or identifier of the organization to search for.
 
     Returns:
-    The search results as a JSON object.
+    The ROR id as a string.
     """
 
-    base_url = BASE_URLS["organization"]
+    base_url = BASE_URLS["organization"].rstrip('/')
     org_url = org_url.split("://")[-1].rstrip('/')
 
     url = f"{base_url}?query.advanced=links:{org_url}"
@@ -82,17 +82,24 @@ def search_organization(org_url):
 
     response = session.get(url, headers=headers, timeout=TIMEOUT)
     response.raise_for_status()
-    return process_search_results(response.json())
 
-def process_search_results(results):
+    results = response.json()
+
     if results["number_of_results"] == 0:
-        logger.info(f"Unable to find ROR for the provided URL.")
+        logger.info(f"Unable to find ROR for {org_url}.\n")
     elif results["number_of_results"] == 1:
         ror_id = results["items"][0]["id"]
-        logger.info(f"Found ROR record: {results['items'][0]['name']} ({ror_id})")
+        logger.info(f"Found ROR record for {org_url}: {results['items'][0]['name']} ({ror_id})\n")
+        for relation in results["items"][0]["relationships"]:
+            if relation["type"] == "Parent":
+                logger.info(f"Note: This organization has a parent organization: {relation['label']} ({relation['id']}) \n")
     else:
-        logger.info("Found more than one ROR record. Please review the results.")
-    return results
+        ror_id = results["items"][0]["id"]
+        logger.info(f"Found more than one ROR record for {org_url}. Assuming the first result is correct; if not please edit your submission using the correct ROR. \n.")
+        for record in results["items"]:
+            logger.info(f"\t - {record['name']} ({record['id']}) \n")
+
+    return ror_id
 
 def check_uri(uri):
 
