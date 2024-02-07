@@ -34,8 +34,9 @@ _Note: Workflows are currently in development!_
 
 **Upload model to our [NCI](https://nci.org.au/) Server**
 * Add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
-* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to provide accesss to out server
-* This will allow the large file payload to be added to you model
+* This will allow large file payloads (up to several 100s Gb) to be added to you model
+* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to orchestrate this process
+
 
 **Model published**
 * Your model will be https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/published on the NCIs GeoNetworkCatalog
