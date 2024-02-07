@@ -13,6 +13,7 @@ jobs:
 
       # Comment on issue
       - name: Comment on submission
+        id: submission-comment
         uses: GrantBirki/comment@v2.0.8
         with:
           issue-number: ${{ github.event.issue.number }}
@@ -30,6 +31,7 @@ jobs:
       - name: generate report
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          COMMENT_ID: ${{ steps.submission-comment.outputs.comment-id }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 .github/scripts/write_report.py
