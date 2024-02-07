@@ -6,7 +6,7 @@
 * New models are spawned using the [github issues functionality](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues), within this repostory
 * We provide workflows (using github actions) that aim to harvest and reuse as much existing metadata as possible, using persistent identifiers such as ORCiDs and RoRs
 * The result is a model repository that comes with a rich metadata document, based on the [Ro-Crate](https://www.researchobject.org/ro-crate/) project
-* This process also assembled material so we can feature you model on the [M@TE website](https://mate.science)
+* This process also assembles material so we can feature you model on the [M@TE website](https://mate.science)
 
 ## What happens and when
 
