@@ -83,9 +83,14 @@ def dict_to_report(issue_dict):
         report += f"{str(issue_dict['include_model_code'])} \n\n"
 
     # model code URI/DOI
-    if "model_code_uri" in issue_dict:
-        report += "**Model code URI/DOI** \n"
-        report += f"{issue_dict['model_code_uri']} \n\n"
+    if issue_dict["model_code_inputs"]["doi"]:
+        report += "**Model code/inputs DOI** \n"
+        report += f"{issue_dict['model_code_inputs']['doi']} \n\n"
+
+    # model code notes
+    if issue_dict["model_code_inputs"]["notes"]:
+        report += "**Model code/inputs notes** \n"
+        report += f"{issue_dict['model_code_inputs']['notes']} \n\n"
 
     # include model output data
     if "include_model_output" in issue_dict:
@@ -93,9 +98,15 @@ def dict_to_report(issue_dict):
         report += f"{str(issue_dict['include_model_output'])} \n\n"
 
     # model output URI/DOI
-    if "model_output_uri" in issue_dict:
-        report += "**Model output URI/DOI** \n"
-        report += f"{issue_dict['model_output_uri']} \n\n"
+    if issue_dict["model_output_data"]["doi"]:
+        report += "**Model output data DOI** \n"
+        report += f"{issue_dict['model_output_data']['doi']} \n\n"
+
+    # model output notes
+    if issue_dict["model_output_data"]["notes"]:
+        report += "**Model output data notes** \n"
+        report += f"{issue_dict['model_output_data']['notes']} \n\n"
+
 
     #############
     # Section 3

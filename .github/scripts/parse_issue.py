@@ -169,20 +169,34 @@ def parse_issue(issue):
     if type(selection) is str:
         error_log += "**Include model code?**\n" + selection + "\n"
 
+    # model code/inputs
+    model_code_record = {}
     # model code/inputs DOI
-    model_code_uri = data["-> model code/inputs DOI"].strip()
+    model_code_doi = data["-> model code/inputs DOI"].strip()
 
-    if model_code_uri == "_No response_":
-        error_log += "**Model code DOI**\n"
-        error_log += "Warning: No URI/DOI provided. \n"
+    if model_code_doi == "_No response_":
+        model_code_doi = ""
+        error_log += "**Model code/inputs DOI**\n"
+        error_log += "Warning: No DOI/URI provided. \n"
     else:
-        response = check_uri(model_code_uri)
-        if response == "OK":
-            data_dict["model_code_uri"] = model_code_uri
-        else:
-            error_log += "**Model code DOI**\n" + response + "\n"
+        response = check_uri(model_code_doi)
+        if response != "OK":
+            model_code_doi = ""
+            error_log += f"**Model code/inputs DOI**\n {response} \n"
+
+    model_code_record["doi"] = model_code_doi
 
     # model code/inputs notes
+    model_code_notes = data["-> model code/inputs notes"].strip()
+
+    if model_code_notes == "_No response_":
+        model_code_notes == ""
+        error_log += "**Model code/inputs notes**\n"
+        error_log += "Warning: No notes provided.\n"
+
+    model_code_record["notes"] = model_code_notes
+
+    data_dict["model_code_inputs"] = model_code_record
 
     # include model output data
     model_output = data["-> include model output data?"].strip().split("\n")
@@ -193,18 +207,35 @@ def parse_issue(issue):
     if type(selection) is str:
         error_log += "**Include model output data?**\n" + selection + "\n"
 
-    # model output URI/DOI
-    model_output_uri = data["-> model output data DOI"].strip()
+    # model output data
+    model_output_record = {}
 
-    if model_output_uri == "_No response_":
+    # model output URI/DOI
+    model_output_doi = data["-> model output data DOI"].strip()
+
+    if model_output_doi == "_No response_":
+        model_output_doi = ""
         error_log += "**Model output DOI**\n"
-        error_log += "Warning: No URI/DOI provided. \n"
+        error_log += "Warning: No DOI/URI provided. \n"
     else:
-        response = check_uri(model_output_uri)
-        if response == "OK":
-            data_dict["model_output_uri"] = model_output_uri
-        else:
+        response = check_uri(model_output_doi)
+        if response != "OK":
+            model_output_doi = ""
             error_log += "**Model output DOI**\n" + response + "\n"
+
+    model_output_record["doi"] = model_output_doi
+
+    # model output notes
+    model_output_notes = data["-> model output data notes"].strip()
+
+    if model_output_notes == "_No response_":
+        model_output_notes == ""
+        error_log += "**Model code/inputs notes**\n"
+        error_log += "Warning: No notes provided.\n"
+
+    model_output_record["notes"] = model_output_notes
+
+    data_dict["model_output_data"] = model_output_record
 
 
     #############
