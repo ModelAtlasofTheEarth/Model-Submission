@@ -14,7 +14,7 @@ repo = g.get_repo("ModelAtlasofTheEarth/Model_Submission")
 issue = repo.get_issue(number = issue_number)
 
 # Parse issue
-data, error_log = parse_issue(issue)`request review label`
+data, error_log = parse_issue(issue)
 
 # Write report
 report = "Thank you for submitting. Please check the output below, and fix any errors, etc.\n\n"
