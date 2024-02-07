@@ -170,7 +170,7 @@ def parse_issue(issue):
         error_log += "**Include model code?**\n" + selection + "\n"
 
     # model code/inputs DOI
-    model_code_uri = data["-> model code/inputs DOI (or URL. e.g., github repo.)"].strip()
+    model_code_uri = data["-> model code/inputs DOI"].strip()
 
     if model_code_uri == "_No response_":
         error_log += "**Model code DOI**\n"
@@ -182,6 +182,8 @@ def parse_issue(issue):
         else:
             error_log += "**Model code DOI**\n" + response + "\n"
 
+    # model code/inputs notes
+
     # include model output data
     model_output = data["-> include model output data?"].strip().split("\n")
 
@@ -192,7 +194,7 @@ def parse_issue(issue):
         error_log += "**Include model output data?**\n" + selection + "\n"
 
     # model output URI/DOI
-    model_output_uri = data["-> model output data DOI (or URL. e.g., github repo.)"].strip()
+    model_output_uri = data["-> model output data DOI"].strip()
 
     if model_output_uri == "_No response_":
         error_log += "**Model output DOI**\n"
