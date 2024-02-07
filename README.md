@@ -20,13 +20,17 @@ _Note: Workflows are currently in development!_
 
 Submit a model: 
 * open a new issue using the [New model request](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues/new/choose)
+* fill in as much information as you can and submit the issue
+* This will trigger workflows that source metadata relavant to your model
+* At the bottom will see a report on the information for
 
 Request a review:
-* by adding a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label to the issue
+* If you are satisfied with the information contained in the report, 
+* add a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label to the issue
 
 Model repository creation
 * The [model_reviewers`](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
-* this trigger the creation of a repository for your model based in this template
+* this triggers the creation of a repository for your model based in this template
 
 Upload model to NCI Server (National Comoutational Infrastructure) 
 * Add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
