@@ -2,8 +2,8 @@
 
 ## Model submission overview and objectives
 
-* M@TE models begin their life as Github repositories
-* Models are created using the Github issues functionaility
+* M@TE models begin their life as Github repositories, using this simple template
+* New models are spawned using the [Github issues functionality](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues), within this repostory
 * We provide workflows (usign github actions) that aim to reuse as much exsting metadata as possible
 * The result is a model repository that comes with a rich metadata document, based on the Ro-Crate model
 
