@@ -19,7 +19,7 @@ def validate_slug(proposed_slug):
     except ValueError:
         error_log += "Warning: slug should be in the format `familyname-year-keyword` where year is a number in the format `yyyy`\n"
     except AssertionError as err:
-        error_log += err
+        error_log += f"`{err}`\n"
 
     cmd = "python3 .github/scripts/generate_identifier.py"
 
