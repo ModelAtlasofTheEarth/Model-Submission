@@ -1,11 +1,20 @@
 # Welcome to the Model Atlas of The Earth (M@TE)
 
-<div id="top"></div>
+## Model submission overview and objectives
 
-<img src="https://github.com/ModelAtlasofTheEarth/model_template_action/blob/main/assets/mate3.png" height="170">
+* M@TE models begin their life as Github repositories
+* Models are created using the Github issues functionaility
+* We provide workflows (usign github actions) that aim to reuse as much exsting metadata as possible
+* The result is a model repository that comes with a rich metadata document, based on the Ro-Crate model
 
+## What happens and when
 
-## How model submission works. 
+*  M@TE models begin their life as Github repositories
+*  To manage large file payloads, and to provide long term storage,  we copy your model repository to our server on NCI
+*  This process also results in a DOI being minted for your model
+
+## Model submission workflow:
+
 _Note: Workflows are currently in development!_
 
 Submit a model: 
