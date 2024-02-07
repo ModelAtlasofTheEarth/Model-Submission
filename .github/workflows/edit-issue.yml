@@ -47,6 +47,6 @@ jobs:
         if: failure()
         uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           labels: workflow_error
     
