@@ -126,14 +126,14 @@ body:
 - type: input
   id: code_doi 
   attributes:
-    label: -> model code/inputs DOI (or URL. e.g., github repo.)
+    label: -> model code/inputs DOI 
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
-    description: "Does your model code/input data have an existing DOI?"
+    description: "Does your model code/input data have an existing DOI (or URL. e.g., github repo.)?"
     
 - type: textarea
   id: code_notes 
   attributes:
-    label: -> model code/input notes
+    label: -> model code/inputs notes
     placeholder: "Model is setup with a Python script, model.py, with X parameter provided as an argument"
     description: "Please provide a basic description of your model code/input"
   
@@ -151,9 +151,9 @@ body:
 - type: input
   id: data_doi 
   attributes:
-    label: -> model output data DOI (or URL. e.g., github repo.)
+    label: -> model output data DOI
     placeholder: "https://doi.org/10.47366/sabia.x5n1a3."
-    description: "Does your model output data have an existing DOI?"
+    description: "Does your model output data have an existing DOI (or URL. e.g., github repo.)?"
 
 - type: textarea
   id: data_notes 
