@@ -19,6 +19,14 @@ data, error_log = parse_issue(issue)
 # Write report
 report = "Thank you for submitting. Please check the output below, and fix any errors, etc.\n\n"
 
+report = """Thank you for submitting. \n 
+* Using Github actions, we have regenerated a report summarising information about your model \n 
+* Please check the report below, particularly the warning and errors section, and website materials \n 
+* You can fix any errors, or update fields, by editing the markdown file at the top of the issue \n 
+* Edits will trigger the report will be regenerated \n 
+* once you are satisfied with the results, please add an `request review label` \n 
+* once the `model_reviewers` team has approved the model, we will create a repository for your model \n\n""" 
+
 report += "# Errors and Warnings \n"
 report += error_log + "\n\n"
 
