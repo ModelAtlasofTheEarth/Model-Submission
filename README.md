@@ -37,7 +37,7 @@ _Note: Workflows are currently in development!_
 * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to provide accesss to out server
 * This will allow the large file payload to be added to you model
 
-Model published
+**Model published**
 * Your model will be https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/published on the NCIs GeoNetworkCatalog
 * It will recieve a DOI and this will be automatically added to your model metadata
 * Your model will be featured on the M@TE website
