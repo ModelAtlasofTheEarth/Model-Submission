@@ -18,7 +18,7 @@
 
 _Note: Workflows are currently in development!_
 
-Submit a model: 
+Make a new model request: 
 * open a new issue using the [New model request](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues/new/choose)
 * fill in as much information as you can and submit the issue
 * This will trigger workflows that source metadata relavant to your model
