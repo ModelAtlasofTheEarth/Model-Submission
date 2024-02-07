@@ -24,7 +24,7 @@ report = """Thank you for submitting. \n
 * Please check the report below, particularly the warning and errors section, and website materials \n 
 * You can fix any errors, or update fields, by editing the markdown file at the top of the issue \n 
 * Edits will trigger the report will be regenerated \n 
-* once you are satisfied with the results, please add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested \n 
+* once you are satisfied with the results, please add a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label \n 
 * once the `model_reviewers` team has approved the model, we will create a repository for your model \n\n""" 
 
 report += "# Errors and Warnings \n"
