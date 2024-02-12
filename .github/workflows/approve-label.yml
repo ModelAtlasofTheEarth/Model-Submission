@@ -32,7 +32,7 @@ jobs:
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           COMMENT_ID: ${{ steps.submission-comment.outputs.comment-id }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
         run: |
           python3 .github/scripts/write_report.py
 
