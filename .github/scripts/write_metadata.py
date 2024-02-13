@@ -1,7 +1,7 @@
 import os
 from github import Github, Auth
 from parse_issue import parse_issue
-from crosswalks import dict_to_metadata
+from crosswalks import dict_to_metadata, dict_to_yaml
 from copy_files import copy_files
 
 # Environment variables
