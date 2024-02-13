@@ -25,6 +25,7 @@ jobs:
         id: fc
         with:
           issue-number: ${{ github.event.issue.number }}
+          comment-author: github-actions[bot]
           body-includes: Model Report
           direction: last
 
