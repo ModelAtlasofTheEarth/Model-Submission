@@ -34,6 +34,7 @@ model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
 
 # Something like this for the web YAML
 web_yaml_string = dict_to_yaml(data)
+issue.create_comment(web_yaml_string)
 #model_repo.create_file("website_material/index.md", "add web content file", web_yaml_string)
 
 # Copy web material to repo
