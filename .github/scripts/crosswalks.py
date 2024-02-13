@@ -265,7 +265,7 @@ def dict_to_yaml(issue_dict):
     '''
     yaml_dict = {}
     #map the issue dict through to the yaml_dict
-    map_dictionaries(yaml_dict, yaml_dict, issue_yaml_mapping)
+    map_dictionaries(yaml_dict, issue_dict, issue_yaml_mapping)
     #this function makes some further changes,
     #basically applies fixed so yaml_dict is configured correctly
     configure_yaml_output_dict(yaml_dict, issue_dict)
