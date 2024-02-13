@@ -19,10 +19,21 @@ jobs:
           cache: "pip"
       - run: pip install -r requirements.txt
 
+      # find issue comment
+      - name: find comment
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-author: github-actions
+          body-includes: Model Report
+          direction: last
+
       # generate report
       - name: generate report
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          COMMENT_ID: ${{ steps.fc.outputs.comment-id }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 .github/scripts/write_report.py
