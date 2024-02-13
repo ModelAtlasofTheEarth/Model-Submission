@@ -13,7 +13,7 @@ auth = Auth.Token(token)
 g = Github(auth=auth)
 repo = g.get_repo("ModelAtlasofTheEarth/Model_Submission")
 issue = repo.get_issue(number = issue_number)
-comment = repo.get_comment(id = comment_id)
+comment = issue.get_comment(id = comment_id)
 
 # Parse issue
 data, error_log = parse_issue(issue)
