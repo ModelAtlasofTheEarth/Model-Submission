@@ -1,6 +1,9 @@
 import json
 from ro_crate_utils import *
 from crosswalk_mappings import *
+from yaml_utils import *
+import ruamel.yaml
+
 
 def dict_to_report(issue_dict):
 
@@ -201,10 +204,10 @@ def dict_to_report(issue_dict):
     report += str(issue_dict)
 
     return report
-    
+
 
 def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list, filter_entities=True, flat_compact_crate=True):
-    
+
     """
     Converts an issue dictionary into a standardized metadata format using Research Object Crate (RO-Crate) structure,
     applying entity simplification and mappings based on predefined templates and rules.
@@ -227,24 +230,24 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
     Note:
     The function relies on external functions to load entity templates, apply mappings, and customize the RO-Crate. These functions need to be defined separately.
     """
-    
-    
+
+
     #this takes the issue_dict and simplifies entities (e.g. @Type=Person) using templates defined at:
     #https://github.com/ModelAtlasofTheEarth/metadata_schema/blob/main/mate_ro_crate/type_templates.json
     if filter_entities is True:
         entity_template = load_entity_template()
         recursively_filter_key(issue_dict, entity_template)
-    
+
     #load the RO-Crate template
     ro_crate = load_crate_template()
-    
+
     #Apply direct mappings between the issue_dict and the RO-Crate
     dict_to_ro_crate_mapping(ro_crate, issue_dict,  mapping_list)
-    
+
     #Add any further direct chnages to the RO-Crate based on issue_dict
     customise_ro_crate(issue_dict, ro_crate)
-    
-    
+
+
     #flatten the crate (brings nested entities to the top level)
     if flat_compact_crate is True:
         flatten_crate(ro_crate)
@@ -254,9 +257,27 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
     return metadata_out
 
 def dict_to_yaml(issue_dict):
+    '''
 
-    #To Do: crosswalk issue dictionary to yaml format for mate.science
+    Returns:
+    - str: a string representing the markdown with YAML frontmatter
 
-    metadata = json.dumps(issue_dict)
+    '''
+    yaml_dict = {}
+    #map the issue dict through to the yaml_dict
+    map_dictionaries(yaml_dict, yaml_dict, issue_yaml_mapping)
+    #this function makes some further changes,
+    #basically applies fixed so yaml_dict is configured correctly
+    configure_yaml_output_dict(yaml_dict, issue_dict)
 
-    return metadata
+    #convert the dictionary YAML string using ruamel.yaml
+    Ryaml = ruamel.yaml.YAML(typ=['rt', 'string'])
+    Ryaml.preserve_quotes = True
+    #control the indentation...
+    Ryaml.indent(mapping=2, sequence=4, offset=2)
+    yaml_string = Ryaml.dump_to_string(yaml_dict)
+    formatted_yaml_string = save_yaml_with_header(yaml_string)
+
+    #the string returned should be in approapriate format
+    #to write directly to the ./website/graphics
+    return formatted_yaml_string

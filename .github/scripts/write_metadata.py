@@ -32,6 +32,11 @@ issue.create_comment("# M@TE crate \n"+str(metadata))
 # Move files to repo
 model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
 
+# Something like this for the web YAML
+#web_yaml_string = dict_to_yaml(data)
+#model_repo.create_file("index.md","add web content file",web_yaml_string)
+#copy_files()
+
 # Copy web material to repo
 copy_files(model_repo, "website_material/graphics/", data)
 
