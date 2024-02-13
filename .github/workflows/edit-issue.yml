@@ -19,6 +19,16 @@ jobs:
           cache: "pip"
       - run: pip install -r requirements.txt
 
+      # find issue comment
+      - name: find comment
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-author: github-actions
+          body-includes: Model Report
+          direction: last
+
       # generate report
       - name: generate report
         env:
