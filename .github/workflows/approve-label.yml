@@ -100,7 +100,7 @@ jobs:
           echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
 
       - name: comment if unauthorized
-        if: ${{ ! steps.verify_labeler.outputs.authorized }}
+        if: ${{ steps.verify_labeler.outputs.authorized }} == 'False'
         uses: GrantBirki/comment@v2.0.8
         with:
           issue-number: ${{ github.event.issue.number }}
@@ -108,7 +108,7 @@ jobs:
 
   createNewRepo:
     needs: createRepoAuthorization
-    if: ${{ needs.createRepoAuthorization.outputs.authorized }}
+    if: ${{ needs.createRepoAuthorization.outputs.authorized }} == 'True'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
