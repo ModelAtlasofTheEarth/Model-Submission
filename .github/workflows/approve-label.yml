@@ -77,32 +77,17 @@ jobs:
         id: verify_labeler
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER: ${{ github.event.sender.login }}
           OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          echo "create_repo=true" >> $GITHUB_OUTPUT
-          ALLOWED_USERS="hvidy"
-
-          IFS=',' read -ra ALLOWED_USERS_ARRAY <<< "$ALLOWED_USERS"
-
-          USER_ALLOWED=false
-          for ALLOWED_USER in "${ALLOWED_USERS_ARRAY[@]}"; do
-            if [ "$ALLOWED_USER" == "${{ github.event.sender.login }}" ]; then
-              USER_ALLOWED=true
-              break
-            fi
-          done
-
-          if [ "$USER_ALLOWED" == false ]; then
-            echo "Error: User not allowed to add approved label."
-            gh api --method DELETE /repos/${OWNER}/${REPO}/issues/${ISSUE_NUMBER}/labels/approved
-            echo "create_repo=false" >> $GITHUB_OUTPUT
-          fi
+          AUTHORIZED=$(python3 .github/scripts/approval_authorization.py)
+          echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
 
   createNewRepo:
     needs: createRepoAuthorization
-    if: ${{ needs.createRepoAuthorization.outputs.create_repo }} == true
+    if: ${{ needs.createRepoAuthorization.outputs.create_repo }} == "True"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
