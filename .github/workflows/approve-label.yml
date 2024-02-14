@@ -132,12 +132,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
           OWNER: ModelAtlasOfTheEarth
+          SUBMITTER: ${{ github.event.issue.user }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           TEMPLATE: ModelAtlasOfTheEarth/mate_model_template
           FLAGS: --public
         run: |
           REPO_NAME=$(python3 .github/scripts/generate_identifier.py)
           gh repo create ${OWNER}/${REPO_NAME} --template $TEMPLATE $FLAGS
+          gh api --method=PUT "repos/${OWNER}/${REPO_NAME}/collaborators/${SUBMITTER}" -f permission=admin
           echo "repo_name=${REPO_NAME}" >> $GITHUB_OUTPUT
 
       # parse metadata and write files to repo
