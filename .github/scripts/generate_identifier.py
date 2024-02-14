@@ -10,7 +10,7 @@ def run_command_check_output(cmd):
 def encode(name, i):
 	result_str = name
 	if i > 0:
-		result_str += "_"+str(i)
+		result_str += "-"+str(i)
 	return result_str
 
 
