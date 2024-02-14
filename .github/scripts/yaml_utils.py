@@ -157,7 +157,7 @@ def ensure_path_starts_with_pattern(file_path, pattern='./graphics/'):
     return file_path
 
 def configure_yaml_output_dict(output_dict, issue_dict,
-                               image_path='./graphics'):
+                               image_path='./graphics/'):
 
     #make some changes (in-place) to output_dict, to help wrangle the yaml output dict
     #many of these simply enforce formatting that is required by the Gatsby YAML frontmatter
