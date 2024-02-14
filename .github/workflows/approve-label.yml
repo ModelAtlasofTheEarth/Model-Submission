@@ -96,12 +96,7 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           AUTHORIZED=$(python3 .github/scripts/approval_authorization.py)
-          echo ${AUTHORIZED}
           echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
-
-      - name: debug
-        run: |
-          echo ${{ steps.verify_labeler.outputs.authorized }}
 
       - name: comment if unauthorized
         if: ${{ ! steps.verify_labeler.outputs.authorized }}
@@ -112,7 +107,7 @@ jobs:
 
   createNewRepo:
     needs: createRepoAuthorization
-    if: ${{ needs.createRepoAuthorization.outputs.authorized }} == "True"
+    if: ${{ needs.createRepoAuthorization.outputs.authorized }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -131,22 +126,22 @@ jobs:
         id: create-model-repo
         env:
           GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
-          OWNER: ModelAtlasOfTheEarth
-          SUBMITTER: ${{ github.event.issue.user }}
+          OWNER: ${{ github.event.repository.owner.login }}
+          SUBMITTER: ${{ github.event.issue.user.login }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          TEMPLATE: ModelAtlasOfTheEarth/mate_model_template
+          TEMPLATE: mate_model_template
           FLAGS: --public
         run: |
           REPO_NAME=$(python3 .github/scripts/generate_identifier.py)
-          gh repo create ${OWNER}/${REPO_NAME} --template $TEMPLATE $FLAGS
-          gh api --method=PUT "repos/${OWNER}/${REPO_NAME}/collaborators/${SUBMITTER}" -f permission=admin
+          gh repo create ${OWNER}/${REPO_NAME} --template ${OWNER}/$TEMPLATE $FLAGS
           echo "repo_name=${REPO_NAME}" >> $GITHUB_OUTPUT
+          gh api --method=PUT "repos/${OWNER}/${REPO_NAME}/collaborators/${SUBMITTER}" -f permission=admin
 
       # parse metadata and write files to repo
       - name: write metadata
         env:
           GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
-          OWNER: ModelAtlasOfTheEarth
+          OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ steps.create-model-repo.outputs.repo_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
