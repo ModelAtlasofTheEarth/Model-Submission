@@ -3,6 +3,8 @@ from github import Github, Auth
 from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml
 from copy_files import copy_files
+from ruamel.yaml import YAML
+import io
 
 # Environment variables
 token = os.environ.get("GITHUB_TOKEN")
@@ -32,10 +34,24 @@ issue.create_comment("# M@TE crate \n"+str(metadata))
 # Move files to repo
 model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
 
+#######
 # Something like this for the web YAML
-web_yaml_string = dict_to_yaml(data)
-issue.create_comment(web_yaml_string)
-#model_repo.create_file("website_material/index.md", "add web content file", web_yaml_string)
+yaml = YAML(typ=['rt', 'string'])
+yaml.preserve_quotes = True
+#control the indentation...
+yaml.indent(mapping=2, sequence=4, offset=2)
+web_yaml_dict = dict_to_yaml(data)
+# Use an in-memory text stream to hold the YAML content
+stream = io.StringIO()
+stream.write('---\n')
+yaml.dump(web_yaml_dict, stream)
+stream.write('---\n')
+yaml_content_with_frontmatter = stream.getvalue()
+commit_message = 'Add YAML file with front matter'
+model_repo.create_file("index.md", commit_message, yaml_content_with_frontmatter)
+
+
+
 
 # Copy web material to repo
 copy_files(model_repo, "website_material/graphics/", data)

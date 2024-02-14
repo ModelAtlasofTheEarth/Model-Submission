@@ -4,6 +4,10 @@ from crosswalk_mappings import *
 from yaml_utils import *
 import ruamel.yaml
 
+Ryaml = ruamel.yaml.YAML(typ=['rt', 'string'])
+Ryaml.preserve_quotes = True
+#control the indentation...
+Ryaml.indent(mapping=2, sequence=4, offset=2)
 
 def dict_to_report(issue_dict):
 
@@ -271,13 +275,11 @@ def dict_to_yaml(issue_dict):
     configure_yaml_output_dict(yaml_dict, issue_dict)
 
     #convert the dictionary YAML string using ruamel.yaml
-    Ryaml = ruamel.yaml.YAML(typ=['rt', 'string'])
-    Ryaml.preserve_quotes = True
-    #control the indentation...
-    Ryaml.indent(mapping=2, sequence=4, offset=2)
-    yaml_string = Ryaml.dump_to_string(yaml_dict)
-    formatted_yaml_string = save_yaml_with_header(yaml_string)
+
+    #yaml_string = Ryaml.dump_to_string(yaml_dict)
+    #formatted_yaml_string = save_yaml_with_header(yaml_string)
 
     #the string returned should be in approapriate format
     #to write directly to the ./website/graphics
-    return formatted_yaml_string
+    return yaml_dict
+    #return formatted_yaml_string
