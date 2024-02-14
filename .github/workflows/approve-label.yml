@@ -96,6 +96,7 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           AUTHORIZED=$(python3 .github/scripts/approval_authorization.py)
+          echo ${AUTHORIZED}
           echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
 
       - name: comment if unauthorized
