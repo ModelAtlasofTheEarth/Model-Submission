@@ -89,7 +89,8 @@ jobs:
       - name: Verify Labeler
         id: verify_labeler
         env:
-          GITHUB_TOKEN: ${{ secrets.TIM_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG_TOKEN: ${{ secrets.TIM_PAT }}
           USER: ${{ github.event.sender.login }}
           OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}

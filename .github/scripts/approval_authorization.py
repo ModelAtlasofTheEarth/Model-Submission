@@ -3,6 +3,7 @@ from github import Github, Auth
 
 if __name__ == "__main__":
     token = os.environ.get("GITHUB_TOKEN")
+    org_token = os.enviorn.get("ORG_TOKEN")
 
     org_name = os.environ.get("OWNER")
     repo_name = os.environ.get("REPO")
@@ -11,7 +12,7 @@ if __name__ == "__main__":
     user_login = os.environ.get("USER")
 
     # Get user and team
-    auth = Auth.Token(token)
+    auth = Auth.Token(org_token)
     g = Github(auth=auth)
     org = g.get_organization(org_name)
 	
@@ -22,6 +23,11 @@ if __name__ == "__main__":
     authorized = team.has_in_members(user)
 
     if not authorized:
+        # FIXME: Need to change token here because not currently setup to remove issue label on that PAT
+        auth = Auth.Token(token)
+        g = Github(auth=auth)
+        org = g.get_organization(org_name)
+
         # Remove approved label because it isn't
         issue = org.get_repo(repo_name).get_issue(number = issue_number)
         issue.remove_from_labels("approved")
