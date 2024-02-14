@@ -48,13 +48,13 @@ yaml.dump(web_yaml_dict, stream)
 stream.write('---\n')
 yaml_content_with_frontmatter = stream.getvalue()
 commit_message = 'Add YAML file with front matter'
-model_repo.create_file("website_material/index.md", commit_message, yaml_content_with_frontmatter)
-
-
 
 
 # Copy web material to repo
 copy_files(model_repo, "website_material/graphics/", data)
+
+model_repo.create_file("website_material/index.md", commit_message, yaml_content_with_frontmatter)
+
 
 # Report creation of repository
 issue.create_comment(f"Model repository created at https://github.com/{model_owner}/{model_repo_name}")
