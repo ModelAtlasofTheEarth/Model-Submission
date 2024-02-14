@@ -104,7 +104,7 @@ jobs:
           echo ${{ steps.verify_labeler.outputs.authorized }}
 
       - name: comment if unauthorized
-        if: ${{ steps.verify_labeler.outputs.authorized }} == False
+        if: ${{ ! steps.verify_labeler.outputs.authorized }}
         uses: GrantBirki/comment@v2.0.8
         with:
           issue-number: ${{ github.event.issue.number }}
