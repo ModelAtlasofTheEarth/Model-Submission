@@ -72,6 +72,8 @@ jobs:
   createRepoAuthorization:
     if: contains(github.event.label.name, 'approved')
     runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.verify_labeler.outputs.authorized }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,9 +98,16 @@ jobs:
           AUTHORIZED=$(python3 .github/scripts/approval_authorization.py)
           echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
 
+      - name: comment if unauthorized
+        if: ${{ steps.verify_labeler.outputs.authorized }} == "False"
+        uses: GrantBirki/comment@v2.0.8
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          file: .github/templates/unauthoriszed-approval.md
+
   createNewRepo:
     needs: createRepoAuthorization
-    if: ${{ needs.createRepoAuthorization.outputs.create_repo }} == "True"
+    if: ${{ needs.createRepoAuthorization.outputs.authorized }} == "True"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
