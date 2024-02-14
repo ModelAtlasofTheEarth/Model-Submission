@@ -3,7 +3,7 @@ from github import Github, Auth
 
 if __name__ == "__main__":
     token = os.environ.get("GITHUB_TOKEN")
-    org_token = os.enviorn.get("ORG_TOKEN")
+    org_token = os.environ.get("ORG_TOKEN")
 
     org_name = os.environ.get("OWNER")
     repo_name = os.environ.get("REPO")
