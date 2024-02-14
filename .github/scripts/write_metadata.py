@@ -48,7 +48,7 @@ yaml.dump(web_yaml_dict, stream)
 stream.write('---\n')
 yaml_content_with_frontmatter = stream.getvalue()
 commit_message = 'Add YAML file with front matter'
-model_repo.create_file("index.md", commit_message, yaml_content_with_frontmatter)
+model_repo.create_file("website_material/gindex.md", commit_message, yaml_content_with_frontmatter)
 
 
 # Copy web material to repo
