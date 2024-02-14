@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     org_name = os.environ.get("OWNER")
     repo_name = os.environ.get("REPO")
-    issue_number = os.environ.get("ISSUE_NUMBER")
+    issue_number = int(os.environ.get("ISSUE_NUMBER"))
 
     user_login = os.environ.get("USER")
 
