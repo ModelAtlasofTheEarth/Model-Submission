@@ -99,6 +99,10 @@ jobs:
           echo ${AUTHORIZED}
           echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
 
+      - name: debug
+        run: |
+          echo ${{ steps.verify_labeler.outputs.authorized }}
+
       - name: comment if unauthorized
         if: ${{ steps.verify_labeler.outputs.authorized }} == "False"
         uses: GrantBirki/comment@v2.0.8
