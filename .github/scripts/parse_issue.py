@@ -161,13 +161,8 @@ def parse_issue(issue):
     # Section 2
     #############
     # include model code
-    model_code = data["-> include model code ?"].strip().split("\n")
-
-    selection = parse_yes_no_choice(model_code)
-    if type(selection) is bool:
-        data_dict["include_model_code"] = selection
-    if type(selection) is str:
-        error_log += "**Include model code?**\n" + selection + "\n"
+    model_code = data["-> include model code ?"].strip()
+    data_dict["include_model_code"] = parse_yes_no_choice(model_code)
 
     # model code/inputs
     model_code_record = {}
@@ -199,13 +194,8 @@ def parse_issue(issue):
     data_dict["model_code_inputs"] = model_code_record
 
     # include model output data
-    model_output = data["-> include model output data?"].strip().split("\n")
-
-    selection = parse_yes_no_choice(model_output)
-    if type(selection) is bool:
-        data_dict["include_model_output"] = selection
-    if type(selection) is str:
-        error_log += "**Include model output data?**\n" + selection + "\n"
+    model_output = data["-> include model output data?"].strip()
+    data_dict["include_model_output"] = parse_yes_no_choice(model_output)
 
     # model output data
     model_output_record = {}

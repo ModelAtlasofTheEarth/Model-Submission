@@ -118,7 +118,6 @@ body:
     label: -> include model code ? 
     options:
       - label: "yes"
-      - label: "no"
     description: "Are you intending to submit code (scripts, input data, build details) as part of your M@TE model?"
   validations:
     required: true
@@ -143,7 +142,6 @@ body:
     label: -> include model output data? 
     options:
       - label: "yes"
-      - label: "no"
     description: "Are you intending to submit your model output data as part of your M@TE model?"
   validations:
     required: true

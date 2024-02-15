@@ -59,14 +59,10 @@ def parse_name_or_orcid(name_or_orcid):
     return author_record, error_log
 
 def parse_yes_no_choice(input):
-    if "X" in input[0] and "X" in input[1]:
-        return "Error: both 'yes' and 'no' selected"
-    elif "X" in input[0]:
+    if "X" in input:
         return True
-    elif "X" in input[1]:
-        return False
     else:
-        return "Error: no selection made"
+        return False
 
 def is_orcid_format(author):
 
