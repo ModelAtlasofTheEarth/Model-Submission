@@ -185,7 +185,7 @@ def parse_issue(issue):
     model_code_notes = data["-> model code/inputs notes"].strip()
 
     if model_code_notes == "_No response_":
-        model_code_notes == ""
+        model_code_notes = ""
         error_log += "**Model code/inputs notes**\n"
         error_log += "Warning: No notes provided.\n"
 
@@ -219,7 +219,7 @@ def parse_issue(issue):
     model_output_notes = data["-> model output data notes"].strip()
 
     if model_output_notes == "_No response_":
-        model_output_notes == ""
+        model_output_notes = ""
         error_log += "**Model code/inputs notes**\n"
         error_log += "Warning: No notes provided.\n"
 
