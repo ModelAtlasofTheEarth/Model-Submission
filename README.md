@@ -55,3 +55,4 @@ _Note: Workflows are currently in development!_
 - [ ] If parse issue crashes, a developer/ bug label need to be added.
 - [ ] Fix the call to Zenodo being hardcoded into the doi/Api
 - [ ] Fix @id assigment if not found
+- [ ] Edit permissions for issues?
