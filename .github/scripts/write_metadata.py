@@ -26,7 +26,7 @@ model_repo = g.get_repo(f"{model_owner}/{model_repo_name}")
 data, error_log = parse_issue(issue)
 
 # Convert dictionary to metadata json
-metadata = dict_to_metadata(data)
+metadata = dict_to_metadata(data, flat_compact_crate=False)
 
 #FOR TESTING - print out dictionary as a comment
 issue.create_comment("# M@TE crate \n"+str(metadata))

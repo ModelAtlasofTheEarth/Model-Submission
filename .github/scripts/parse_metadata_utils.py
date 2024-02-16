@@ -2,7 +2,7 @@ def parse_author(metadata):
     log = ""
     author_record = {}
 
-    if "@type" in metadata.keys():
+    if "@type" and "@id" in metadata.keys():
         author_record = metadata
         log += "ORCID metadata record succesfully extracted in json-ld format \n"
 
@@ -35,7 +35,7 @@ def parse_organization(metadata):
     log = ""
     org_record = {}
 
-    if "@type" in metadata.keys():
+    if "@type" and "@id" in metadata.keys():
         org_record = metadata
         log += "ROR metadata record succesfully extracted in json-ld format \n"
 
@@ -61,7 +61,7 @@ def parse_software(metadata, doi):
 
     #here we check if software metdata was found in json-ld
     #if so, we simply return the record
-    if "@type" in metadata.keys():
+    if "@type" and "@id" in metadata.keys():
         software_record = metadata
         log += "doi.org metadata record succesfully extracted in json-ld format \n"
 
@@ -116,7 +116,7 @@ def parse_publication(metadata):
 
     metadata = metadata['message']
 
-    if "@type" in metadata.keys():
+    if "@type" and "@id" in metadata.keys():
         publication_record = metadata
         log += "Crossref metadata record succesfully extracted in json-ld format \n"
     else:
