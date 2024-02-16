@@ -59,7 +59,7 @@ body:
       - "model published in study"
       - "community benchmark"
       - "attempted reproduction of a model"
-      - "missing data model"
+      - "education"
       - "other"
 
 - type: input
