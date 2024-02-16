@@ -184,9 +184,11 @@ def configure_yaml_output_dict(output_dict, issue_dict,
             path = ensure_path_starts_with_pattern(output_dict['images'][key]['src'], image_path)
             output_dict['images'][key]['src'] = path
 
-    #check that software is in a list, and add to a list if not
+    #check that any structures that need to be in lists are in lists
     if not isinstance(output_dict['software'], list):
         output_dict['software'] = [output_dict['software']]
+    if not isinstance(output_dict['research_tags'], list):
+            output_dict['research_tags'] = [output_dict['research_tags']]
 
 
     #Add any additional mappings that we can't manage in the generalised function

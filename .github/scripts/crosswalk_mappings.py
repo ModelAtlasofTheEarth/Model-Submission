@@ -90,7 +90,7 @@ issue_yaml_mapping = {
     "licence.licence_url":"license.url",
     "licence.licence_image":"foo",
     "licence.description":"foo",
-    "licence_file":"foo",
+    "licence.licence_file":"foo",
     "contributor.name":"creator.givenName",
     "contributor.family_name":"creator.familyName",
     "contributor.ORCID":"creator.@id",

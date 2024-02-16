@@ -1,39 +1,64 @@
 import requests
+import os
 
-base_urls = {
-    "publication": "https://api.crossref.org/works/",
-    "software": "https://zenodo.org/api/records/",
-    "organization": "https://api.ror.org/organizations/",
-    "author": "https://pub.orcid.org/v3.0/"
+# Base URLs configuration
+BASE_URLS = {
+    "publication": os.getenv("BASE_URL_PUBLICATION", "https://api.crossref.org/works/"),
+    "software": os.getenv("BASE_URL_SOFTWARE", "https://doi.org/"),
+    "organization": os.getenv("BASE_URL_ORGANIZATION", "https://api.ror.org/organizations/"),
+    "author": os.getenv("BASE_URL_AUTHOR", "https://pub.orcid.org/v3.0/")
 }
 
-def get_record(record_type,record_id):
+
+# Default timeout
+TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", 10))
+
+# Initialize a requests session
+session = requests.Session()
+
+def get_record(record_type, record_id):
     log = ""
     metadata = {}
 
-    assert (record_type in ["publication","software","organization","author"]), f"Record type `{record_type}` not supported"
+    if record_type not in BASE_URLS:
+        raise ValueError(f"Record type `{record_type}` not supported")
 
-    url = base_urls[record_type] + record_id
-    headers = {"Content-Type": "application/json"}
+    # Define content types to try
+    content_types = ["application/ld+json", "application/json"]
 
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()  # Raise an exception for HTTP errors
+    # Iterate over URLs and content types to fetch the record
+    #for url in urls:
 
-        # Parse JSON response
-        metadata = response.json()
+    url = BASE_URLS[record_type] + record_id
+    print(url)
 
-    except requests.exceptions.RequestException as e:
-        log += f"Error fetching metadata: {e} \n"
+    for content_type in content_types:
+        headers = {"Content-Type": content_type, "Accept": content_type}
+
+        try:
+            response = session.get(url, headers=headers, timeout=TIMEOUT, allow_redirects=True)
+            response.raise_for_status()  # Raise an exception for HTTP errors
+
+            # If the response is successful and contains content, parse and return the metadata
+            if response.content:
+                metadata = response.json()
+                return metadata, log  # Successful fetch, return immediately
+
+        except requests.exceptions.RequestException as e:
+            log += f"Error fetching metadata with {content_type} from {url}: {e}\n"
+            # Continue to the next URL or content type
+
+    # If metadata is still empty after all attempts, log an error
+    if not metadata:
+        log += "Failed to fetch metadata with any content type or URL.\n"
 
     return metadata, log
-
 
 def search_organization(org_url):
     log = ""
     ror_id = ""
     result = {}
-    
+
     base_url = "https://api.ror.org/organizations"
     org_url = org_url.split("://")[-1]
 

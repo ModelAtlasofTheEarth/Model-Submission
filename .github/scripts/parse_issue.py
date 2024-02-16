@@ -1,9 +1,10 @@
 import re
 import pandas as pd
 
-from improved_request_utils import get_record, check_uri
+#from improved_request_utils import get_record, check_uri
+from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts
 
 
 def parse_issue(issue):
@@ -41,7 +42,7 @@ def parse_issue(issue):
         "name": "Computational modelling and simulation in earth sciences",
         "termCode": "370401"
         }
-    
+
     data_dict["for_codes"] = about_record
 
     # license
@@ -234,25 +235,26 @@ def parse_issue(issue):
     # software framework DOI/URI
     software_doi = data["-> software framework DOI/URI"].strip()
 
+    software_doi_only = extract_doi_parts(software_doi)
+
     software_record={"@type": "SoftwareApplication"}
 
     if software_doi == "_No response_":
         error_log += "**Software Framework DOI/URI**\n"
         error_log += "Warning: no DOI/URI provided.\n"
+
     else:
-        if "zenodo" in software_doi:
-            software_doi = software_doi.split("zenodo.")[1]
-            try:
-                software_metadata, log1 = get_record("software", software_doi)
-                software_record, log2 = parse_software(software_metadata)
-                if log1 or log2:
-                    error_log += "**Software Framework DOI/URI**\n" + log1 + log2
-            except Exception as err:
-                error_log += "**Software Framework DOI/URI**\n"
-                error_log += f"Error: unable to obtain metadata for DOI `{software_doi}` \n"
-                error_log += f"`{err}`\n"
-        else:
-            error_log += "**Software Framework DOI/URI**\n Non-Zenodo software dois not yet supported\n"
+        try:
+            software_metadata, log1 = get_record("software", software_doi_only)
+            software_record, log2 = parse_software(software_metadata, software_doi)
+            if log1 or log2:
+                error_log += "**Software Framework DOI/URI**\n" + log1 + log2
+        except Exception as err:
+            error_log += "**Software Framework DOI/URI**\n"
+            error_log += f"Error: unable to obtain metadata for DOI `{software_doi}` \n"
+            error_log += f"`{err}`\n"
+    #else:
+            #error_log += "**Software Framework DOI/URI**\n Non-Zenodo software dois not yet supported\n"
 
     # software framework source repository
     software_repo = data["-> software framework source repository"].strip()
