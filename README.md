@@ -48,11 +48,13 @@ _Note: Workflows are currently in development!_
 - [ ] Fix file size limits, Add note like, larger files can be added to your model repository later
 - [ ] Is the licence URL being handled properly? Check URL, (Add a set of images to the website, and associate each licence with an image)
 - [x] Is there a visual cue for test running again - One option is to have the bot write a on-line "building model information"
-- [ ] Need to add model contributor as an owner of the repository
+- [x] Need to add model contributor as an owner of the repository
 - [ ] Check this text on this issue template: "Please check our [model repository](https://airtable.com/shrUcrUnd7jB9ChZV) to explore valid licenses."
 - [ ] UX - explain between model code and software framework
-- [ ] Can tick yes and no for "intending to submit data"
-- [ ] If parse issue crashes, a developer/ bug label need to be added.
-- [ ] Fix the call to Zenodo being hardcoded into the doi/Api
+- [x] Can tick yes and no for "intending to submit data"
+- [x] If parse issue crashes, a developer/ bug label need to be added.
+- [x] Fix the call to Zenodo being hardcoded into the doi/Api
 - [ ] Fix @id assigment if not found
 - [ ] Edit permissions for issues?
+- [ ] Add some or all of the report to the readme for the new model repo.
+
