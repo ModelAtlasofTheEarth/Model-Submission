@@ -54,7 +54,7 @@ _Note: Workflows are currently in development!_
 - [x] Can tick yes and no for "intending to submit data"
 - [x] If parse issue crashes, a developer/ bug label need to be added.
 - [x] Fix the call to Zenodo being hardcoded into the doi/Api
-- [ ] Fix @id assigment if not found
+- [X] Fix @id assigment if not found
 - [ ] Edit permissions for issues?
 - [ ] Add some or all of the report to the readme for the new model repo.
 
