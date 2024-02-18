@@ -237,12 +237,13 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
     """
 
 
-    #this takes the issue_dict and simplifies entities (e.g. @Type=Person) using templates defined at:
-    #https://github.com/ModelAtlasofTheEarth/metadata_schema/blob/main/mate_ro_crate/type_templates.json
+
 
     # Perform a deep copy of the issue_dict to avoid modifying the input dictionary
     issue_dict_copy = copy.deepcopy(issue_dict)
 
+    #this takes the issue_dict and simplifies entities (e.g. @Type=Person) using templates defined at:
+    #https://github.com/ModelAtlasofTheEarth/metadata_schema/blob/main/mate_ro_crate/type_templates.json
     if filter_entities is True:
         entity_template = load_entity_template()
         recursively_filter_key(issue_dict_copy, entity_template)
