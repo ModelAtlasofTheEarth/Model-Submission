@@ -8,14 +8,177 @@ from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, g
 
 
 def parse_issue(issue):
+
+    """
+    Parses issue data to extract and structure relevant information into a dictionary format suitable for metadata representation.
+
+    The function processes the body of an issue, extracting information based on predefined headings. It applies mappings, validations, and transformations to structure this information according to Research Object Crate (RO-Crate) metadata standards and other specified requirements. It also generates an error log capturing issues encountered during the parsing process, such as missing responses, invalid data, or errors in fetching related metadata.
+
+    Parameters:
+    - issue (object): An object representing the GitHub issue, containing at least a 'body' attribute with the issue's content.
+
+    Processing Steps:
+    1. Extract key-value pairs from the issue body using regular expressions, where keys are derived from headings and values from the subsequent text.
+    2. Initialize an empty data dictionary to hold structured metadata and an error log string.
+    3. For each expected piece of information (e.g., creator, slug, license), perform the following:
+       - Extract and clean the relevant data from the extracted key-value pairs.
+       - Validate and transform the data as necessary (e.g., checking validity of slugs, parsing DOIs, loading license information from a CSV).
+       - Update the data dictionary with the structured information.
+       - Log any warnings or errors encountered during processing in the error log.
+    4. Return the structured metadata dictionary along with the error log.
+
+    Returns:
+    - tuple: A tuple containing two elements:
+        - data_dict (dict): A dictionary containing structured metadata extracted and processed from the issue.
+        - error_log (str): A string containing logged warnings and errors encountered during the parsing process.
+
+    Note:
+    - The function assumes the presence of external helper functions for specific processing steps, such as `parse_name_or_orcid`, `validate_slug`, `load_entity_template`, `recursively_filter_key`, `load_crate_template`, `dict_to_ro_crate_mapping`, `customise_ro_crate`, `flatten_crate`, `parse_publication`, `get_record`, `get_authors`, `get_funders`, `check_uri`, `parse_software`, `parse_image_and_caption`, which need to be defined elsewhere.
+    - The function also relies on external resources, such as a CSV file for license information, and assumes a specific structure for the issue body based on headings and responses.
+    - In general, the function steps are not order dependent. However, to work correctlly some order dependence is required. For instance, the publication record must be created before it can be used to prefil other sections.
+    - For this reason, parts of the record (publication, software) that may be used in creating other items, get built first.
+    """
+
     error_log = ""
+
+    # Initialize data_dict with all expected keys set to None
+
+    #data_dict = {
+    #    "creator": None,
+    #    "slug": None,
+    #    "for_codes": None,
+    #    "license": None,
+    #    "model_category": None,
+    #    "publication": None,
+    #    "title": None,
+    #    "description": None,
+    #    "authors": None,
+    #    "scientific_keywords": None,
+    #    "funder": None,
+    #    "include_model_code": None,
+    #    "model_code_inputs": None,
+    #    "include_model_output": None,
+    #    "model_output_data": None,
+    #    "software": None,
+    #    "computer_uri": None,
+    #    "landing_image": None,
+    #    "animation": None,
+    #    "graphic_abstract": None,
+    #    "model_setup_figure": None,
+    #    "model_setup_description": None
+    #}
+
+    data_dict = {}
 
     # Parse issue body
     # Identify headings and subsequent text
     regex = r"### *(?P<key>.*?)\s*[\r\n]+(?P<value>[\s\S]*?)(?=###|$)"
     data = dict(re.findall(regex, issue.body))
 
-    data_dict = {}
+
+    #############
+    # Fill in 'publication' first due to dependencies
+    #############
+
+    # associated publication DOI
+    publication_doi = data["-> associated publication DOI"].strip()
+    publication_record = {}
+
+    if publication_doi == "_No response_":
+        error_log += "**Associated Publication**\n"
+        error_log += "Warning: No DOI provided. \n"
+    else:
+        try:
+            publication_metadata, log1 = get_record("publication", publication_doi)
+            publication_record, log2 = parse_publication(publication_metadata)
+            if log1 or log2:
+                error_log += "**Associated Publication**\n" + log1 + log2
+        except Exception as err:
+            error_log += "**Associated Publication**\n"
+            error_log += f"Error: unable to obtain metadata for DOI `{publication_doi}` \n"
+            error_log += f"`{err}`\n"
+
+    data_dict["publication"] = publication_record
+
+    #############
+    # Fill in 'software' next due to dependencies
+    #############
+    # software framework DOI/URI
+    software_doi = data["-> software framework DOI/URI"].strip()
+
+    software_doi_only = extract_doi_parts(software_doi)
+
+    software_record={"@type": "SoftwareApplication"}
+
+    if software_doi == "_No response_":
+        error_log += "**Software Framework DOI/URI**\n"
+        error_log += "Warning: no DOI/URI provided.\n"
+
+    else:
+        try:
+            software_metadata, log1 = get_record("software", software_doi_only)
+            software_record, log2 = parse_software(software_metadata, software_doi)
+            if log1 or log2:
+                error_log += "**Software Framework DOI/URI**\n" + log1 + log2
+        except Exception as err:
+            error_log += "**Software Framework DOI/URI**\n"
+            error_log += f"Error: unable to obtain metadata for DOI `{software_doi}` \n"
+            error_log += f"`{err}`\n"
+    #else:
+            #error_log += "**Software Framework DOI/URI**\n Non-Zenodo software dois not yet supported\n"
+
+    # software framework source repository
+    software_repo = data["-> software framework source repository"].strip()
+
+    if software_repo == "_No response_":
+        error_log += "**Software Repository**\n"
+        error_log += "Warning: no repository URL provided. \n"
+    else:
+        response = check_uri(software_repo)
+        if response == "OK":
+            software_record["codeRepository"] = software_repo
+        else:
+            error_log += "**Software Repository**\n" + response + "\n"
+
+    # name of primary software framework
+    software_name = data["-> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM)"].strip()
+
+    if software_name == "_No response_":
+        try:
+            software_name = software_record['name']
+        except:
+            error_log += "**Name of primary software framework**\n"
+            error_log += "Error: no name found \n"
+    else:
+        software_record["name"] = software_name     # N.B. this will overwrite any name obtained from the DOI
+
+    # software framework authors
+    authors = data['-> software framework authors'].strip().split('\r\n')
+
+    if authors[0] == "_No response_":
+        try:
+            software_author_list = software_record["author"]
+        except:
+            software_author_list = []
+            error_log += "**Software framework authors**\n"
+            error_log += "Error: no authors found \n"
+    else:
+        software_author_list, log = get_authors(authors)
+        software_record["author"] = software_author_list     # N.B. this will overwrite any name obtained from the DOI
+        if log:
+            error_log += "**Software framework authors**\n" + log
+
+    # software & algorithm keywords
+    software_keywords = [x.strip() for x in data["-> software & algorithm keywords"].split(",")]
+
+    if software_keywords[0] == "_No response_":
+        error_log += "**Software & algorithm keywords**\n"
+        error_log += "Warning: no keywords given. \n"
+    else:
+        software_record["keywords"] = software_keywords
+
+    data_dict["software"] = software_record
+
 
     #############
     # Section 1
@@ -68,25 +231,7 @@ def parse_issue(issue):
     data_dict["model_category"] = model_category
 
 
-    # associated publication DOI
-    publication_doi = data["-> associated publication DOI"].strip()
-    publication_record = {}
 
-    if publication_doi == "_No response_":
-        error_log += "**Associated Publication**\n"
-        error_log += "Warning: No DOI provided. \n"
-    else:
-        try:
-            publication_metadata, log1 = get_record("publication", publication_doi)
-            publication_record, log2 = parse_publication(publication_metadata)
-            if log1 or log2:
-                error_log += "**Associated Publication**\n" + log1 + log2
-        except Exception as err:
-            error_log += "**Associated Publication**\n"
-            error_log += f"Error: unable to obtain metadata for DOI `{publication_doi}` \n"
-            error_log += f"`{err}`\n"
-
-    data_dict["publication"] = publication_record
 
     # title
     title = data["-> title"].strip()
@@ -232,81 +377,7 @@ def parse_issue(issue):
     #############
     # Section 3
     #############
-    # software framework DOI/URI
-    software_doi = data["-> software framework DOI/URI"].strip()
 
-    software_doi_only = extract_doi_parts(software_doi)
-
-    software_record={"@type": "SoftwareApplication"}
-
-    if software_doi == "_No response_":
-        error_log += "**Software Framework DOI/URI**\n"
-        error_log += "Warning: no DOI/URI provided.\n"
-
-    else:
-        try:
-            software_metadata, log1 = get_record("software", software_doi_only)
-            software_record, log2 = parse_software(software_metadata, software_doi)
-            if log1 or log2:
-                error_log += "**Software Framework DOI/URI**\n" + log1 + log2
-        except Exception as err:
-            error_log += "**Software Framework DOI/URI**\n"
-            error_log += f"Error: unable to obtain metadata for DOI `{software_doi}` \n"
-            error_log += f"`{err}`\n"
-    #else:
-            #error_log += "**Software Framework DOI/URI**\n Non-Zenodo software dois not yet supported\n"
-
-    # software framework source repository
-    software_repo = data["-> software framework source repository"].strip()
-
-    if software_repo == "_No response_":
-        error_log += "**Software Repository**\n"
-        error_log += "Warning: no repository URL provided. \n"
-    else:
-        response = check_uri(software_repo)
-        if response == "OK":
-            software_record["codeRepository"] = software_repo
-        else:
-            error_log += "**Software Repository**\n" + response + "\n"
-
-    # name of primary software framework
-    software_name = data["-> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM)"].strip()
-
-    if software_name == "_No response_":
-        try:
-            software_name = software_record['name']
-        except:
-            error_log += "**Name of primary software framework**\n"
-            error_log += "Error: no name found \n"
-    else:
-        software_record["name"] = software_name     # N.B. this will overwrite any name obtained from the DOI
-
-    # software framework authors
-    authors = data['-> software framework authors'].strip().split('\r\n')
-
-    if authors[0] == "_No response_":
-        try:
-            software_author_list = software_record["author"]
-        except:
-            software_author_list = []
-            error_log += "**Software framework authors**\n"
-            error_log += "Error: no authors found \n"
-    else:
-        software_author_list, log = get_authors(authors)
-        software_record["author"] = software_author_list     # N.B. this will overwrite any name obtained from the DOI
-        if log:
-            error_log += "**Software framework authors**\n" + log
-
-    # software & algorithm keywords
-    software_keywords = [x.strip() for x in data["-> software & algorithm keywords"].split(",")]
-
-    if software_keywords[0] == "_No response_":
-        error_log += "**Software & algorithm keywords**\n"
-        error_log += "Warning: no keywords given. \n"
-    else:
-        software_record["keywords"] = software_keywords
-
-    data_dict["software"] = software_record
 
     # computer URI/DOI
     computer_uri = data["-> computer URI/DOI"].strip()
