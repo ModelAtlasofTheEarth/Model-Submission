@@ -339,29 +339,29 @@ def apply_entity_mapping(metadata, mapping, issue_dict, graph_index):
                 metadata['@graph'][graph_index][target_key] = issue_dict[issue_keys]
 
 
+
+
+
+
+
 def dict_to_ro_crate_mapping(crate, issue_dict,  mapping_list):
 
     """
-    This function apply a mappign between a dictionary that captures key model submission data
-    and a sey of dictionaries that represent the entities in an RO-Crate
-
+    This function apply a mapping between a dictionary that captures key model submission data
+    and a list of dictionaries, one for each of the default entities in an RO-Crate
+    (as defined at https://github.com/ModelAtlasofTheEarth/metadata_schema/blob/main/README.md)
+    The value of the @id provides the link the entity in the RO-crate, and the item in the mapping list.
 
     Parameters:
 
     crate: ro_crate as Python dictionary
-    issue_dict: the dictionary produced by parse_issue.puy
+    issue_dict: the dictionary produced by parse_issue.py
     mapping_list: a list of dictionaries that define mappings between issue_dict and
     entities in the crate
 
 
     Returns:
     None: Changes to crate occur in-place
-
-    Note:
-    the relationship between the entity and the index (graph_index) is only valid before the graph has been flattened
-    A better way to do this is to use the (unique) @id property of the dictionary inside the mapping lists
-    and the entites in the crate
-
 
     """
 
@@ -370,14 +370,19 @@ def dict_to_ro_crate_mapping(crate, issue_dict,  mapping_list):
     ##Apply mapping
     ####################
 
-
-
+    #loop through the dictionaries in the mappign list
+    #each provides a mapping between the issue_dict and a particular entitity in the R0-crate
     for i, mapping in enumerate(mapping_list):
-
-        apply_entity_mapping(crate,
-                             mapping, issue_dict, graph_index=i+1)
-
-
+        if '@id' in mapping.keys():
+            #get the value corresponding to the @id key
+            entity_val = mapping['@id']
+            #now search the correspoding entity by looping through the entities in the RO-Crate @graph array
+            for j, entity in enumerate(crate['@graph']):
+                if entity['@id'] == entity_val:
+                    #once found apply the mapping
+                    apply_entity_mapping(crate, mapping, issue_dict, graph_index=j)
+        else:
+            pass
 
 
 
