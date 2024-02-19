@@ -206,12 +206,15 @@ def parse_issue(issue):
     #############
     # Section 1
     #############
-    # creator/contributor
-    creator = data["-> creator/contributor ORCID (or name)"].strip()
-    creator_record, log = parse_name_or_orcid(creator)
-    data_dict["creator"] = creator_record
+    # contributor is not necessarily the orginal creator/author of the original model
+    # we use the authors field to allow attribution of the model creators
+    # if the is not the origianl author, they should ensure that they are not enfriging copyright
+    # cc licences will generally allow for such usage, with varying conditions.
+    contributor = data["-> contributor ORCID (or name)"].strip()
+    contributor_record, log = parse_name_or_orcid(contributor)
+    data_dict["contributor"] = contributor_record
     if log:
-        error_log += "**Creator/Contributor**\n" + log +"\n"
+        error_log += "**Contributor**\n" + log +"\n"
 
     # slug
     proposed_slug = data["-> slug"].strip()
@@ -389,10 +392,18 @@ def parse_issue(issue):
 
     if model_output_notes == "_No response_":
         model_output_notes = ""
-        error_log += "**Model code/inputs notes**\n"
+        error_log += "**Model data notes**\n"
         error_log += "Warning: No notes provided.\n"
 
-    model_output_record["notes"] = model_output_notes
+    # model output notes
+    model_output_size = data["-> model output data size"].strip()
+
+    if model_output_size == "_No response_":
+            model_output_size = ""
+            error_log += "**Model data size**\n"
+            error_log += "Warning: No notes provided.\n
+
+    model_output_record["size"] = model_output_size
 
     data_dict["model_output_data"] = model_output_record
 

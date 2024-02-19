@@ -10,19 +10,20 @@ body:
 
 - type: markdown
   attributes:
-    value: "## Section 1: summary of your model"   
+    value: "## Section 1: summary of your model"
 
 - type: input
-  id: creator 
+  id: creator
   attributes:
-    label: -> creator/contributor ORCID (or name) 
+    label: -> contributor ORCID (or name)
     placeholder: "0000-0002-1270-4377 (Carey, Sam)"
-    description: "Please provide your ORCID iD (or Familyname(s), GivenName(s))"
+    description: "Please provide your ORCID iD (or Familyname(s), GivenName(s)). A contributor is not necessarily the orginal creator/author of the model. We use the authors field to allow attribution of the model creators.
+    If the contributor is not the original author, they should ensure that they are not enfriging copyright. If in doubt, pleae contact the author(s)."
   validations:
     required: true
-  
+
 - type: input
-  id: slug 
+  id: slug
   attributes:
     label: -> slug
     placeholder: "carey-1965-expansion"
@@ -63,7 +64,7 @@ body:
       - "other"
 
 - type: input
-  id: pub_doi 
+  id: pub_doi
   attributes:
     label: -> associated publication DOI
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
@@ -88,15 +89,15 @@ body:
   attributes:
     label: -> model authors
     placeholder: "ORCID iD (or Citizen, Jane)"
-    description: "Please provide ORCID iDs for model authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from publication DOI will be used"
-    
+    description: "Please provide ORCID iDs for model authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from publication DOI will be used. Autrhors are considered to be the orginal creator/author of the model."
+
 - type: input
   id: keywords
   attributes:
     label: -> scientific keywords
     placeholder: "keyword1, keyword2, ..."
     description: "if no input provided, info. from publication DOI will be used"
-    
+
 - type: input
   id: funder_ROR_URI
   attributes:
@@ -110,12 +111,12 @@ body:
 
 - type: markdown
   attributes:
-    value: "_Adding your model code and model output data takes place later, once your model repository has been set up!._" 
+    value: "_Adding your model code and model output data takes place later, once your model repository has been set up!._"
 
 - type: checkboxes
   id: code_include
   attributes:
-    label: -> include model code ? 
+    label: -> include model code ?
     options:
       - label: "yes"
     description: "Are you intending to submit code (scripts, input data, build details) as part of your M@TE model?"
@@ -123,23 +124,23 @@ body:
     required: true
 
 - type: input
-  id: code_doi 
+  id: code_doi
   attributes:
-    label: -> model code/inputs DOI 
+    label: -> model code/inputs DOI
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
     description: "Does your model code/input data have an existing DOI (or URL. e.g., github repo.)?"
-    
+
 - type: textarea
-  id: code_notes 
+  id: code_notes
   attributes:
     label: -> model code/inputs notes
     placeholder: "Model is setup with a Python script, model.py, with X parameter provided as an argument"
     description: "Please provide a basic description of your model code/input"
-  
+
 - type: checkboxes
   id: data_include
   attributes:
-    label: -> include model output data? 
+    label: -> include model output data?
     options:
       - label: "yes"
     description: "Are you intending to submit your model output data as part of your M@TE model?"
@@ -147,18 +148,25 @@ body:
     required: true
 
 - type: input
-  id: data_doi 
+  id: data_doi
   attributes:
     label: -> model output data DOI
     placeholder: "https://doi.org/10.47366/sabia.x5n1a3."
     description: "Does your model output data have an existing DOI (or URL. e.g., github repo.)?"
 
 - type: textarea
-  id: data_notes 
+  id: data_notes
   attributes:
     label: -> model output data notes
-    placeholder: "output data consists of 1000 *.vtk files, each represting an output timestep"
+    placeholder: "output data primarily consists of ~ 1000 *.vtk files, each represting an output timestep, with a total size of 66 Gb."
     description: "Please provide a basic description of your output data"
+
+- type: input
+  id: data_size
+  attributes:
+    label: -> model output data size
+    placeholder: "Model output data have a total size of ~ 128 Gb."
+    description: "Please provide an estimate of the total file size you wish to contribute."
 
 - type: markdown
   attributes:
@@ -166,14 +174,14 @@ body:
 
 
 - type: input
-  id: software_framework_doi_uri 
+  id: software_framework_doi_uri
   attributes:
     label: -> software framework DOI/URI
     placeholder: "https://doi.org/10.5281/zenodo.7455999"
     description: "By providing a DOI, we can prefill some of the remaining fields for Section 3"
 
 - type: input
-  id: software_framework_repository 
+  id: software_framework_repository
   attributes:
     label: -> software framework source repository
     placeholder: "https://github.com/underworldcode/underworld2"
@@ -182,7 +190,7 @@ body:
 - type: input
   id: software_framework
   attributes:
-    label: -> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM) 
+    label: -> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM)
     placeholder: "Underworld2"
     description: "If no input provided, title from software framework DOI will be used"
 
@@ -201,7 +209,7 @@ body:
     description: "Separate keywords by comma"
 
 - type: input
-  id: compute_doi 
+  id: compute_doi
   attributes:
     label: -> computer URI/DOI
     placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
@@ -214,7 +222,7 @@ body:
 
 - type: markdown
   attributes:
-    value: "In this section we will gather some information so we can display your model on mate.science. Please leave blank if you do not want this to occur. Note that files and text can be added/changed later!" 
+    value: "In this section we will gather some information so we can display your model on mate.science. Please leave blank if you do not want this to occur. Note that files and text can be added/changed later!"
 
 
 
@@ -228,7 +236,7 @@ body:
 - type: textarea
   id: web_animation
   attributes:
-    label: -> add an animation (if relevant) 
+    label: -> add an animation (if relevant)
     placeholder: "Caption for model animation"
     description: "Please provide an animation by dragging a file into this box. GIF, MOV, MP4 are supported. Max file size is 20 Mb. Please also provide a short caption."
 
