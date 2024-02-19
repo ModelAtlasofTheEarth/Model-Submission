@@ -1,10 +1,35 @@
 import re
 import pandas as pd
+from collections import defaultdict
 
 #from improved_request_utils import get_record, check_uri
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software
 from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts
+
+
+def read_issue_body(issue_body):
+    """
+    Parses the markdown content of a GitHub issue body and extracts structured data.
+
+    This function uses regular expressions to identify markdown headings (formatted as '### Heading') and the text that follows them up to the next heading or the end of the document. It constructs a dictionary where each heading is a key and the associated text is the corresponding value.
+
+    Parameters:
+    - issue_body (str): The markdown content of a GitHub issue body.
+
+    Returns:
+    - dict: A dictionary with keys derived from markdown headings and values containing the text following these headings up to the next heading or the end of the document.
+
+    Note:
+    - The function assumes that the issue body uses '###' markdown syntax for headings.
+    - Headings are used as dictionary keys and should be unique within the issue body for the resulting dictionary to capture all data correctly.
+    """
+    regex = r"### *(?P<key>.*?)\s*[\r\n]+(?P<value>[\s\S]*?)(?=###|$)"
+    data = dict(re.findall(regex, issue_body))
+    return data
+
+
+
 
 
 def parse_issue(issue):
@@ -39,6 +64,10 @@ def parse_issue(issue):
     - For this reason, parts of the record (publication, software) that may be used in creating other items, get built first.
     """
 
+    #read in the issue markdown as a dictionary
+    data = read_issue_body(issue.body)
+
+
     error_log = ""
 
     # Initialize data_dict with all expected keys set to None
@@ -69,12 +98,6 @@ def parse_issue(issue):
     #}
 
     data_dict = {}
-
-    # Parse issue body
-    # Identify headings and subsequent text
-    regex = r"### *(?P<key>.*?)\s*[\r\n]+(?P<value>[\s\S]*?)(?=###|$)"
-    data = dict(re.findall(regex, issue.body))
-
 
     #############
     # Fill in 'publication' first due to dependencies
