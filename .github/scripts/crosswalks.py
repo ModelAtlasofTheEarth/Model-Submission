@@ -16,11 +16,11 @@ def dict_to_report(issue_dict):
     # Section 1
     #############
     report = "## Section 1: Summary of your model \n"
-    # creator/contributor
-    report += "**Creator/Contributor**\n"
-    report += f"Creator/contributor is {issue_dict['creator']['givenName']} {issue_dict['creator']['familyName']} "
-    if "@id" in issue_dict['creator']:
-        report += f"([{issue_dict['creator']['@id'].split('/')[-1]}]({issue_dict['creator']['@id']}))"
+    # contributor
+    report += "**Contributor**\n"
+    report += f"Contributor is {issue_dict['contributor']['givenName']} {issue_dict['contributor']['familyName']} "
+    if "@id" in issue_dict['contributor']:
+        report += f"([{issue_dict['contributor']['@id'].split('/')[-1]}]({issue_dict['contributor']['@id']}))"
     report += "\n\n"
 
     # slug

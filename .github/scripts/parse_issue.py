@@ -395,13 +395,15 @@ def parse_issue(issue):
         error_log += "**Model data notes**\n"
         error_log += "Warning: No notes provided.\n"
 
-    # model output notes
+    model_output_record["notes"] = model_output_notes
+
+    # model output size
     model_output_size = data["-> model output data size"].strip()
 
     if model_output_size == "_No response_":
             model_output_size = ""
             error_log += "**Model data size**\n"
-            error_log += "Warning: No notes provided.\n
+            error_log += "Warning: No notes provided.\n"
 
     model_output_record["size"] = model_output_size
 

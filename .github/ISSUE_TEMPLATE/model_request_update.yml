@@ -18,7 +18,7 @@ body:
     label: -> contributor ORCID (or name)
     placeholder: "0000-0002-1270-4377 (Carey, Sam)"
     description: "Please provide your ORCID iD (or Familyname(s), GivenName(s)). A contributor is not necessarily the orginal creator/author of the model. We use the authors field to allow attribution of the model creators.
-    If the contributor is not the original author, they should ensure that they are not enfriging copyright. If in doubt, pleae contact the author(s)."
+    If the contributor is not the original author, they should ensure that they are not enfringing copyright. If in doubt, please contact the author(s)."
   validations:
     required: true
 
@@ -158,7 +158,7 @@ body:
   id: data_notes
   attributes:
     label: -> model output data notes
-    placeholder: "output data primarily consists of ~ 1000 *.vtk files, each represting an output timestep, with a total size of 66 Gb."
+    placeholder: "output data primarily consists of ~ 1000 *.vtk files, each representing an output timestep, with a total size of 66 Gb."
     description: "Please provide a basic description of your output data"
 
 - type: input
