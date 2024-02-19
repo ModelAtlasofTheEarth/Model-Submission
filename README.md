@@ -30,12 +30,21 @@ _Note: Workflows are currently in development!_
 
 **Model repository creation**
 * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
-* this triggers the creation of a repository for your model based in this template
+* this triggers the creation of a repository for your model based on [this simple template](https://github.com/ModelAtlasofTheEarth/mate_model_template)
+
+
+_Even though you now have a model repository, we maintain the submission discussion and using the original issue_
+
+**Clone and configure your model repository**
+* Your model repository is now yours to customize and fill with files (payload)
+* We encourage you to use github to add any material that is within github's typical repository limits (files < 100 Mb, total repository size < 5 Gb)
+* You may customize the model repository as you feel fit. This may require editing of the metadata file to reflect changes in directory structure.
+* Push any changes back to the [M@TE organization](https://github.com/ModelAtlasofTheEarth/).  
 
 **Upload model to our [NCI](https://nci.org.au/) Server**
 * Add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
-* This will allow large file payloads (up to several 100s Gb) to be added to you model
-* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to orchestrate this process
+* Let us know (via the issue) if you need to add additional files that exceed Github's limits 
+  * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to orchestrate this process
 
 
 **Model published**
