@@ -237,13 +237,14 @@ def parse_issue(issue):
     # license
     license = data["-> license"].strip()
     license_lut = pd.read_csv(".github/scripts/licenses.csv", dtype=str)
-
-    license_record = {}
+    #e.g. https://www.researchobject.org/ro-crate/1.1/contextual-entities.html#licensing-access-control-and-copyright
+    license_record={"@type": "CreativeWork"}
     if license != "No license":
-        license_record["name"] = license_lut[license_lut.license == license].name.values[0]
-        license_record["url"] = license_lut[license_lut.license == license].url.values[0]
-        license_record["text"] = license_lut[license_lut.license == license].text.values[0]
+        license_record["@id"] = license_lut[license_lut.license == license].url.values[0]
+        license_record["name"] = license_lut[license_lut.license == license].url.values[0]
+        license_record["description"] = license_lut[license_lut.license == license].name.values[0]
         license_record["website_path"] = license_lut[license_lut.license == license].website_path.values[0]
+        license_record["url"] = license_lut[license_lut.license == license].text.values[0]
     else:
         license_record["name"] = "No license"
     data_dict["license"] = license_record
