@@ -1,10 +1,10 @@
 license,name,url, text, website_path
-CC-BY-4.0,Creative Commons Attribution 4.0 International,https://creativecommons.org/licenses/by/4.0/legalcode, https://creativecommons.org/licenses/by/4.0/legalcode,../../../img/licence/by.png
-AGPL-3.0,GNU Affero General Public License v3.0,https://www.gnu.org/licenses/agpl-3.0.txt, https://www.gnu.org/licenses/agpl-3.0.txt,-
-GPL-3.0,GNU General Public License v3.0,https://www.gnu.org/licenses/gpl-3.0-standalone.html, https://www.gnu.org/licenses/gpl-3.0-standalone.html,-
-LGPL-3.0,GNU Lesser General Public License v3.0,https://www.gnu.org/licenses/lgpl-3.0-standalone.html, https://www.gnu.org/licenses/lgpl-3.0-standalone.html, -
-MPL-2.0,Mozilla Public License 2.0,https://www.mozilla.org/en-US/MPL/2.0/, https://www.mozilla.org/en-US/MPL/2.0/, -
-Apache-2.0,Apache License 2.0,https://www.apache.org/licenses/LICENSE-2.0, https://www.apache.org/licenses/LICENSE-2.0, -
+CC-BY-4.0,Creative Commons Attribution 4.0 International,https://creativecommons.org/licenses/by/4.0/legalcode, https://creativecommons.org/licenses/by/4.0/legalcode.txt, ../../../img/licence/by.png
+AGPL-3.0,GNU Affero General Public License v3.0,https://www.gnu.org/licenses/agpl-3.0.en.html, https://www.gnu.org/licenses/agpl-3.0.txt, ../../../agplv3-155x51.png
+GPL-3.0,GNU General Public License v3.0,https://www.gnu.org/licenses/gpl-3.0-standalone.html, https://www.gnu.org/licenses/gpl-3.0.txt, ../../../gplv3-127x51.png
+LGPL-3.0,GNU Lesser General Public License v3.0,https://www.gnu.org/licenses/lgpl-3.0-standalone.html, https://www.gnu.org/licenses/lgpl-3.0.txt, ../../../lgplv3-147x51.png
+MPL-2.0,Mozilla Public License 2.0,https://www.mozilla.org/en-US/MPL/2.0/, https://www.mozilla.org/media/MPL/2.0/index.f75d2927d3c1.txt, ../../../Mozilla_Public_License-Logo.png
+Apache-2.0,Apache License 2.0,https://www.apache.org/licenses/LICENSE-2.0, https://www.apache.org/licenses/LICENSE-2.0.txt, ../../../Apache_HTTP_Server-Logo2.png
 MIT,MIT License,https://opensource.org/license/mit/, https://opensource.org/license/mit/,-
 BSL-1.0,Boost Software License 1.0,https://www.boost.org/LICENSE_1_0.txt,https://www.boost.org/LICENSE_1_0.txt, -
 Unlicense,The Unlicense,https://unlicense.org/, https://unlicense.org/, -
