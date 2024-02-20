@@ -17,7 +17,7 @@ body:
   attributes:
     label: -> creator(s) ORCID(s) (or name(s))
     placeholder: "0000-0002-1270-4377 (Carey, Sam)"
-    description: "Please provide your ORCiD(s) (or Familyname(s), GivenName(s)). Followign schema.org, the terms Creator and Authors are the synonmous. Secondary contributors may be added below.  
+    description: "Please provide your ORCiD(s) (or Familyname(s), GivenName(s)). Followign schema.org, the terms Creator and Authors are the synonmous. Secondary contributors may be added below."  
   validations:
     required: true
 
