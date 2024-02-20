@@ -15,10 +15,9 @@ body:
 - type: input
   id: creator
   attributes:
-    label: -> contributor ORCID (or name)
+    label: -> creator(s) ORCID(s) (or name(s))
     placeholder: "0000-0002-1270-4377 (Carey, Sam)"
-    description: "Please provide your ORCID iD (or Familyname(s), GivenName(s)). A contributor is not necessarily the orginal creator/author of the model. We use the authors field to allow attribution of the model creators.
-    If the contributor is not the original author, they should ensure that they are not enfringing copyright. If in doubt, please contact the author(s)."
+    description: "Please provide your ORCiD(s) (or Familyname(s), GivenName(s)). Followign schema.org, the terms Creator and Authors are the synonmous. Secondary contributors may be added below.  
   validations:
     required: true
 
