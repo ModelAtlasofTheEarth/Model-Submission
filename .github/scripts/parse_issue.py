@@ -100,7 +100,7 @@ def parse_issue(issue):
     data_dict = {}
 
     #############
-    # Fill in 'publication' first due to dependencies
+    # Fill in 'publication' record first as it may be required by other items
     #############
 
     # associated publication DOI
@@ -124,7 +124,7 @@ def parse_issue(issue):
     data_dict["publication"] = publication_record
 
     #############
-    # Fill in 'software' next due to dependencies
+    # Fill in 'software' record next as it may be required by other items
     #############
     # software framework DOI/URI
     software_doi = data["-> software framework DOI/URI"].strip()
@@ -242,6 +242,8 @@ def parse_issue(issue):
     if license != "No license":
         license_record["name"] = license_lut[license_lut.license == license].name.values[0]
         license_record["url"] = license_lut[license_lut.license == license].url.values[0]
+        license_record["text"] = license_lut[license_lut.license == license].text.values[0]
+        license_record["website_path"] = license_lut[license_lut.license == license].website_path.values[0]
     else:
         license_record["name"] = "No license"
     data_dict["license"] = license_record
