@@ -84,11 +84,11 @@ body:
     description: "if no input provided, info. from publication DOI will be used. Markdown formatting can be used here and will be rendered on the website."
 
 - type: textarea
-  id: model_authors
+  id: model_contributors
   attributes:
-    label: -> model authors
+    label: -> model contributors
     placeholder: "ORCID iD (or Citizen, Jane)"
-    description: "Please provide ORCID iDs for model authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from publication DOI will be used. Autrhors are considered to be the orginal creator/author of the model."
+    description: "Please provide ORCID iDs for model contributors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from publication DOI will be used. Autrhors are considered to be the orginal creator/author of the model."
 
 - type: input
   id: keywords
