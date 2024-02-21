@@ -24,7 +24,7 @@ body:
 
 - type: markdown
   attributes:
-    value: "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork) provide for differentiation been the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor)."
+    value: "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork target="_blank") provide for differentiation been the primary [authors/creators](https://schema.org/author target="_blank") and secondary [contributors](https://schema.org/contributor target="_blank")."
 
 
 - type: input
