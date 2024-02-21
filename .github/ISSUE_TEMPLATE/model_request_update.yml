@@ -8,6 +8,7 @@ body:
 
   - type: markdown
     attributes:
+
       value: |
         Thanks for taking the time to fill out this bug report!
         Thanks for taking the time to fill out this bug report!
@@ -20,7 +21,9 @@ body:
   
   - type: markdown
     attributes:
-      value: "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork) differentiate been the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor). Let's start by identifying you - the person submitting the model."
+      value: |
+        "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork) differentiate been 
+        the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor). Let's start by identifying you - the person submitting the model."
   
   - type: input
     id: submitter
