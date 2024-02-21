@@ -12,21 +12,42 @@ body:
   attributes:
     value: "## Section 1: summary of your model"
 
-- type: input
-  id: creator
+
+- type: markdown
   attributes:
-    label: -> creator(s) ORCID(s) (or name(s))
-    placeholder: "0000-0002-1270-4377 (Carey, Sam)"
-    description: "Please provide your ORCiD(s) (or Familyname(s), GivenName(s)). Followign schema.org, the terms Creator and Authors are the synonmous. Secondary contributors may be added below."  
-  validations:
-    required: true
+    value: "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork) differentiate been the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor). Let's start by identifying you - the person submitting the model."
+
+  - type: input
+    id: submitter
+    attributes:
+      label: -> submitter ORCID (or name)
+      placeholder: "0000-0002-1270-4377 (Carey, Sam)"
+      description: "Please provide the ORCiD (or Familyname, GivenName) associated with the person submitting the model. This is not necessarily the model creator."
+    validations:
+      required: true
+
+- type: textarea
+  id: model_creators
+  attributes:
+    label: -> model creators
+    placeholder: "ORCID iD (or Citizen, Jane)"
+    description: "Please provide ORCID iDs for the primary creators of the model (or FamilyName(s), GivenName(s)), one per line.
+    If no input provided, all authors from the publication DOI will be added."
+
+- type: textarea
+  id: model_contributors
+  attributes:
+    label: -> model contributors
+    placeholder: "ORCID iD (or Citizen, Jane)"
+    description: "Please provide ORCID iDs for secondary model contributors (or FamilyName(s), GivenName(s)), one per line.
+    If no input provided, any authors from the publication DOI, who are not already included as creators, will be added."
 
 - type: input
   id: slug
   attributes:
     label: -> slug
     placeholder: "carey-1965-expansion"
-    description: "Please provide a slug for you model. This will be the name of your model. Use the format 'familyname-year-keyword'"
+    description: "Please provide a slug for the model, using format 'familyname-year-keyword'. This will be used as the name of the model repository, and be used in URLs/DOIs. "
   validations:
     required: true
 
@@ -34,7 +55,7 @@ body:
   id: model-license
   attributes:
     label: -> license
-    description: "If there is a license, please provide the name of the license (or None if there is no license specified). Please check our [model repository](https://airtable.com/shrUcrUnd7jB9ChZV) to explore valid licenses."
+    description: "Please provide the name of the license that applies to this model (or None if there is no license specified). This licence will be applied to all components of the model (e.g. model_inputs). Defaults to CC-BY-4.0, in line with NCI GeoNetwork Collection."
     options:
       - CC-BY-4.0
       - AGPL-3.0
@@ -83,12 +104,6 @@ body:
     placeholder: "model description"
     description: "if no input provided, info. from publication DOI will be used. Markdown formatting can be used here and will be rendered on the website."
 
-- type: textarea
-  id: model_contributors
-  attributes:
-    label: -> model contributors
-    placeholder: "ORCID iD (or Citizen, Jane)"
-    description: "Please provide ORCID iDs for model contributors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from publication DOI will be used. Autrhors are considered to be the orginal creator/author of the model."
 
 - type: input
   id: keywords
@@ -118,7 +133,7 @@ body:
     label: -> include model code ?
     options:
       - label: "yes"
-    description: "Are you intending to submit code (scripts, input data, build details) as part of your M@TE model?"
+    description: "Are you intending to submit code (scripts, input data, post-processing) as part of your M@TE model?"
   validations:
     required: true
 
@@ -145,6 +160,14 @@ body:
     description: "Are you intending to submit your model output data as part of your M@TE model?"
   validations:
     required: true
+
+  - type: textarea
+    id: data_creators
+    attributes:
+      label: -> model creators
+      placeholder: "ORCID iD (or Citizen, Jane)"
+      description: "Please provide ORCID iDs for the person(s) who ran the computation to produce this dataset (or FamilyName(s), GivenName(s)), one per line.
+      This field is relavent if a model has been re-run by someone other than the model creator. If blank this field defaults to the list of creators."
 
 - type: input
   id: data_doi

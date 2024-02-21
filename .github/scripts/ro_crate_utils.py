@@ -486,4 +486,8 @@ def customise_ro_crate(issue_dict, crate):
     Apply any customising of the crate based on user unput
     """
 
+    #should publisher default to NCI?
+
+    #resolve any potential issues with authorship and contribution 
+
     pass

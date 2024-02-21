@@ -17,11 +17,29 @@ def dict_to_report(issue_dict):
     #############
     report = "## Section 1: Summary of your model \n"
     # contributor
-    report += "**Contributor**\n"
-    report += f"Contributor is {issue_dict['contributor']['givenName']} {issue_dict['contributor']['familyName']} "
-    if "@id" in issue_dict['contributor']:
-        report += f"([{issue_dict['contributor']['@id'].split('/')[-1]}]({issue_dict['contributor']['@id']}))"
+    report += "**Model Submitter**\n"
+    report += f"Submitter is {issue_dict['submitter']['givenName']} {issue_dict['submitter']['familyName']} "
+    if "@id" in issue_dict['submitter']:
+        report += f"([{issue_dict['submitter]['@id'].split('/')[-1]}]({issue_dict['submitter']['@id']}))"
     report += "\n\n"
+
+    # model creators(s)
+    report += "**Model Creator(s)**\n"
+    for creator in issue_dict["creators"]:
+        report += f"- {creator['givenName']} {creator['familyName']} "
+        if "@id" in creator:
+            report += f"([{creator['@id'].split('/')[-1]}]({creator['@id']}))"
+        report += "\n"
+    report += "\n"
+
+    # model contributors(s)
+    report += "**Model Contributor(s)**\n"
+    for contributor in issue_dict["contributors"]:
+        report += f"- {contributor['givenName']} {contributor['familyName']} "
+        if "@id" in contributor:
+            report += f"([{contributor['@id'].split('/')[-1]}]({contributor['@id']}))"
+        report += "\n"
+    report += "\n"
 
     # slug
     report += "**Model Repository Slug**\n"
@@ -30,9 +48,9 @@ def dict_to_report(issue_dict):
     # license
     report += "**License**\n"
     if "url" in issue_dict["license"]:
-        report += f"[{issue_dict['license']['name']}]({issue_dict['license']['url']})\n\n"
+        report += f"[{issue_dict['license']['description']}]({issue_dict['license']['url']})\n\n"
     else:
-        report += f"{issue_dict['license']['name']}\n\n"
+        report += f"{issue_dict['license']['description']}\n\n"
 
     # model category
     report += "**Model Category**\n"
@@ -53,14 +71,7 @@ def dict_to_report(issue_dict):
     report += "**Description**\n"
     report += issue_dict["description"] + "\n\n"
 
-    # model authors
-    report += "**Model Authors**\n"
-    for author in issue_dict["authors"]:
-        report += f"- {author['givenName']} {author['familyName']} "
-        if "@id" in author:
-            report += f"([{author['@id'].split('/')[-1]}]({author['@id']}))"
-        report += "\n"
-    report += "\n"
+
 
     # scientific keywords
     if issue_dict["scientific_keywords"]:

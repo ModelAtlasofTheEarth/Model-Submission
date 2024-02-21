@@ -206,15 +206,47 @@ def parse_issue(issue):
     #############
     # Section 1
     #############
-    # contributor is not necessarily the orginal creator/author of the original model
-    # we use the authors field to allow attribution of the model creators
-    # if the is not the origianl author, they should ensure that they are not enfriging copyright
-    # cc licences will generally allow for such usage, with varying conditions.
-    contributor = data["-> contributor ORCID (or name)"].strip()
-    contributor_record, log = parse_name_or_orcid(contributor)
-    data_dict["contributor"] = contributor_record
+    # The following fields get added to the data_dict: submitter, creator, contributor, data_creator.
+
+    # submitter (individual). Not necessarily the creator of the original model.
+    submitter = data["-> submitter ORCID (or name)"].strip()
+    submitter_record, log = parse_name_or_orcid(submitter)
+    data_dict["submitter"] = submitter_record
     if log:
-        error_log += "**Contributor**\n" + log +"\n"
+        error_log += "**Submitter**\n" + log +"\n"
+
+    # model creators
+    creators = data['-> model creators'].strip().split('\r\n')
+    if creators[0] == "_No response_":
+        try:
+            creators_list = publication_record["author"]
+        except:
+            creators_list = []
+            error_log += "**Model creators**\n"
+            error_log += "Error: no creators found \n"
+    else:
+        creators_list, log = get_authors(creators)
+        if log:
+            error_log += "**Model creators**\n" + log
+    data_dict["creators"] = author_list
+
+
+    # model contributor
+    contributors = data['-> model contributors'].strip().split('\r\n')
+    if contributors[0] == "_No response_":
+        try:
+            contributors_list = publication_record["author"]
+        except:
+            contributors_list = []
+            error_log += "**Model contributors**\n"
+            error_log += "Error: no contributors found \n"
+    else:
+        contributors_list, log = get_authors(contributors)
+        if log:
+            error_log += "**Model contributors**\n" + log
+    data_dict["contributors"] = author_list
+
+
 
     # slug
     proposed_slug = data["-> slug"].strip()
@@ -236,12 +268,11 @@ def parse_issue(issue):
 
     # license
     license = data["-> license"].strip()
-    license_lut = pd.read_csv(".github/scripts/licenses.csv", dtype=str)
+    license_lut = pd.read_csv("../.github/scripts/licenses.csv", dtype=str)
     #e.g. https://www.researchobject.org/ro-crate/1.1/contextual-entities.html#licensing-access-control-and-copyright
     license_record={"@type": "CreativeWork"}
     if license != "No license":
         license_record["@id"] = license_lut[license_lut.license == license].url.values[0]
-        license_record["name"] = license_lut[license_lut.license == license].url.values[0]
         license_record["description"] = license_lut[license_lut.license == license].name.values[0]
         license_record["website_path"] = license_lut[license_lut.license == license].website_path.values[0]
         license_record["url"] = license_lut[license_lut.license == license].text.values[0]
@@ -288,22 +319,7 @@ def parse_issue(issue):
 
     data_dict["description"] = description
 
-    # model authors
-    authors = data['-> model authors'].strip().split('\r\n')
 
-    if authors[0] == "_No response_":
-        try:
-            author_list = publication_record["author"]
-        except:
-            author_list = []
-            error_log += "**Model authors**\n"
-            error_log += "Error: no authors found \n"
-    else:
-        author_list, log = get_authors(authors)
-        if log:
-            error_log += "**Model authors**\n" + log
-
-    data_dict["authors"] = author_list
 
     # scientific keywords
     keywords = [x.strip() for x in data["-> scientific keywords"].split(",")]
