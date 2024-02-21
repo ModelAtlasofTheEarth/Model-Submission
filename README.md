@@ -65,6 +65,10 @@ _Even though you now have a model repository, we maintain the submission discuss
 - [x] Fix the call to Zenodo being hardcoded into the doi/Api
 - [X] Fix @id assigment if not found
 - [ ] Edit permissions for issues (model_reviewers)?
-- [ ] Make sure issues are saved (protect?)
+- [ ] Is there a way to ensure issues are saved, and cannot be deleted? 
 - [ ] Add some or all of the report to the readme for the new model repo.
+- [ ] RO-Crate needs to be availble to the website. Should we copy to web_material, or is a weblink sufficient? What do crawlers need?
+- [ ] Add a "published" label to the template repo.
+- [ ] Set up some mechanism to add a DOI, via an issue, if the doi is validated,it adds the published label.
+- [ ] Push to the website occurs
 
