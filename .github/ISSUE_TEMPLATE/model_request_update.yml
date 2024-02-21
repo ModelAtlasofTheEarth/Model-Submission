@@ -12,11 +12,6 @@ body:
   attributes:
     value: "## Section 1: summary of your model"
 
-
-- type: markdown
-  attributes:
-    value: "Who is responsible for the model? Let's start by identifying you - the person submitting the model."
-
   - type: input
     id: submitter
     attributes:
