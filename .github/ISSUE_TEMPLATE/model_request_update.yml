@@ -162,13 +162,13 @@ body:
   validations:
     required: true
 
-  - type: textarea
-    id: data_creators
-    attributes:
-      label: -> model creators
-      placeholder: "ORCID iD (or Citizen, Jane)"
-      description: "Please provide ORCID iDs for the person(s) who ran the computation to produce this dataset (or FamilyName(s), GivenName(s)), one per line.
-      This field is relavent if a model has been re-run by someone other than the model creator. If blank this field defaults to the list of creators."
+- type: textarea
+  id: data_creators
+  attributes:
+    label: -> model creators
+    placeholder: "ORCID iD (or Citizen, Jane)"
+    description: "Please provide ORCID iDs for the person(s) who ran the computation to produce this dataset (or FamilyName(s), GivenName(s)), one per line.
+    This field is relavent if a model has been re-run by someone other than the model creator. If blank this field defaults to the list of creators."
 
 - type: input
   id: data_doi
