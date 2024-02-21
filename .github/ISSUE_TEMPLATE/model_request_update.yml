@@ -7,19 +7,25 @@ labels: ["new model"]
 body:
 
 
-
 - type: markdown
   attributes:
     value: "## Section 1: summary of your model"
 
-  - type: input
-    id: submitter
-    attributes:
-      label: -> submitter ORCID (or name)
-      placeholder: "0000-0002-1270-4377 (Carey, Sam)"
-      description: "Please provide the ORCiD (or Familyname, GivenName) associated with the person submitting the model. This is not necessarily the model creator."
-    validations:
-      required: true
+
+
+- type: markdown
+  attributes:
+    value: "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork) differentiate been the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor). Let's start by identifying you - the person submitting the model."
+
+
+- type: input
+  id: submitter
+  attributes:
+    label: -> submitter ORCID (or name)
+    placeholder: "0000-0002-1270-4377 (Carey, Sam)"
+    description: "Please provide the ORCiD (or Familyname, GivenName) associated with the person submitting the model. This is not necessarily the model creator."
+  validations:
+    required: true
 
 - type: textarea
   id: model_creators
