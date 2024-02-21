@@ -75,6 +75,8 @@ default_issue_entity_mapping_list = [root_node_mapping,
                 website_material_node_mapping,
                 dataset_creation_node_mapping]
 
+
+#a limitation of the mapping is that where lists are present as values, the key needs to be the same on the both sides.
 issue_yaml_mapping = {
     'templateKey':'foo',
     'slug': 'slug',
@@ -90,13 +92,15 @@ issue_yaml_mapping = {
     "licence.licence_image":"license.website_path",
     "licence.description":"license.description",
     "licence.licence_file":"foo",
-    "contributor.name":"submitter.givenName",
-    "contributor.family_name":"submitter.familyName",
-    "contributor.ORCID":"submitter.@id",
-    #"contributor.affiliation":"contributor.affiliation",
-    'authors.name': 'contributors.givenName',
-    'authors.family_name': 'contributors.familyName',
-    'authors.ORCID': 'contributors.@id',
+    "submitter.name":"submitter.givenName",
+    "submitter.family_name":"submitter.familyName",
+    "submitter.ORCID":"submitter.@id",
+    "contributors.name":"contributors.givenName",
+    "contributors.family_name":"contributors.familyName",
+    "contributors.ORCID":"contributors.@id",
+    'creators.name': 'creators.givenName',
+    'creators.family_name': 'creators.familyName',
+    'creators.ORCID': 'creators.@id',
     "associated_publication.title":"publication.name",
     #currently this generalised functionality cannot handle the heavilty nested
     #structure of publications

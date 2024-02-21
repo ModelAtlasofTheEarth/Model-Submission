@@ -164,8 +164,8 @@ def configure_yaml_output_dict(output_dict, issue_dict,
 
 
     #change format of ORCiD ids if required
-    for author in output_dict['authors']:
-        author['ORCID'] = extract_orcid_id(author['ORCID'])
+    for creator in output_dict['creators']:
+        creator['ORCID'] = extract_orcid_id(creator['ORCID'])
 
     # Format the datetime as specified, with milliseconds set to .000
     current_utc_datetime = datetime.utcnow()
