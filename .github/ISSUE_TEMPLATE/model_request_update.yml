@@ -80,8 +80,22 @@ body:
       value: |
         Who is responsible for the model? 
         [CreativeWorks](https://schema.org/CreativeWork) differentiate been the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor). 
-
-
+  
+  - type: textarea
+    id: model_creators
+    attributes:
+      label: -> model creators
+      placeholder: "ORCID iD (or Citizen, Jane)"
+      description: "Please provide ORCID iDs for the primary creators of the model (or FamilyName(s), GivenName(s)), one per line.
+      If no input provided, all authors from the publication DOI will be added."
+  
+  - type: textarea
+    id: model_contributors
+    attributes:
+      label: -> model contributors
+      placeholder: "ORCID iD (or Citizen, Jane)"
+      description: "Please provide ORCID iDs for secondary model contributors (or FamilyName(s), GivenName(s)), one per line.
+      If no input provided, any authors from the publication DOI, who are not already included as creators, will be added."
   
   - type: input
     id: title
