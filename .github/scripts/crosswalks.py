@@ -19,8 +19,9 @@ def dict_to_report(issue_dict):
     # contributor
     report += "**Model Submitter**\n"
     report += f"Submitter is {issue_dict['submitter']['givenName']} {issue_dict['submitter']['familyName']} "
-    if "@id" in issue_dict['submitter']:
-        report += f"([{issue_dict['submitter]['@id'].split('/')[-1]}]({issue_dict['submitter']['@id']}))"
+    if "@id" in issue_dict["submitter"]:
+        report += f"([{issue_dict['submitter']['@id'].split('/')[-1]}]({issue_dict['submitter']['@id']}))"
+
     report += "\n\n"
 
     # model creators(s)

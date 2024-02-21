@@ -228,7 +228,7 @@ def parse_issue(issue):
         creators_list, log = get_authors(creators)
         if log:
             error_log += "**Model creators**\n" + log
-    data_dict["creators"] = author_list
+    data_dict["creators"] = creators_list
 
 
     # model contributor
@@ -244,7 +244,7 @@ def parse_issue(issue):
         contributors_list, log = get_authors(contributors)
         if log:
             error_log += "**Model contributors**\n" + log
-    data_dict["contributors"] = author_list
+    data_dict["contributors"] = contributors_list
 
 
 
