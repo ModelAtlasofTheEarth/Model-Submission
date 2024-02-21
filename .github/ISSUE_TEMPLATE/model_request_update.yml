@@ -21,6 +21,12 @@ body:
   validations:
     required: true
 
+
+- type: markdown
+  attributes:
+    value: "Who is responsible for the model? Schema.org _CreativeWorks_ provide for differentiation been the primary _creators_ and secondary _contributors_."
+
+
 - type: input
   id: slug
   attributes:
