@@ -21,12 +21,6 @@ body:
   validations:
     required: true
 
-
-- type: markdown
-  attributes:
-    value: "Who is responsible for the model? [CreativeWorks](https://schema.org/CreativeWork) provide for differentiation been the primary [authors/creators](https://schema.org/author) and secondary [contributors](https://schema.org/contributor)."
-
-
 - type: input
   id: slug
   attributes:
