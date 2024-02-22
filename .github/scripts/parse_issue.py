@@ -5,7 +5,7 @@ from collections import defaultdict
 #from improved_request_utils import get_record, check_uri
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid
 
 
 def read_issue_body(issue_body):
@@ -217,6 +217,10 @@ def parse_issue(issue):
 
     # model creators
     creators = data['-> model creators'].strip().split('\r\n')
+    #test if the input has an orcid type, and if so, make sure only the orcid id is present
+    orcid_id = extract_orcid(creators[0])
+    if orcid_id:
+        creators = [extract_orcid(p) for p in creators]
     if creators[0] == "_No response_":
         try:
             creators_list = publication_record["author"]
@@ -233,6 +237,10 @@ def parse_issue(issue):
 
     # model contributor
     contributors = data['-> model contributors'].strip().split('\r\n')
+    #test if the input has an orcid type, and if so, make sure only the orcid id is present
+    orcid_id = extract_orcid(contributors[0])
+    if orcid_id:
+        contributors = [extract_orcid(p) for p in contributors]
     if contributors[0] == "_No response_":
         try:
             contributors_list = publication_record["author"]
@@ -246,7 +254,7 @@ def parse_issue(issue):
             error_log += "**Model contributors**\n" + log
     data_dict["contributors"] = contributors_list
 
-
+    #data_dict["creators"]
 
     # slug
     proposed_slug = data["-> slug"].strip()
@@ -384,12 +392,34 @@ def parse_issue(issue):
 
     data_dict["model_code_inputs"] = model_code_record
 
+
+
     # include model output data
     model_output = data["-> include model output data?"].strip()
     data_dict["include_model_output"] = parse_yes_no_choice(model_output)
 
     # model output data
     model_output_record = {}
+
+    # model creators
+    data_creators = data['-> data creators'].strip().split('\r\n')
+
+    #test if the input has an orcid type, and if so, make sure only the orcid id is present
+    orcid_id = extract_orcid(data_creators[0])
+    if orcid_id:
+        data_creators = [extract_orcid(p) for p in data_creators]
+    if data_creators[0] == "_No response_":
+        #add top level creator
+        data_creators_list = data_dict["creators"]
+        error_log += "**Model creators**\n"
+        error_log += "Error: no data creators found \n"
+    else:
+        data_creators_list, log = get_authors(data_creators)
+        if log:
+            error_log += "**Data creators**\n" + log
+    model_output_record["creators"] = data_creators_list
+
+
 
     # model output URI/DOI
     model_output_doi = data["-> model output data DOI"].strip()

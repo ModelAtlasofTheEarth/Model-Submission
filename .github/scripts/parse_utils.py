@@ -195,3 +195,43 @@ def extract_doi_parts(doi_string):
     else:
         # Return an error message if no DOI is found
         return "No valid DOI found in the input string."
+
+
+def extract_orcid(input_str):
+    """
+    Extracts an ORCiD ID from a given string.
+
+    The function accepts a string that can either be a direct ORCiD ID or an ORCiD URL.
+    It attempts to extract the ORCiD ID using a regular expression that matches both formats.
+    If a valid ORCiD ID is found, it is returned. If no valid ID is found, the function returns None.
+
+    Parameters:
+    - input_str (str): A string containing a potential ORCiD ID or ORCiD URL.
+
+    Returns:
+    - str: The extracted ORCiD ID if found, otherwise None.
+
+    Raises:
+    - None: The function does not explicitly raise any errors but returns None for invalid inputs.
+
+    Example usage:
+    >>> extract_orcid("http://orcid.org/0000-0003-2198-9172")
+    '0000-0003-2198-9172'
+
+    >>> extract_orcid("0000-0002-1825-0097")
+    '0000-0002-1825-0097'
+
+    >>> extract_orcid("John Doe")  # Invalid input
+    None
+    """
+    orcid_pattern = re.compile(r'(?:https?://orcid\.org/)?([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X])')
+
+    # Search for the pattern in the input string
+    match = orcid_pattern.search(input_str)
+
+    # If a match is found, return the ORCiD ID
+    if match:
+        return match.group(1)
+    else:
+        # If no match is found, return None
+        return None
