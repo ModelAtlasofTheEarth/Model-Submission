@@ -5,7 +5,7 @@ from collections import defaultdict
 #from improved_request_utils import get_record, check_uri
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
 
 
 def read_issue_body(issue_body):
@@ -254,7 +254,17 @@ def parse_issue(issue):
             error_log += "**Model contributors**\n" + log
     data_dict["contributors"] = contributors_list
 
-    #data_dict["creators"]
+
+    #now apply some logic? to the list of people involved...
+    #remove any creators from contributors list so these do not intersect (currently only uses @id to match)
+    data_dict['contributors'] = remove_duplicates(data_dict['creators'], data_dict['contributors'])
+
+    #check if the submitter is either a creator of contributor.
+    #If not, make them a contrinbutor.
+    result = remove_duplicates(data_dict['contributors'], (remove_duplicates(data_dict['creators'], [data_dict['submitter']] )))
+    if result:
+        data_dict['contributors'] = result
+
 
     # slug
     proposed_slug = data["-> slug"].strip()

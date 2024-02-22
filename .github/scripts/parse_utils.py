@@ -235,3 +235,51 @@ def extract_orcid(input_str):
     else:
         # If no match is found, return None
         return None
+
+
+
+def is_orcid(input_str):
+    """
+    Checks if the given string matches the ORCiD pattern.
+
+    Parameters:
+    - input_str (str): A string to be checked against the ORCiD pattern.
+
+    Returns:
+    - bool: True if the string matches the ORCiD pattern, False otherwise.
+    """
+    orcid_pattern = re.compile(r'(?:https?://orcid\.org/)?([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X])')
+    return bool(orcid_pattern.match(input_str))
+
+def remove_duplicates(list_a, list_b):
+    """
+    Removes items from list_b that have an @id matching any @id in list_a. If an @id is an ORCiD pattern,
+    it is first normalized using extract_orcid. Otherwise, the @id is used as is.
+
+    Parameters:
+    - list_a (list): List of dictionaries potentially containing ORCiD IDs in their '@id' keys.
+    - list_b (list): List of dictionaries from which items should be removed if their '@id' matches any in list_a.
+
+    Returns:
+    - list: A new list derived from list_b with items removed that have matching @id keys in list_a.
+    """
+    # Normalize and collect @id values from list_a
+    a_ids = set()
+    for item in list_a:
+        if '@id' in item:
+            id_val = item['@id']
+            if is_orcid(id_val):
+                a_ids.add(extract_orcid(id_val))
+            else:
+                a_ids.add(id_val)
+
+    # Filter list_b based on @id values found in a_ids
+    filtered_b_list = []
+    for item in list_b:
+        if '@id' in item:
+            id_val = item['@id']
+            normalized_id = extract_orcid(id_val) if is_orcid(id_val) else id_val
+            if normalized_id not in a_ids:
+                filtered_b_list.append(item)
+
+    return filtered_b_list

@@ -224,72 +224,6 @@ def search_replace_sub_dict(crate, graph_index):
 
 
 
-#def apply_entity_mapping(metadata, mapping, issue_dict, graph_index):
-#
-#    """
-#    apply a mapping from the issue dictionary into the entity dictionary stored at the node of the
-#    @graph array given by graph_index
-#    """
-#
-#    for key in mapping.keys():
-#        if mapping[key] is None:
-#            pass
-#
-#        else:
-#            metadata['@graph'][graph_index][key] = issue_dict[mapping[key]]
-
-
-def apply_entity_mapping_old(metadata, mapping, issue_dict, graph_index):
-    """
-    Updates a specific entity within the metadata's @graph array using values from an issue dictionary,
-    based on a provided mapping. This function iterates over the mapping dictionary, where each key-value
-    pair represents a target entity attribute and its corresponding attribute in the issue dictionary.
-    If the key exists in the issue dictionary, the function updates the target entity's attribute with the
-    value from the issue dictionary. If a mapping value is None or the key does not exist in the issue dictionary,
-    the corresponding attribute in the target entity is left unchanged.
-
-    This version of the function skips mappings for non-existent keys in the issue_dict without raising exceptions,
-    allowing for partial updates.
-
-    Parameters:
-    - metadata (dict): The metadata structure containing an '@graph' key with a list of entities.
-    - mapping (dict): A dictionary where each key represents an attribute in the target entity within
-                      the metadata's '@graph' array, and each value corresponds to an attribute in the
-                      issue_dict. A value of None or a non-existent key results in no update for that attribute.
-    - issue_dict (dict): A dictionary containing data that should be mapped to the target entity in the
-                         metadata's '@graph' array.
-    - graph_index (int): The index of the target entity within the metadata's '@graph' array to which the
-                         mapping should be applied.
-
-    Returns:
-    None: The function updates the metadata in place and does not return a value.
-    """
-
-    # Validate metadata structure and graph_index
-    if '@graph' not in metadata or not isinstance(metadata['@graph'], list):
-        print("Warning: The provided metadata must contain an '@graph' key with a list of entities.")
-        return
-    if graph_index >= len(metadata['@graph']):
-        print(f"Warning: graph_index {graph_index} is out of range for the metadata's '@graph' array.")
-        return
-
-    # Iterate over the mapping and apply updates where possible
-    for target_key, issue_key in mapping.items():
-        if issue_key is None or issue_key not in issue_dict:
-            # Skip mapping if issue_key is None or not found in the issue_dict
-            continue
-
-        # Safely update the target entity in the metadata
-
-        if is_array(issue_dict[issue_key]):
-            metadata['@graph'][graph_index][target_key] = []
-            for index, value in enumerate(issue_dict[issue_key]):
-                metadata['@graph'][graph_index][target_key].append(value)
-
-        else:
-            metadata['@graph'][graph_index][target_key] = issue_dict[issue_key]
-
-
 
 def apply_entity_mapping(metadata, mapping, issue_dict, graph_index):
     """
@@ -339,7 +273,56 @@ def apply_entity_mapping(metadata, mapping, issue_dict, graph_index):
                 metadata['@graph'][graph_index][target_key] = issue_dict[issue_keys]
 
 
+def apply_entity_mapping_extended(metadata, mapping, issue_dict, graph_index):
+    """
+    Updates a specific entity within the metadata's @graph array using values from an issue dictionary,
+    based on a provided mapping. Supports nested mappings using dot notation (e.g., "Bkey1.Bkey2" for nested items).
 
+    Parameters:
+    - metadata (dict): The metadata structure containing an '@graph' key with a list of entities.
+    - mapping (dict): A dictionary where each key represents an attribute in the target entity within
+                      the metadata's '@graph' array, and each value corresponds to an attribute or a list of attributes
+                      in the issue_dict, supporting nested access via dot notation.
+    - issue_dict (dict): A dictionary containing data that should be mapped to the target entity in the
+                         metadata's '@graph' array.
+    - graph_index (int): The index of the target entity within the metadata's '@graph' array to which the
+                         mapping should be applied.
+
+    Returns:
+    None: The function updates the metadata in place and does not return a value.
+    """
+
+    def get_nested_value(d, key):
+        """Accesses a nested value in a dictionary using a dot-separated key."""
+        keys = key.split('.')
+        for k in keys:
+            d = d.get(k, {})
+        return d if d else None
+
+    # Validate metadata structure and graph_index
+    if '@graph' not in metadata or not isinstance(metadata['@graph'], list):
+        print("Warning: The provided metadata must contain an '@graph' key with a list of entities.")
+        return
+    if graph_index >= len(metadata['@graph']):
+        print(f"Warning: graph_index {graph_index} is out of range for the metadata's '@graph' array.")
+        return
+
+    # Iterate over the mapping and apply updates where possible
+    for target_key, issue_keys in mapping.items():
+        if issue_keys is None:
+            # Skip mapping if issue_keys is None
+            continue
+
+        if isinstance(issue_keys, list):
+            # Handle list of keys - collect corresponding values from issue_dict, supporting nested keys
+            values = [get_nested_value(issue_dict, key) for key in issue_keys if get_nested_value(issue_dict, key) is not None]
+            if values:
+                metadata['@graph'][graph_index][target_key] = values
+        else:
+            # Handle single or nested key
+            value = get_nested_value(issue_dict, issue_keys)
+            if value is not None:
+                metadata['@graph'][graph_index][target_key] = value
 
 
 
@@ -380,7 +363,7 @@ def dict_to_ro_crate_mapping(crate, issue_dict,  mapping_list):
             for j, entity in enumerate(crate['@graph']):
                 if entity['@id'] == entity_val:
                     #once found apply the mapping
-                    apply_entity_mapping(crate, mapping, issue_dict, graph_index=j)
+                    apply_entity_mapping_extended(crate, mapping, issue_dict, graph_index=j)
         else:
             pass
 
@@ -488,6 +471,6 @@ def customise_ro_crate(issue_dict, crate):
 
     #should publisher default to NCI?
 
-    #resolve any potential issues with authorship and contribution 
+    #resolve any potential issues with authorship and contribution
 
     pass
