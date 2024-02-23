@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 import re
-
+import copy
 
 
 
@@ -157,15 +157,36 @@ def ensure_path_starts_with_pattern(file_path, pattern='./graphics/'):
     return file_path
 
 def configure_yaml_output_dict(output_dict, issue_dict,
-                               image_path='./graphics/'):
+                               image_path='./graphics/', old_yaml=True):
 
     #make some changes (in-place) to output_dict, to help wrangle the yaml output dict
     #many of these simply enforce formatting that is required by the Gatsby YAML frontmatter
 
+    #add in the template key for this page
+    output_dict['templateKey'] = 'model'
 
     #change format of ORCiD ids if required
     for creator in output_dict['creators']:
         creator['ORCID'] = extract_orcid_id(creator['ORCID'])
+
+    #change format of ORCiD ids if required
+    for contributor in output_dict['contributors']:
+        contributor['ORCID'] = extract_orcid_id(contributor['ORCID'])
+
+
+
+    ########################
+    #Now we're going to to a hotfix to sync the names with the website terminology
+    ########################
+    if old_yaml is True:
+        output_dict['authors'] = copy.deepcopy(output_dict['creators']) + copy.deepcopy(output_dict['contributors'])
+        output_dict['contributor'] = copy.deepcopy(output_dict['submitter'])
+        del output_dict['contributors']
+        del output_dict['creators']
+    ########################
+    #... remove this when we've update website code
+    ########################
+
 
     # Format the datetime as specified, with milliseconds set to .000
     current_utc_datetime = datetime.utcnow()
