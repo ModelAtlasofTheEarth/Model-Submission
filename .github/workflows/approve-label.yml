@@ -86,11 +86,19 @@ jobs:
           cache: "pip"
       - run: pip install -r requirements.txt
 
+      - name: create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner}}
+
       - name: Verify Labeler
         id: verify_labeler
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_TOKEN: ${{ secrets.DAN_PAT }}
+          ORG_TOKEN: ${{ steps.app-token.outputs.token }}
           USER: ${{ github.event.sender.login }}
           OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}
@@ -122,11 +130,19 @@ jobs:
           cache: "pip"
       - run: pip install -r requirements.txt
 
+      - name: create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner}}
+
       # create the model repo from the template
       - name: create model repo
         id: create-model-repo
         env:
-          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           OWNER: ${{ github.event.repository.owner.login }}
           SUBMITTER: ${{ github.event.issue.user.login }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -142,7 +158,7 @@ jobs:
       # parse metadata and write files to repo
       - name: write metadata
         env:
-          GITHUB_TOKEN: ${{ secrets.DAN_PAT }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ steps.create-model-repo.outputs.repo_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
