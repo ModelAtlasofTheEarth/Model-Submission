@@ -90,7 +90,7 @@ jobs:
         id: verify_labeler
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_TOKEN: ${{ secrets.TIM_PAT }}
+          ORG_TOKEN: ${{ secrets.DAN_PAT }}
           USER: ${{ github.event.sender.login }}
           OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}
@@ -137,6 +137,7 @@ jobs:
           gh repo create ${OWNER}/${REPO_NAME} --template ${OWNER}/$TEMPLATE $FLAGS
           echo "repo_name=${REPO_NAME}" >> $GITHUB_OUTPUT
           gh api --method=PUT "repos/${OWNER}/${REPO_NAME}/collaborators/${SUBMITTER}" -f permission=admin
+          gh api --method=POST "repos/${OWNER}/${REPO_NAME}/labels" -f name='published' -f description='Model published' -f color=B93BCB
 
       # parse metadata and write files to repo
       - name: write metadata
