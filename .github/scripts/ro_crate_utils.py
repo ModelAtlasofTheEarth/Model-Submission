@@ -3,6 +3,7 @@ import string
 import json
 import random
 
+
 def recursively_filter_key(obj, entity_template):
 
     """

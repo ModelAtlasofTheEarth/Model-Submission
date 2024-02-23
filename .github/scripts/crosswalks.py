@@ -4,6 +4,7 @@ from crosswalk_mappings import *
 from yaml_utils import *
 import ruamel.yaml
 import copy
+from pyld import jsonld
 
 Ryaml = ruamel.yaml.YAML(typ=['rt', 'string'])
 Ryaml.preserve_quotes = True
@@ -272,7 +273,11 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
 
     #flatten the crate (brings nested entities to the top level)
     if flat_compact_crate is True:
-        flatten_crate(ro_crate)
+        #flatten_crate(ro_crate)
+        # flatten a document
+        # see: https://json-ld.org/spec/latest/json-ld/#flattened-document-form
+        # all deep-level trees flattened to the top-level
+        ro_crate= jsonld.flatten(ro_crate)
 
     metadata_out = json.dumps(ro_crate)
 

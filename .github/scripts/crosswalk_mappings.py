@@ -1,38 +1,38 @@
-#provides a mapping between keys in metadata (left)
+#provides a mapping between keys in the ro-crate dictionary (left)
 #and keys in issue dictionary (which are the values in the mapping)
 #None value indicate default values or properties which we not attempt to automatically fill
-#this needs to refactored so that it looks for the approapriate @id
+#they should nothing apart from map between
 
 root_node_mapping = {"@id":"./",
+            "identifier": None,
             "@type":None,
             "name":"slug",
             "description":"description",
             "creator":"creators",
-            "contributors":"contributor",
+            "contributor":"contributor",
             "citation":"publication",
             "publisher":None,
             "license":"license",
             "keywords":"scientific_keywords",
             "about":"for_codes",
             "funder":"funder",
-            "Dataset version":None,
-            "Temporal extents":None,
+            "version":None,
+            "temporalCoverage":None,
             "Spatial extents":None,
-            "Dataset lineage information":None,
-            "Dataset format":None,
-            "Dataset status":None,
-            "hasPart":None
+            "spatialCoverage":None,
+            "isBasedOn":None,
+            "creativeWorkStatus":None
             }
 
 
 model_inputs_node_mapping = {"@id":"model_inputs",
+            "identifier": "model_code_inputs.doi",
             "@type":None,
             "description":None,
             "creator":"creators",
             "author":None,
             "version":None,
             "programmingLanguage":None,
-            "owl:sameAs":"model_code_uri",
             "keywords":None,
             "runtimePlatform":None,
             "memoryRequirements":None,
@@ -41,6 +41,7 @@ model_inputs_node_mapping = {"@id":"model_inputs",
 
 
 model_outputs_node_mapping = {"@id":"model_outputs",
+            "identifier": "model_output_data.doi",
             "@type":None,
             "description":None,
             "creator":"model_output_data.creators",
@@ -63,7 +64,7 @@ dataset_creation_node_mapping = {"@id":"#datasetCreation",
             "@type":None,
             "agent":"model_output_data.creators",
             "description":None,
-            "endTime":None,
+            "startTime":None,
             "endTime":None,
             "instrument":["software", "computer_uri"],
             "object":None,
