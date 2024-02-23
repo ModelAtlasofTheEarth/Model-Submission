@@ -26,7 +26,7 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           comment-author: github-actions[bot]
-          body-includes: Model Report
+          body-regex: '(Model Report|New Model Submitted)'
           direction: last
 
       # generate report
