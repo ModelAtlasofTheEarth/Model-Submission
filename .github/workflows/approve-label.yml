@@ -106,8 +106,6 @@ jobs:
         run: |
           AUTHORIZED=$(python3 .github/scripts/approval_authorization.py)
           echo "authorized=${AUTHORIZED}" >> $GITHUB_OUTPUT
-          echo $AUTHORIZED
-          echo $GITHUB_OUTPUT
 
       - name: comment if unauthorized
         if: ${{ steps.verify_labeler.outputs.authorized == 'False' }}
