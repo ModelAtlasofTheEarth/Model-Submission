@@ -66,7 +66,7 @@ dataset_creation_node_mapping = {"@id":"#datasetCreation",
             "description":None,
             "startTime":None,
             "endTime":None,
-            "instrument":["software", "computer_uri"],
+            "instrument":["software", "computer_resource"],
             "object":None,
             "result":None}
 
@@ -86,6 +86,7 @@ issue_yaml_mapping = {
     'featuredpost':'foo',
     'for_codes':'for_codes.termCode',
     'status':'foo',
+    'doi':'foo',
     "software.name":"software.name",
     "software.doi":"software.@id",
     "software.url_source":"software.codeRepository",
@@ -103,19 +104,20 @@ issue_yaml_mapping = {
     'creators.family_name': 'creators.familyName',
     'creators.ORCID': 'creators.@id',
     "associated_publication.title":"publication.name",
-    #currently this generalised functionality cannot handle the heavilty nested
-    #structure of publications
-    #issue_dict['publication']['isPartOf'][0]['isPartOf']['name'][0]
-    "associated_publication.journal":"foo",
-    "associated_publication.publisher":"publisher",
     "associated_publication.doi":"publication.@id",
     "associated_publication.url":"publication.url",
-    #The model submission workflow and web yaml have diverged a lot for the "compute section"
-    "compute_info.name":"foo",
-    "compute_info.organisation":"foo",
-    "compute_info.computer_url":"computer_uri",
-    "compute_info.computer_doi":"foo",
-    "research_tags":"keywords",
+    #currently the mapping functionality cannot handle the heavilty nested
+    #structure of publications, requiring access like issue_dict['publication']['isPartOf'][0]['isPartOf']['name'][0]
+    #so these get added as a hack in the function configure_yaml_output_dict
+    "associated_publication.journal":"foo",
+    "associated_publication.publisher":"foo",
+    #Not sure how robust this compute section will be, as it's designed around the DOI record for Gadi
+    #but would be good to extend so do something get RORs and URLs
+    "compute_info.name":"computer_resource.name",
+    "compute_info.organisation":"computer_resource.author.name",
+    "compute_info.computer_url":"computer_resource.url",
+    "compute_info.computer_doi":"computer_resource.@id",
+    "research_tags":"scientific_keywords",
     "compute_tags":"software.keywords",
     "funder.funder_name":"funder.name",
     "grants_funder.doi":"foo",

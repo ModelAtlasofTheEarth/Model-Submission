@@ -309,8 +309,6 @@ def parse_issue(issue):
     data_dict["model_category"] = model_category
 
 
-
-
     # title
     title = data["-> title"].strip()
 
@@ -475,17 +473,38 @@ def parse_issue(issue):
 
 
     # computer URI/DOI
-    computer_uri = data["-> computer URI/DOI"].strip()
 
+    computer_record = {}
+    log1 = ''
+    computer_uri = data["-> computer URI/DOI"].strip()
     if computer_uri == "_No response_":
         error_log += "**Computer URI/DOI**\n"
         error_log += "Warning: No URI/DOI provided. \n"
     else:
         response = check_uri(computer_uri)
+
         if response == "OK":
-            data_dict["computer_uri"] = computer_uri
+            #data_dict["computer_uri"] = computer_uri
+            #check if it's a DOIs
+            try:
+                if extract_doi_parts(computer_uri) == 'No valid DOI found in the input string.':
+                    #its probably a URL
+                    #build a minimeal record
+                    computer_record.update({'url': computer_uri})
+                    computer_record.update({'@type': 'Service'})
+                    computer_record.update({'@id': computer_uri})
+                    #easy to add later
+                    computer_record.update({'@name': ''})
+                else:
+                    computer_record, log1 = get_record('software', computer_uri)
+
+            except:
+                pass
         else:
-            error_log += "**Computer URI/DOI**\n" + response + "\n"
+            error_log += "**Computer URI/DOI**\n" + response + log1 + "\n"
+
+
+    data_dict["computer_resource"] = computer_record
 
     #############
     # Section 4
