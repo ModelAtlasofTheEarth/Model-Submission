@@ -487,7 +487,7 @@ def parse_issue(issue):
             #data_dict["computer_uri"] = computer_uri
             #if we have some kind of valid URI, we'll try to build a record
             computer_record.update({'@type': 'Service'})
-            computer_record.update({'@name': ''})
+            computer_record.update({'name': ''})
             computer_record.update({'url': computer_uri})
             computer_record.update({'@id': computer_uri})
             try:
@@ -497,7 +497,7 @@ def parse_issue(issue):
                     compute_org_record, parse_log = parse_organization(record)
                     if get_log or parse_log:
                         log1 += get_log + parse_log
-                    computer_record.update({'@name': compute_org_record['name']})
+                    computer_record.update({'name': compute_org_record['name']})
                 #check for valid DOI
                 elif extract_doi_parts(computer_uri) != 'No valid DOI found in the input string.':
                     computer_record, log1 = get_record('software', computer_uri)

@@ -215,7 +215,8 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     #Add any additional mappings that we can't manage in the generalised function
     try:
         output_dict['associated_publication']['publisher']  = issue_dict['publication']['isPartOf'][0]['isPartOf']['publisher']
-        output_dict['associated_publication']['journal'] = issue_dict['publication']['isPartOf'][0]['isPartOf']['name'][0]
+        output_dict['associated_publication']['journal']    = issue_dict['publication']['isPartOf'][0]['isPartOf']['name'][0]
+        output_dict['associated_publication']['date']       = issue_dict['publication']['isPartOf'][0]['datePublished']
     except:
         pass
 

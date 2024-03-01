@@ -103,6 +103,7 @@ issue_yaml_mapping = {
     'creators.name': 'creators.givenName',
     'creators.family_name': 'creators.familyName',
     'creators.ORCID': 'creators.@id',
+    "associated_publication.authors":"publication.author",    
     "associated_publication.title":"publication.name",
     "associated_publication.doi":"publication.@id",
     "associated_publication.url":"publication.url",
