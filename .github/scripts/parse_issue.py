@@ -4,9 +4,8 @@ from collections import defaultdict
 
 #from improved_request_utils import get_record, check_uri
 from request_utils import get_record, check_uri
-from parse_metadata_utils import parse_publication, parse_software
+from parse_metadata_utils import parse_publication, parse_software, parse_organization
 from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
-
 
 def read_issue_body(issue_body):
     """
@@ -473,6 +472,7 @@ def parse_issue(issue):
 
 
     # computer URI/DOI
+    #need to check the logic of the log messages here.
 
     computer_record = {}
     log1 = ''
@@ -485,17 +485,21 @@ def parse_issue(issue):
 
         if response == "OK":
             #data_dict["computer_uri"] = computer_uri
-            #check if it's a DOIs
+            #if we have some kind of valid URI, we'll try to build a record
+            computer_record.update({'@type': 'Service'})
+            computer_record.update({'@name': ''})
+            computer_record.update({'url': computer_uri})
+            computer_record.update({'@id': computer_uri})
             try:
-                if extract_doi_parts(computer_uri) == 'No valid DOI found in the input string.':
-                    #its probably a URL
-                    #build a minimeal record
-                    computer_record.update({'url': computer_uri})
-                    computer_record.update({'@type': 'Service'})
-                    computer_record.update({'@id': computer_uri})
-                    #easy to add later
-                    computer_record.update({'@name': ''})
-                else:
+                #check for RoR
+                if "ror.org" in computer_uri:
+                    record, get_log = get_record("organization", computer_uri)
+                    compute_org_record, parse_log = parse_organization(record)
+                    if get_log or parse_log:
+                        log1 += get_log + parse_log
+                    computer_record.update({'@name': compute_org_record['name']})
+                #check for valid DOI
+                elif extract_doi_parts(computer_uri) != 'No valid DOI found in the input string.':
                     computer_record, log1 = get_record('software', computer_uri)
 
             except:
