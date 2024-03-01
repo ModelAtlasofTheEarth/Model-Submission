@@ -5,6 +5,7 @@ from crosswalks import dict_to_metadata, dict_to_yaml
 from copy_files import copy_files
 from ruamel.yaml import YAML
 import io
+import json
 
 # Environment variables
 token = os.environ.get("GITHUB_TOKEN")
@@ -33,6 +34,15 @@ issue.create_comment("# M@TE crate \n"+str(metadata))
 
 # Move files to repo
 model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
+#we should do this this as part of the copy to website action
+model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate",metadata)
+
+#######
+#Save the trail of metadata sources to .metadat_trail
+issue_dict_str = json.dumps(data)
+model_repo.create_file(".metadata_trail/issue_body.json","add issue_body", issue.body)
+model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
+
 
 #######
 # Something like this for the web YAML
