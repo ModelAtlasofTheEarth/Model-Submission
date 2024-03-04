@@ -1,7 +1,7 @@
 name: Approve Label Trigger
-on: 
+on:
   issues:
-    types: 
+    types:
       - labeled
 jobs:
   parseNewIssue:
@@ -163,7 +163,7 @@ jobs:
           REPO: ${{ steps.create-model-repo.outputs.repo_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          python3 .github/scripts/write_metadata.py
+          python3 .github/scripts/write_repo_contents.py
 
       # steps if failure
       - name: workflow url
@@ -188,4 +188,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           labels: workflow_error
-    
