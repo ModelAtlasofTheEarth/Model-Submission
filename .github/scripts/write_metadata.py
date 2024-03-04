@@ -47,7 +47,17 @@ model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue
 #first pass, just wite the report
 # Parse issue
 report = dict_to_report(data)
-model_repo.create_file("README.md", "add the report to the README.md", report)
+# Path to the README.md file
+file_path = 'README.md'
+# Retrieve the file to get its SHA and content
+file_contents = model_repo.get_contents(file_path)
+# Update the README.md file
+update_info = model_repo.update_file(
+    path=file_path,  # Path to the file in the repository
+    message='Updated the README.md',  # Commit message
+    content=report,  # New content for the file
+    sha=file_contents.sha  # SHA of the file to update
+)
 
 
 #######
