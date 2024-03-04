@@ -38,10 +38,16 @@ model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
 model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate",metadata)
 
 #######
-#Save the trail of metadata sources to .metadat_trail
+#Save the trail of metadata sources to .metadata_trail
 issue_dict_str = json.dumps(data)
-model_repo.create_file(".metadata_trail/issue_body.json","add issue_body", issue.body)
+model_repo.create_file(".metadata_trail/issue_body.md","add issue_body", issue.body)
 model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
+
+#####Create the README.md
+#first pass, just wite the report
+# Parse issue
+report = dict_to_report(data)
+model_repo.create_file("README.md", "add the report to the README.md", report)
 
 
 #######
