@@ -90,7 +90,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           file: .github/templates/review-request.md
           vars: |
-            recipients: @ModelAtlasofTheEarth/model_reviewers
+          recipients: "@ModelAtlasofTheEarth/model_reviewers"
 
   createRepoAuthorization:
     if: contains(github.event.label.name, 'approved')
