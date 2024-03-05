@@ -29,12 +29,20 @@ jobs:
           body-regex: '(Model Report|New Model Submitted)'
           direction: last
 
+      # Create m@te-bot token
+      - name: create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       # generate report
       - name: generate report
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           COMMENT_ID: ${{ steps.fc.outputs.comment-id }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           python3 .github/scripts/write_report.py
 
@@ -49,6 +57,7 @@ jobs:
         if: failure()
         uses: GrantBirki/comment@v2.0.8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           issue-number: ${{ github.event.issue.number }}
           file: .github/templates/parse-workflow-fail.md
           vars: |
@@ -58,6 +67,6 @@ jobs:
         if: failure()
         uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
           labels: workflow_error
     
