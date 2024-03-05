@@ -11,11 +11,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Create m@te-bot token
+      - name: create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       # Comment on issue
       - name: Comment on submission
         id: submission-comment
         uses: GrantBirki/comment@v2.0.8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           issue-number: ${{ github.event.issue.number }}
           file: .github/templates/new-model.md
 
@@ -32,7 +41,7 @@ jobs:
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           COMMENT_ID: ${{ steps.submission-comment.outputs.comment-id }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           python3 .github/scripts/write_report.py
 
@@ -47,6 +56,7 @@ jobs:
         if: failure()
         uses: GrantBirki/comment@v2.0.8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           issue-number: ${{ github.event.issue.number }}
           file: .github/templates/parse-workflow-fail.md
           vars: |
@@ -56,7 +66,7 @@ jobs:
         if: failure()
         uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
           labels: workflow_error
 
 
@@ -97,8 +107,7 @@ jobs:
       - name: Verify Labeler
         id: verify_labeler
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_TOKEN: ${{ steps.app-token.outputs.token }}
+          TOKEN: ${{ steps.app-token.outputs.token }}
           USER: ${{ github.event.sender.login }}
           OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}
@@ -111,6 +120,7 @@ jobs:
         if: ${{ steps.verify_labeler.outputs.authorized == 'False' }}
         uses: GrantBirki/comment@v2.0.8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           issue-number: ${{ github.event.issue.number }}
           file: .github/templates/unauthorized-approval.md
 
@@ -176,6 +186,7 @@ jobs:
         if: failure()
         uses: GrantBirki/comment@v2.0.8
         with:
+          token: ${{ steps.app-token.outputs.token }}
           issue-number: ${{ github.event.issue.number }}
           file: .github/templates/repo-workflow-fail.md
           vars: |
@@ -186,5 +197,5 @@ jobs:
         if: failure()
         uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
           labels: workflow_error
