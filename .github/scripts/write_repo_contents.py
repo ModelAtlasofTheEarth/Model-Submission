@@ -58,7 +58,7 @@ file_contents = model_repo.get_contents(file_path)
 update_info = model_repo.update_file(
     path=file_path,  # Path to the file in the repository
     message='Updated the README.md',  # Commit message
-    content=pre_report = report,  # New content for the file
+    content=pre_report + report,  # New content for the file
     sha=file_contents.sha  # SHA of the file to update
 )
 
