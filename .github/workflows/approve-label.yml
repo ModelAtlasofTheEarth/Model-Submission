@@ -215,3 +215,9 @@ jobs:
         with:
           github_token: ${{ steps.app-token.outputs.token }}
           labels: workflow_error
+
+      - name: add model created label
+        uses: actions-ecosystem/action-add-labels@v1.1.0
+        with:
+          github_token: ${{ steps.app-token.outputs.token }}
+          labels: model created
