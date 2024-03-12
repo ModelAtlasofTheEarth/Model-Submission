@@ -179,7 +179,7 @@ jobs:
           gh repo create ${OWNER}/${REPO_NAME} --template ${OWNER}/$TEMPLATE $FLAGS
           echo "repo_name=${REPO_NAME}" >> $GITHUB_OUTPUT
           gh api --method=PUT "repos/${OWNER}/${REPO_NAME}/collaborators/${SUBMITTER}" -f permission=admin
-          gh api --method=POST "repos/${OWNER}/${REPO_NAME}/labels" -f name='model published' -f description='Model published' -f color=B93BCB
+          gh api --method=POST "repos/${OWNER}/${REPO_NAME}/labels" -f name='model created' -f description='Model created' -f color=B93BCB
 
       # parse metadata and write files to repo
       - name: write metadata
