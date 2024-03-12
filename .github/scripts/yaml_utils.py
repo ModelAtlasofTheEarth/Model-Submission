@@ -2,7 +2,8 @@ import re
 from datetime import datetime
 import re
 import copy
-
+from ruamel.yaml import YAML
+import io
 
 
 def navigate_and_assign(source, path, value):
@@ -240,3 +241,18 @@ def save_yaml_with_header(yaml_content, file_path=None):
         with open(file_path, 'w') as file:
             file.write(formatted_content)
         print(f"YAML content saved to {file_path}")
+
+
+
+def format_yaml_string(web_yaml_dict):
+    yaml = YAML(typ=['rt', 'string'])
+    yaml.preserve_quotes = True
+    #control the indentation...
+    yaml.indent(mapping=2, sequence=4, offset=2)
+    # Use an in-memory text stream to hold the YAML content
+    stream = io.StringIO()
+    stream.write('---\n')
+    yaml.dump(web_yaml_dict, stream)
+    stream.write('---\n')
+    yaml_content_with_frontmatter = stream.getvalue()
+    return yaml_content_with_frontmatter

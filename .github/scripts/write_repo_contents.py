@@ -2,6 +2,7 @@ import os
 from github import Github, Auth
 from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml, dict_to_report
+from yaml_utils import format_yaml_string
 from copy_files import copy_files
 from ruamel.yaml import YAML
 import io
@@ -44,9 +45,6 @@ model_repo.create_file(".metadata_trail/issue_body.md","add issue_body", issue.b
 model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
 
 #####Create the README.md
-#first pass, just wite the report
-# Parse issue
-
 
 pre_report = '# New [M@TE](https://mate.science/)!: \n ' +  '_we have provided a summary of your model as a starting point for the README, feel free to edit_' + '\n'
 report = dict_to_report(data)
@@ -64,18 +62,9 @@ update_info = model_repo.update_file(
 
 
 #######
-# Something like this for the web YAML
-yaml = YAML(typ=['rt', 'string'])
-yaml.preserve_quotes = True
-#control the indentation...
-yaml.indent(mapping=2, sequence=4, offset=2)
+# fomat and write the web YAML
 web_yaml_dict = dict_to_yaml(data)
-# Use an in-memory text stream to hold the YAML content
-stream = io.StringIO()
-stream.write('---\n')
-yaml.dump(web_yaml_dict, stream)
-stream.write('---\n')
-yaml_content_with_frontmatter = stream.getvalue()
+yaml_content_with_frontmatter = format_yaml_string(web_yaml_dict)
 commit_message = 'Add YAML file with front matter'
 model_repo.create_file("website_material/index.md", commit_message, yaml_content_with_frontmatter)
 
