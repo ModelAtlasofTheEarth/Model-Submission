@@ -283,7 +283,7 @@ def parse_issue(issue):
 
     # license
     license = data["-> license"].strip()
-    license_lut = pd.read_csv(".github/scripts/licenses.csv", dtype=str)
+    license_lut = pd.read_csv(".github/resources/licenses.csv", dtype=str)
     #e.g. https://www.researchobject.org/ro-crate/1.1/contextual-entities.html#licensing-access-control-and-copyright
     license_record={"@type": "CreativeWork"}
     if license != "No license":
