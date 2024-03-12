@@ -13,7 +13,7 @@ if __name__ == "__main__":
     auth = Auth.Token(token)
     g = Github(auth=auth)
     org = g.get_organization(org_name)
-	
+
     user = g.get_user(user_login)
     team = org.get_team_by_slug("model_reviewers")
 
@@ -23,6 +23,6 @@ if __name__ == "__main__":
     if not authorized:
         # Remove approved label because it isn't
         issue = org.get_repo(repo_name).get_issue(number = issue_number)
-        issue.remove_from_labels("approved")
+        issue.remove_from_labels("model approved")
 
     print(authorized)

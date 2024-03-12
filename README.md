@@ -18,18 +18,18 @@
 
 _Note: Workflows are currently in development!_
 
-**Make a new model request:** 
+**Make a new model request:**
 * open a new issue using the [New model request](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues/new/choose)
 * fill in as much information as you can and submit the issue
 * This will trigger workflows that source metadata relavant to your model
 * At the bottom will see a report on the information for
 
 **Request a review:**
-* If you are satisfied with the information contained in the report, 
+* If you are satisfied with the information contained in the report,
 * add a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label to the issue
 
 **Model repository creation**
-* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/approved label to the issue
+* The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20approved label to the issue
 * this triggers the creation of a repository for your model based on [this simple template](https://github.com/ModelAtlasofTheEarth/mate_model_template)
 
 
@@ -43,7 +43,7 @@ _Even though you now have a model repository, we maintain the submission discuss
 
 **Upload model to our [NCI](https://nci.org.au/) Server**
 * Add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
-* Let us know (via the issue) if you need to add additional files that exceed Github's limits 
+* Let us know (via the issue) if you need to add additional files that exceed Github's limits
   * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to orchestrate this process
 
 
@@ -65,10 +65,9 @@ _Even though you now have a model repository, we maintain the submission discuss
 - [x] Fix the call to Zenodo being hardcoded into the doi/Api
 - [X] Fix @id assigment if not found
 - [ ] Edit permissions for issues (model_reviewers)?
-- [ ] Is there a way to ensure issues are saved, and cannot be deleted? 
+- [ ] Is there a way to ensure issues are saved, and cannot be deleted?
 - [ ] Add some or all of the report to the readme for the new model repo.
 - [ ] RO-Crate needs to be availble to the website. Should we copy to web_material, or is a weblink sufficient? What do crawlers need?
 - [ ] Add a "published" label to the template repo.
 - [X] Set up some mechanism to add a DOI, via an issue, if the doi is validated,it adds the published label.
 - [ ] Push to the website occurs with published label
-

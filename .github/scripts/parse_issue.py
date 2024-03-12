@@ -1,8 +1,6 @@
 import re
 import pandas as pd
 from collections import defaultdict
-
-#from improved_request_utils import get_record, check_uri
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software, parse_organization
 from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
