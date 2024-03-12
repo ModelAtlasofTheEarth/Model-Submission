@@ -48,7 +48,7 @@ model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue
 # Parse issue
 
 
-pre_report = '# New [M@TE](https://mate.science/)!: \n ' +  '_we have provided a summary of your model as a starting point for the README, feel free to edit_' + '\n')
+pre_report = '# New [M@TE](https://mate.science/)!: \n ' +  '_we have provided a summary of your model as a starting point for the README, feel free to edit_' + '\n'
 report = dict_to_report(data)
 # Path to the README.md file
 file_path = 'README.md'
