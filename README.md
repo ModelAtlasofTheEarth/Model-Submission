@@ -10,13 +10,12 @@
 
 ## What happens and when
 
-*  M@TE models begin their life as Github repositories
-*  To manage large file payloads, and to provide long term storage,  we copy your model repository to our server on NCI
+*  M@TE models begin their life as github repositories
+*  Github issues and actions are used to automate aspects of the model submisssion and creation 
+*  To manage large file payloads, and to provide long term storage, we copy your model repository to our server on NCI
 *  This process also results in a DOI being minted for your model
 
 ## Model submission workflow:
-
-_Note: Workflows are currently in development!_
 
 **1) Make a new model request:**
 * open a new issue using the [New model request](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues/new/choose)
