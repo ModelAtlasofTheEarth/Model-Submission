@@ -24,27 +24,27 @@
 * By editing the first comment in the issue discussion, you will trigger a rebuild of the model information
 * When you are satisfied with the information contained in the report, add a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/review%20requested label to the issue
 
-**3) Model repository creation**
+**3) Model repository creation:**
 * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20approved label to the issue
 * this triggers the creation of a new model repository within the M@TE organization, based on [this simple template](https://github.com/ModelAtlasofTheEarth/mate_model_template)
 * the model metadata is stored as an [RO-Crate](https://www.researchobject.org/ro-crate/) (named `ro-crate-metadata.json`) in the top level of the repository
-* A (https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20created) label will appear on your issue
+* A https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20created label will appear on your issue
 * The github account holder who submitted the model will have owner privillages.
 
 
-**4) Clone and configure your model repository**
+**4) Clone and configure your model repository:**
 
 * Your model repository is now yours to customize and fill with files (payload)
 * We encourage you to use github to add any material that is within github's typical repository limits (files < 100 Mb, total repository size < 5 Gb)
 * You may customize the model repository as you feel fit. This may require editing of the metadata file () to reflect changes in directory structure
 * Push any changes back to the [M@TE organization](https://github.com/ModelAtlasofTheEarth/).  
 
-**5) Upload model to our [NCI](https://nci.org.au/) Server**
+**5) Upload model to our [NCI](https://nci.org.au/) Server:**
 * Add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/upload%20to%20NCI label to the model submission issue
 * Let us know (via the original issue) if you need to add additional files that exceed Github's limits
   * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to orchestrate this process
 
-**6) Model published**
+**6) Model published:**
 * Your model will be published on the NCI [GeoNetworkCatalog](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/home)
 * It will recieve a DOI and this will be automatically added to your model metadata
 * Your model will be featured on the M@TE website
