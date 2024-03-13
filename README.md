@@ -8,12 +8,6 @@
 * The result is a model repository that comes with a rich metadata document, based on the [Ro-Crate](https://www.researchobject.org/ro-crate/) project
 * This process also assembles material so we can feature you model on the [M@TE website](https://mate.science)
 
-## What happens and when
-
-*  M@TE models begin their life as github repositories
-*  Github issues and actions are used to automate aspects of the model submisssion and creation 
-*  To manage large file payloads, and to provide long term storage, we copy your model repository to our server on NCI
-*  This process also results in a DOI being minted for your model
 
 ## Model submission workflow:
 
