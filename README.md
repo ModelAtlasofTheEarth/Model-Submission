@@ -14,7 +14,7 @@
 **1) Make a new model request:**
 * open a new issue using the [New model request](https://github.com/ModelAtlasofTheEarth/Model_Submission/issues/new/choose)
 * fill in as much information as you can and submit the issue
-* a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/new%20model label will appear on the original issue. 
+* a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/new%20model label will appear on the original issue
 * This will trigger workflows that collect this information and source additional metadata relavant to your model
 * You will see a summary report for your model, including potential missing information or errors (e.g. URLs that didn't resolve)
   
@@ -26,9 +26,9 @@
 
 **3) Model repository creation**
 * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will add an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20approved label to the issue
-* this triggers the creation of a mode under the M@TE organiazation, based on [this simple template](https://github.com/ModelAtlasofTheEarth/mate_model_template)
-* the model metadata is stored as an [RO-Crate](https://www.researchobject.org/ro-crate/) (named `ro-crate-metadata.json`) in the top level of the repository. 
-* A (https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20created) label will appear on your issue.
+* this triggers the creation of a new model repository within the M@TE organization, based on [this simple template](https://github.com/ModelAtlasofTheEarth/mate_model_template)
+* the model metadata is stored as an [RO-Crate](https://www.researchobject.org/ro-crate/) (named `ro-crate-metadata.json`) in the top level of the repository
+* A (https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20created) label will appear on your issue
 * The github account holder who submitted the model will have owner privillages.
 
 
@@ -36,7 +36,7 @@
 
 * Your model repository is now yours to customize and fill with files (payload)
 * We encourage you to use github to add any material that is within github's typical repository limits (files < 100 Mb, total repository size < 5 Gb)
-* You may customize the model repository as you feel fit. This may require editing of the metadata file () to reflect changes in directory structure.
+* You may customize the model repository as you feel fit. This may require editing of the metadata file () to reflect changes in directory structure
 * Push any changes back to the [M@TE organization](https://github.com/ModelAtlasofTheEarth/).  
 
 **5) Upload model to our [NCI](https://nci.org.au/) Server**
@@ -48,5 +48,5 @@
 * Your model will be published on the NCI [GeoNetworkCatalog](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/home)
 * It will recieve a DOI and this will be automatically added to your model metadata
 * Your model will be featured on the M@TE website
-* a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20published label will appear on the original issue. 
+* a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20published label will appear on the original issue
 
