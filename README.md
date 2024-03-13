@@ -45,7 +45,7 @@
   * The [model_reviewers](https://github.com/orgs/ModelAtlasofTheEarth/teams/model_reviewers) team will contact you via email to orchestrate this process
 
 **6) Model published**
-* Your model will be published on the NCIs [GeoNetworkCatalog](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/home)
+* Your model will be published on the NCI [GeoNetworkCatalog](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/home)
 * It will recieve a DOI and this will be automatically added to your model metadata
 * Your model will be featured on the M@TE website
 * a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20published label will appear on the original issue. 
