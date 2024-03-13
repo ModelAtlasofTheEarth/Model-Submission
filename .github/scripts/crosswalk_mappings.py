@@ -7,6 +7,8 @@ root_node_mapping = {"@id":"./",
             "identifier": None,
             "@type":None,
             "name":"slug",
+            "alternateName":"title",
+            #could also be abstract
             "description":"description",
             "creator":"creators",
             "contributor":"contributor",
@@ -21,12 +23,13 @@ root_node_mapping = {"@id":"./",
             "Spatial extents":None,
             "spatialCoverage":None,
             "isBasedOn":None,
+            "isPartOf":None,
             "creativeWorkStatus":None
             }
 
 
 model_inputs_node_mapping = {"@id":"model_inputs",
-            "identifier": "model_code_inputs.doi",
+            "identifier": ["model_code_inputs.doi"],
             "@type":None,
             "description":None,
             "creator":"creators",
@@ -41,7 +44,8 @@ model_inputs_node_mapping = {"@id":"model_inputs",
 
 
 model_outputs_node_mapping = {"@id":"model_outputs",
-            "identifier": "model_output_data.doi",
+            #the list around certain items in the mapping cause the same structure to appear in teh RO-Crate
+            "identifier": ["model_output_data.doi"],
             "@type":None,
             "description":None,
             "creator":"model_output_data.creators",
@@ -55,7 +59,6 @@ website_material_node_mapping = {"@id":"website_material",
             "@type":None,
             "description":None,
             "creator":"creators",
-            "author":None,
             "fileFormat":None
             }
 
@@ -103,7 +106,7 @@ issue_yaml_mapping = {
     'creators.name': 'creators.givenName',
     'creators.family_name': 'creators.familyName',
     'creators.ORCID': 'creators.@id',
-    "associated_publication.authors":"publication.author",    
+    "associated_publication.authors":"publication.author",
     "associated_publication.title":"publication.name",
     "associated_publication.doi":"publication.@id",
     "associated_publication.url":"publication.url",

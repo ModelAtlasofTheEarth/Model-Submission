@@ -16,141 +16,143 @@ def dict_to_report(issue_dict):
     #############
     # Section 1
     #############
-    report = "## Section 1: Summary of your model \n"
+    report = "## Section 1: Summary of your model   \n"
     # contributor
-    report += "**Model Submitter**\n"
-    report += f"Submitter is {issue_dict['submitter']['givenName']} {issue_dict['submitter']['familyName']} "
+    report += "**Model Submitter**  \n\n"
+    report += f"{issue_dict['submitter']['givenName']} {issue_dict['submitter']['familyName']} "
     if "@id" in issue_dict["submitter"]:
         report += f"([{issue_dict['submitter']['@id'].split('/')[-1]}]({issue_dict['submitter']['@id']}))"
 
     report += "\n\n"
 
     # model creators(s)
-    report += "**Model Creator(s)**\n"
+    report += "**Model Creator(s)**  \n"
     for creator in issue_dict["creators"]:
         report += f"- {creator['givenName']} {creator['familyName']} "
         if "@id" in creator:
             report += f"([{creator['@id'].split('/')[-1]}]({creator['@id']}))"
-        report += "\n"
-    report += "\n"
+        report += "  \n"
+    report += "  \n"
 
     # model contributors(s)
-    report += "**Model Contributor(s)**\n"
+    report += "**Model Contributor(s)**  \n"
     for contributor in issue_dict["contributors"]:
         report += f"- {contributor['givenName']} {contributor['familyName']} "
         if "@id" in contributor:
             report += f"([{contributor['@id'].split('/')[-1]}]({contributor['@id']}))"
-        report += "\n"
-    report += "\n"
+        report += "  \n"
+    report += "  \n"
+
+    # title. Note title doesn't appear in CreativeWorks. This gets mapped to alternateName.
+    report += "**Model title**  \n"
+    report += issue_dict["title"] + "\n\n"
 
     # slug
-    report += "**Model Repository Slug**\n"
-    report += f"Model repo will be created with name `{issue_dict['slug']}` \n\n"
+    report += "**Model Repository Slug**  \n"
+    report += f"model repo will be created with name `{issue_dict['slug']}` \n\n"
 
     # license
-    report += "**License**\n"
+    report += "**License**  \n"
     if "url" in issue_dict["license"]:
         report += f"[{issue_dict['license']['description']}]({issue_dict['license']['url']})\n\n"
     else:
         report += f"{issue_dict['license']['description']}\n\n"
 
     # model category
-    report += "**Model Category**\n"
+    report += "**Model Category**  \n"
     for category in issue_dict["model_category"]:
-        report += f"- {category} \n"
-    report += "\n"
+        report += f"- {category}   \n"
+    report += "  \n"
 
     # associated publication DOI
     if "@id" in issue_dict["publication"]:
-        report += "**Associated Publication**\n"
+        report += "**Associated Publication**  \n"
         report += f"Found publication: _[{issue_dict['publication']['name']}]({issue_dict['publication']['@id']})_ \n\n"
 
-    # title
-    report += "**Title**\n"
-    report += issue_dict["title"] + "\n\n"
+
 
     # description
-    report += "**Description**\n"
+    report += "**Description**  \n"
     report += issue_dict["description"] + "\n\n"
 
 
 
     # scientific keywords
     if issue_dict["scientific_keywords"]:
-        report += "**Scientific Keywords**\n"
+        report += "**Scientific Keywords**  \n"
         for keyword in issue_dict["scientific_keywords"]:
-            report += f"- {keyword} \n"
-        report += "\n"
+            report += f"- {keyword}   \n"
+        report += "  \n"
 
     # funder
-    report += "**Funder**\n"
+    report += "**Funder**  \n"
     for funder in issue_dict["funder"]:
         report += f"- {funder['name']} "
         if "@id" in funder:
             report += f"({funder['@id']})"
         elif "url" in funder:
             report += f"({funder['url']})"
-        report += "\n"
-    report += "\n"
+        report += "  \n"
+    report += "  \n"
 
 
     #############
     # Section 2
     #############
-    report += "## Section 2: your model code, output data \n"
+    report += "## Section 2: your model code, output data   \n"
     # include model code
     if "include_model_code" in issue_dict:
-        report += "**Include model code?** \n"
+        report += "**Include model code?**   \n"
         report += f"{str(issue_dict['include_model_code'])} \n\n"
 
     # model code URI/DOI
     if issue_dict["model_code_inputs"]["doi"]:
-        report += "**Model code/inputs DOI** \n"
+        report += "**Model code/inputs DOI**   \n"
         report += f"{issue_dict['model_code_inputs']['doi']} \n\n"
 
     # model code notes
     if issue_dict["model_code_inputs"]["notes"]:
-        report += "**Model code/inputs notes** \n"
+        report += "**Model code/inputs notes**   \n"
         report += f"{issue_dict['model_code_inputs']['notes']} \n\n"
 
     # include model output data
     if "include_model_output" in issue_dict:
-        report += "**Include model output data?** \n"
+        report += "**Include model output data?**   \n"
         report += f"{str(issue_dict['include_model_output'])} \n\n"
 
     # model output URI/DOI
     if issue_dict["model_output_data"]["doi"]:
-        report += "**Model output data DOI** \n"
+        report += "**Model output data DOI**   \n"
         report += f"{issue_dict['model_output_data']['doi']} \n\n"
 
     # model output notes
     if issue_dict["model_output_data"]["notes"]:
-        report += "**Model output data notes** \n"
+        report += "**Model output data notes**   \n"
         report += f"{issue_dict['model_output_data']['notes']} \n\n"
 
 
     #############
     # Section 3
     #############
-    report += "## Section 3: software framework and compute details \n"
+    report += "## Section 3: software framework and compute details   \n"
     # software framework DOI/URI
     if "@id" in issue_dict["software"]:
-        report += "**Software Framework DOI/URI**\n"
+        report += "**Software Framework DOI/URI**  \n"
         report += f"Found software: _[{issue_dict['software']['name']}]({issue_dict['software']['@id']})_ \n\n"
 
     # software framework source repository
     if "codeRepository" in issue_dict["software"]:
-        report += "**Software Repository** \n"
+        report += "**Software Repository**   \n"
         report += f"{issue_dict['software']['codeRepository']} \n\n"
 
     # name of primary software framework
     if "name" in issue_dict["software"]:
-        report += "**Name of primary software framework**\n"
+        report += "**Name of primary software framework**  \n"
         report += f"{issue_dict['software']['name']} \n\n"
 
     # software framework authors
     if "author" in issue_dict["software"]:
-        report += "**Software framework authors**\n"
+        report += "**Software framework authors**  \n"
         for author in issue_dict["software"]["author"]:
             if "givenName" in author:
                 report += f"- {author['givenName']} {author['familyName']} "
@@ -158,67 +160,67 @@ def dict_to_report(issue_dict):
                 report += f"- {author['name']} "
             if "@id" in author:
                 report += f"([{author['@id'].split('/')[-1]}]({author['@id']}))"
-            report += "\n"
-        report += "\n"
+            report += "  \n"
+        report += "  \n"
 
     # software & algorithm keywords
     if "keywords" in issue_dict["software"]:
-        report += "**Software & algorithm keywords**\n"
+        report += "**Software & algorithm keywords**  \n"
         for keyword in issue_dict["software"]["keywords"]:
-            report += f"- {keyword} \n"
-        report += "\n"
+            report += f"- {keyword}   \n"
+        report += "  \n"
 
     # computer URI/DOI
     if "computer_uri" in issue_dict:
-        report += "**Computer URI/DOI** \n"
+        report += "**Computer URI/DOI**   \n"
         report += f"{issue_dict['computer_uri']} \n\n"
 
     #############
     # Section 4
     #############
-    report += "## Section 4: web material (for mate.science) \n"
+    report += "## Section 4: web material (for mate.science)   \n"
     # landing page image and caption
     if "landing_image" in issue_dict:
-        report += "**Landing page image**\n"
+        report += "**Landing page image**  \n"
         if "filename" in issue_dict["landing_image"]:
-            report += f"Filename: [{issue_dict['landing_image']['filename']}]({issue_dict['landing_image']['url']})\n"
+            report += f"Filename: [{issue_dict['landing_image']['filename']}]({issue_dict['landing_image']['url']})  \n"
         if "caption" in issue_dict["landing_image"]:
-            report += f"Caption: {issue_dict['landing_image']['caption']}\n"
-        report += '\n'
+            report += f"Caption: {issue_dict['landing_image']['caption']}  \n"
+        report += '  \n'
 
     # animation
     if "animation" in issue_dict:
-        report += "**Animation**\n"
+        report += "**Animation**  \n"
         if "filename" in issue_dict["animation"]:
-            report += f"Filename: [{issue_dict['animation']['filename']}]({issue_dict['animation']['url']})\n"
+            report += f"Filename: [{issue_dict['animation']['filename']}]({issue_dict['animation']['url']})  \n"
         if "caption" in issue_dict["animation"]:
-            report += f"Caption: {issue_dict['animation']['caption']}\n"
-        report += '\n'
+            report += f"Caption: {issue_dict['animation']['caption']}  \n"
+        report += '  \n'
 
     # graphic abstract
     if "graphic_abstract" in issue_dict:
-        report += "**Graphic abstract**\n"
+        report += "**Graphic abstract**  \n"
         if "filename" in issue_dict["graphic_abstract"]:
-            report += f"Filename: [{issue_dict['graphic_abstract']['filename']}]({issue_dict['graphic_abstract']['url']})\n"
+            report += f"Filename: [{issue_dict['graphic_abstract']['filename']}]({issue_dict['graphic_abstract']['url']})  \n"
         if "caption" in issue_dict["graphic_abstract"]:
-            report += f"Caption: {issue_dict['graphic_abstract']['caption']}\n"
-        report += '\n'
+            report += f"Caption: {issue_dict['graphic_abstract']['caption']}  \n"
+        report += '  \n'
 
     # model setup figure
     if "model_setup_figure" in issue_dict:
-        report += "**Model setup figure**\n"
+        report += "**Model setup figure**  \n"
         if "filename" in issue_dict["model_setup_figure"]:
-            report += f"Filename: [{issue_dict['model_setup_figure']['filename']}]({issue_dict['model_setup_figure']['url']})\n"
+            report += f"Filename: [{issue_dict['model_setup_figure']['filename']}]({issue_dict['model_setup_figure']['url']})  \n"
         if "caption" in issue_dict["model_setup_figure"]:
-            report += f"Caption: {issue_dict['model_setup_figure']['caption']}\n"
-        report += '\n'
+            report += f"Caption: {issue_dict['model_setup_figure']['caption']}  \n"
+        report += '  \n'
 
     # description
     if "model_setup_description" in issue_dict:
-        report += "**Model setup description**\n"
+        report += "**Model setup description**  \n"
         report += f"{issue_dict['model_setup_description']}\n\n"
 
-    report += "\n ** Dumping dictionary during testing **\n"
+    report += "  \n ** Dumping dictionary during testing **  \n"
     report += str(issue_dict)
 
     return report
