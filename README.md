@@ -52,22 +52,3 @@ _Even though you now have a model repository, we maintain the submission discuss
 * It will recieve a DOI and this will be automatically added to your model metadata
 * Your model will be featured on the M@TE website
 
-# To do
-
-- [ ] Fix file size limits, Add note like, larger files can be added to your model repository later
-- [X] Is the licence URL being handled properly? Check URL, (Add a set of images to the website, and associate each licence with an image)
-- [x] Is there a visual cue for test running again - One option is to have the bot write a on-line "building model information"
-- [x] Need to add model submitter as an owner of the repository
-- [X] Check this text on this issue template: "Please check our [model repository](https://airtable.com/shrUcrUnd7jB9ChZV) to explore valid licenses."
-- [ ] UX - explain between model code and software framework
-- [x] Can tick yes and no for "intending to submit data"
-- [x] If parse issue crashes, a developer/ bug label need to be added.
-- [x] Fix the call to Zenodo being hardcoded into the doi/Api
-- [X] Fix @id assigment if not found
-- [ ] Edit permissions for issues (model_reviewers)?
-- [ ] Is there a way to ensure issues are saved, and cannot be deleted?
-- [ ] Add some or all of the report to the readme for the new model repo.
-- [ ] RO-Crate needs to be availble to the website. Should we copy to web_material, or is a weblink sufficient? What do crawlers need?
-- [ ] Add a "published" label to the template repo.
-- [X] Set up some mechanism to add a DOI, via an issue, if the doi is validated,it adds the published label.
-- [ ] Push to the website occurs with published label
