@@ -7,6 +7,7 @@ from crosswalks import dict_to_report
 token = os.environ.get("GITHUB_TOKEN")
 issue_number = int(os.environ.get("ISSUE_NUMBER"))
 comment_id = int(os.environ.get("COMMENT_ID"))
+print(comment_id)
 
 # Get issue
 auth = Auth.Token(token)
