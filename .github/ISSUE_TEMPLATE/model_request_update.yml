@@ -58,7 +58,7 @@ body:
     id: about_metadata_tags
     attributes:
       label: -> model category
-      description: "Select relevant boxes"
+      description: "Select relevant fields"
       multiple: true
       options:
         - "model published in study"
@@ -73,7 +73,7 @@ body:
     id: status_metadata_tags
     attributes:
       label: -> model status
-      description: "Select relevant boxes"
+      description: "Select relevant fields"
       multiple: false
       options:
         - "completed"
