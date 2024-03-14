@@ -219,7 +219,8 @@ body:
     attributes:
       label: -> software framework DOI/URI
       placeholder: "https://doi.org/10.5281/zenodo.7455999"
-      description: Links? References? Anything that will give us more context about the issue you are encountering!
+      description: |
+        Links? References? Anything that will give us more context about the issue you are encounteri
 
   - type: textarea
     attributes:
