@@ -220,8 +220,7 @@ body:
       label: -> software framework DOI/URI
       placeholder: "https://doi.org/10.5281/zenodo.7455999"
       description: |
-      Software framework will typically refer to an established modelling code, for example, CitCoM, Underworld, FastScape, Abaqus. 
-      By providing a DOI, we can prefill some of the remaining fields for Section 3
+      Links? References? Anything that will give us more context about the issue you are encountering!
 
   - type: input
     id: software_framework_repository
