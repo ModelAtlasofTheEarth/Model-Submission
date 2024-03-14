@@ -11,14 +11,25 @@ Ryaml.preserve_quotes = True
 #control the indentation...
 Ryaml.indent(mapping=2, sequence=4, offset=2)
 
-def dict_to_report(issue_dict):
+def dict_to_report(issue_dict, verbose = False):
+
+    """
+    Generates a detailed report in Markdown format based on the provided issue dictionary.The function supports a verbose mode that includes additional details such as software framework authors and a dictionary dump for testing purposes.
+
+    Parameters:
+        issue_dict (dict): A dictionary containing all the necessary information to generate the report.
+        verbose (bool, optional): If True, includes additional details in the report. Default is False.
+
+    Returns:
+        str: A string containing the complete report in Markdown format.
+    """
 
     #############
     # Section 1
     #############
-    report = "## Section 1: Summary of your model   \n"
+    report = "## Section 1: Summary of your model   \n\n"
     # contributor
-    report += "**Model Submitter**  \n\n"
+    report += "**Model Submitter:**  \n\n"
     report += f"{issue_dict['submitter']['givenName']} {issue_dict['submitter']['familyName']} "
     if "@id" in issue_dict["submitter"]:
         report += f"([{issue_dict['submitter']['@id'].split('/')[-1]}]({issue_dict['submitter']['@id']}))"
@@ -26,7 +37,7 @@ def dict_to_report(issue_dict):
     report += "\n\n"
 
     # model creators(s)
-    report += "**Model Creator(s)**  \n"
+    report += "**Model Creator(s):**  \n\n"
     for creator in issue_dict["creators"]:
         report += f"- {creator['givenName']} {creator['familyName']} "
         if "@id" in creator:
@@ -35,7 +46,7 @@ def dict_to_report(issue_dict):
     report += "  \n"
 
     # model contributors(s)
-    report += "**Model Contributor(s)**  \n"
+    report += "**Model Contributor(s):**  \n\n"
     for contributor in issue_dict["contributors"]:
         report += f"- {contributor['givenName']} {contributor['familyName']} "
         if "@id" in contributor:
@@ -43,49 +54,52 @@ def dict_to_report(issue_dict):
         report += "  \n"
     report += "  \n"
 
-    # title. Note title doesn't appear in CreativeWorks. This gets mapped to alternateName.
-    report += "**Model title**  \n"
-    report += issue_dict["title"] + "\n\n"
 
-    # slug
-    report += "**Model Repository Slug**  \n"
-    report += f"model repo will be created with name `{issue_dict['slug']}` \n\n"
+
+    # slug, this gets mapped to name. This is what the model is called on NCI
+    report += "**Model name:**  \n\n"
+    report += f"`{issue_dict['slug']}` \n\n" + "(this will be the name of the model repository when created) \n\n"
+
+
+    # title. Note title doesn't appear in CreativeWorks. This gets mapped to alternateName.
+    report += "**Model long name:**  \n\n"
+    report += f"_{issue_dict['title']}_  \n\n"
 
     # license
-    report += "**License**  \n"
+    report += "**License:**  \n\n"
     if "url" in issue_dict["license"]:
         report += f"[{issue_dict['license']['description']}]({issue_dict['license']['url']})\n\n"
     else:
         report += f"{issue_dict['license']['description']}\n\n"
 
     # model category
-    report += "**Model Category**  \n"
+    report += "**Model Category:**  \n\n"
     for category in issue_dict["model_category"]:
         report += f"- {category}   \n"
     report += "  \n"
 
     # associated publication DOI
     if "@id" in issue_dict["publication"]:
-        report += "**Associated Publication**  \n"
-        report += f"Found publication: _[{issue_dict['publication']['name']}]({issue_dict['publication']['@id']})_ \n\n"
+        report += "**Associated Publication title:**  \n\n"
+        report += f"_[{issue_dict['publication']['name']}]({issue_dict['publication']['@id']})_ \n\n"
 
 
 
     # description
-    report += "**Description**  \n"
+    report += "**Description:**  \n\n"
     report += issue_dict["description"] + "\n\n"
 
 
 
     # scientific keywords
     if issue_dict["scientific_keywords"]:
-        report += "**Scientific Keywords**  \n"
+        report += "**Scientific Keywords:**  \n\n"
         for keyword in issue_dict["scientific_keywords"]:
             report += f"- {keyword}   \n"
         report += "  \n"
 
     # funder
-    report += "**Funder**  \n"
+    report += "**Funder(s):**  \n"
     for funder in issue_dict["funder"]:
         report += f"- {funder['name']} "
         if "@id" in funder:
@@ -99,35 +113,35 @@ def dict_to_report(issue_dict):
     #############
     # Section 2
     #############
-    report += "## Section 2: your model code, output data   \n"
+    report += "## Section 2: your model code, output data  \n\n"
     # include model code
     if "include_model_code" in issue_dict:
-        report += "**Include model code?**   \n"
+        report += "**Include model code:**   \n\n"
         report += f"{str(issue_dict['include_model_code'])} \n\n"
 
     # model code URI/DOI
     if issue_dict["model_code_inputs"]["doi"]:
-        report += "**Model code/inputs DOI**   \n"
+        report += "**Model code existing URL/DOI:**   \n\n"
         report += f"{issue_dict['model_code_inputs']['doi']} \n\n"
 
     # model code notes
     if issue_dict["model_code_inputs"]["notes"]:
-        report += "**Model code/inputs notes**   \n"
+        report += "**Model code notes:**   \n\n"
         report += f"{issue_dict['model_code_inputs']['notes']} \n\n"
 
     # include model output data
     if "include_model_output" in issue_dict:
-        report += "**Include model output data?**   \n"
+        report += "**Include model output data:**   \n\n"
         report += f"{str(issue_dict['include_model_output'])} \n\n"
 
     # model output URI/DOI
     if issue_dict["model_output_data"]["doi"]:
-        report += "**Model output data DOI**   \n"
+        report += "**Model output data, existing URL/DOI:**   \n\n"
         report += f"{issue_dict['model_output_data']['doi']} \n\n"
 
     # model output notes
     if issue_dict["model_output_data"]["notes"]:
-        report += "**Model output data notes**   \n"
+        report += "**Model output data notes:**   \n\n"
         report += f"{issue_dict['model_output_data']['notes']} \n\n"
 
 
@@ -137,42 +151,43 @@ def dict_to_report(issue_dict):
     report += "## Section 3: software framework and compute details   \n"
     # software framework DOI/URI
     if "@id" in issue_dict["software"]:
-        report += "**Software Framework DOI/URI**  \n"
+        report += "**Software Framework DOI/URL:**  \n\n"
         report += f"Found software: _[{issue_dict['software']['name']}]({issue_dict['software']['@id']})_ \n\n"
 
     # software framework source repository
     if "codeRepository" in issue_dict["software"]:
-        report += "**Software Repository**   \n"
+        report += "**Software Repository:**   \n\n"
         report += f"{issue_dict['software']['codeRepository']} \n\n"
 
     # name of primary software framework
     if "name" in issue_dict["software"]:
-        report += "**Name of primary software framework**  \n"
+        report += "**Name of primary software framework:**  \n\n"
         report += f"{issue_dict['software']['name']} \n\n"
 
-    # software framework authors
-    if "author" in issue_dict["software"]:
-        report += "**Software framework authors**  \n"
-        for author in issue_dict["software"]["author"]:
-            if "givenName" in author:
-                report += f"- {author['givenName']} {author['familyName']} "
-            elif "name" in author:
-                report += f"- {author['name']} "
-            if "@id" in author:
-                report += f"([{author['@id'].split('/')[-1]}]({author['@id']}))"
+    if verbose is True:
+        #software framework authors
+        if "author" in issue_dict["software"]:
+            report += "**Software framework authors:**  \n"
+            for author in issue_dict["software"]["author"]:
+                if "givenName" in author:
+                    report += f"- {author['givenName']} {author['familyName']} "
+                elif "name" in author:
+                    report += f"- {author['name']} "
+                if "@id" in author:
+                    report += f"([{author['@id'].split('/')[-1]}]({author['@id']}))"
+                report += "  \n"
             report += "  \n"
-        report += "  \n"
 
     # software & algorithm keywords
     if "keywords" in issue_dict["software"]:
-        report += "**Software & algorithm keywords**  \n"
+        report += "**Software & algorithm keywords:**  \n\n"
         for keyword in issue_dict["software"]["keywords"]:
             report += f"- {keyword}   \n"
         report += "  \n"
 
     # computer URI/DOI
     if "computer_uri" in issue_dict:
-        report += "**Computer URI/DOI**   \n"
+        report += "**Computer DOI/URL:**   \n\n"
         report += f"{issue_dict['computer_uri']} \n\n"
 
     #############
@@ -181,7 +196,7 @@ def dict_to_report(issue_dict):
     report += "## Section 4: web material (for mate.science)   \n"
     # landing page image and caption
     if "landing_image" in issue_dict:
-        report += "**Landing page image**  \n"
+        report += "**Landing page image:**  \n\n"
         if "filename" in issue_dict["landing_image"]:
             report += f"Filename: [{issue_dict['landing_image']['filename']}]({issue_dict['landing_image']['url']})  \n"
         if "caption" in issue_dict["landing_image"]:
@@ -190,7 +205,7 @@ def dict_to_report(issue_dict):
 
     # animation
     if "animation" in issue_dict:
-        report += "**Animation**  \n"
+        report += "**Animation:**  \n\n"
         if "filename" in issue_dict["animation"]:
             report += f"Filename: [{issue_dict['animation']['filename']}]({issue_dict['animation']['url']})  \n"
         if "caption" in issue_dict["animation"]:
@@ -199,7 +214,7 @@ def dict_to_report(issue_dict):
 
     # graphic abstract
     if "graphic_abstract" in issue_dict:
-        report += "**Graphic abstract**  \n"
+        report += "**Graphic abstract:**  \n\n"
         if "filename" in issue_dict["graphic_abstract"]:
             report += f"Filename: [{issue_dict['graphic_abstract']['filename']}]({issue_dict['graphic_abstract']['url']})  \n"
         if "caption" in issue_dict["graphic_abstract"]:
@@ -208,20 +223,24 @@ def dict_to_report(issue_dict):
 
     # model setup figure
     if "model_setup_figure" in issue_dict:
-        report += "**Model setup figure**  \n"
+        report += "**Model setup figure:**  \n\n"
         if "filename" in issue_dict["model_setup_figure"]:
             report += f"Filename: [{issue_dict['model_setup_figure']['filename']}]({issue_dict['model_setup_figure']['url']})  \n"
         if "caption" in issue_dict["model_setup_figure"]:
             report += f"Caption: {issue_dict['model_setup_figure']['caption']}  \n"
+        if "model_setup_description" in issue_dict:
+                #report += "**Model setup description:**  \n"
+                report += f"Description:  {issue_dict['model_setup_description']}\n\n"
         report += '  \n'
 
     # description
-    if "model_setup_description" in issue_dict:
-        report += "**Model setup description**  \n"
-        report += f"{issue_dict['model_setup_description']}\n\n"
+    #if "model_setup_description" in issue_dict:
+    #    report += "**Model setup description:**  \n"
+    #    report += f"{issue_dict['model_setup_description']}\n\n"
 
-    report += "  \n ** Dumping dictionary during testing **  \n"
-    report += str(issue_dict)
+    if verbose is True:
+        report += "  \n ** Dumping dictionary during testing **  \n"
+        report += str(issue_dict)
 
     return report
 
@@ -269,8 +288,8 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
     #Apply direct mappings between the issue_dict and the RO-Crate
     dict_to_ro_crate_mapping(ro_crate, issue_dict_copy,  mapping_list)
 
-    #Add any further direct chnages to the RO-Crate based on issue_dict
-    customise_ro_crate(issue_dict_copy, ro_crate)
+    #Add any further direct changes to the RO-Crate based on issue_dict
+    defaults_and_customise_ro_crate(issue_dict_copy, ro_crate)
 
 
     #flatten the crate (brings nested entities to the top level)

@@ -464,10 +464,11 @@ def flatten_crate(crate):
         # Handle cases where the input is not structured as expected (e.g., 'crate' is not a dict)
         print(f"Type error: {e}. Please ensure the input crate is a properly structured dictionary.")
 
-def customise_ro_crate(issue_dict, crate):
+def defaults_and_customise_ro_crate(issue_dict, crate):
 
     """
-    Apply any customising of the crate based on user unput
+    Apply any defaults and or customising of the crate based on user input. There is some crossover here with parse_issue, which also applies some default fields
+    In some cases it may be easier to apply these here. Examples are the isPartOf of puiblisher fields 
     """
 
     #publisher default to NCI?

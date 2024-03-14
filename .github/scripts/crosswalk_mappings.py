@@ -6,8 +6,8 @@
 root_node_mapping = {"@id":"./",
             "identifier": None,
             "@type":None,
-            "name":"slug",
-            "alternateName":"title",
+            "alternateName":"slug",
+            "name":"title",
             #could also be abstract
             "description":"description",
             "creator":"creators",
