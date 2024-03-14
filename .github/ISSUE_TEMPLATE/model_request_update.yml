@@ -220,13 +220,8 @@ body:
       label: -> software framework DOI/URI
       placeholder: "https://doi.org/10.5281/zenodo.7455999"
       description: |
-        Links? References? Anything that will give us more context about the issue you are encounteri
-
-  - type: textarea
-    attributes:
-      label: Anything else?
-      description: |
-        Links? References? Anything that will give us more context about the issue you are encountering!
+        Software framework would typcically refer to a generic modellign code (e.g. Underworld, Badlands, Citcom, FEniCS)
+        Providing a DOI here will usually allow several of the fields below to be filled. 
 
   - type: input
     id: software_framework_repository
@@ -240,7 +235,7 @@ body:
     attributes:
       label: -> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM)
       placeholder: "Underworld2"
-      description: "If no input provided, title from software framework DOI will be used"
+      description: "If provided, the name from software framework DOI will be used"
 
   - type: textarea
     id: software_framework_authors
@@ -308,3 +303,14 @@ body:
       label: -> add a description of your model setup
       placeholder: "The model uses a cartesian domain, with size 200 km x 200 km x 300 km."
       description: "Please provide add a brief (< 300 words) description of your model setup, boundary condition, assumptions. Markdown formatting can be used here and will be rendered on the website."
+
+  - type: markdown
+    attributes:
+      value: "## Section 5: Feeback"
+
+  - type: textarea
+    attributes:
+      label: Please provide any feedback on the model submission process?
+      description: |
+        Did you find any terminology confusing? Did you have issues with adding files?
+
