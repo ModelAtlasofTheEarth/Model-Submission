@@ -219,8 +219,13 @@ body:
     attributes:
       label: -> software framework DOI/URI
       placeholder: "https://doi.org/10.5281/zenodo.7455999"
+      description: Links? References? Anything that will give us more context about the issue you are encountering!
+
+  - type: textarea
+    attributes:
+      label: Anything else?
       description: |
-      Links? References? Anything that will give us more context about the issue you are encountering!
+        Links? References? Anything that will give us more context about the issue you are encountering!
 
   - type: input
     id: software_framework_repository
