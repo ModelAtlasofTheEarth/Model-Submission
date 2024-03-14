@@ -219,14 +219,14 @@ body:
     attributes:
       label: -> software framework DOI/URI
       placeholder: "https://doi.org/10.5281/zenodo.7455999"
-      description: "By providing a DOI, we can prefill some of the remaining fields for Section 3"
+      description: "Software framework will typically refer to an established modelling code, for example, CitCoM, Underworld, FastScape, Abaqus. By providing a DOI, we can prefill some of the remaining fields for Section 3"
 
   - type: input
     id: software_framework_repository
     attributes:
       label: -> software framework source repository
       placeholder: "https://github.com/underworldcode/underworld2"
-      description: "If the software has a public source code repositoty, please add it here"
+      description: "If the software has a public source code repository, please add it here"
 
   - type: input
     id: software_framework
