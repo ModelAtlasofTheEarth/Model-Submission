@@ -6,15 +6,18 @@ from crosswalks import dict_to_report
 # Environment variables
 token = os.environ.get("GITHUB_TOKEN")
 issue_number = int(os.environ.get("ISSUE_NUMBER"))
-comment_id = int(os.environ.get("COMMENT_ID"))
-print(comment_id)
+if os.environ.get("COMMENT_ID"):
+    comment_id = int(os.environ.get("COMMENT_ID"))
+else:
+    comment_id = None
 
 # Get issue
 auth = Auth.Token(token)
 g = Github(auth=auth)
 repo = g.get_repo("ModelAtlasofTheEarth/Model_Submission")
 issue = repo.get_issue(number = issue_number)
-comment = issue.get_comment(id = comment_id)
+if comment_id:
+    comment = issue.get_comment(id = comment_id)
 
 # Parse issue
 data, error_log = parse_issue(issue)
@@ -36,5 +39,7 @@ report += """### Next steps
 * once the `model_reviewers` team has approved the model, we will create a repository for your model \n\n"""
 
 # Post report to issue as a comment
-# issue.create_comment(report)
-comment.edit(report)
+if comment_id:
+    comment.edit(report)
+else:
+    issue.create_comment(report)
