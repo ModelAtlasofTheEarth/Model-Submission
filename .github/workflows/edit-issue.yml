@@ -25,7 +25,7 @@ jobs:
         id: fc
         with:
           issue-number: ${{ github.event.issue.number }}
-          comment-author: github-actions[bot]
+          comment-author: m-te-bot[bot]
           body-regex: '(Model Report|New Model Submitted)'
           direction: last
 
