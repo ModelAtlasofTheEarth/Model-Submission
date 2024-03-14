@@ -69,6 +69,16 @@ body:
         - "inverse model"
         - "other"
 
+  - type: dropdown
+    id: status_metadata_tags
+    attributes:
+      label: -> model status
+      description: "Select relevant boxes"
+      multiple: false
+      options:
+        - "completed"
+        - "ongoing"
+
   - type: input
     id: pub_doi
     attributes:
