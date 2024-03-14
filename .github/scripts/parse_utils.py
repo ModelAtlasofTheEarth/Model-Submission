@@ -121,8 +121,9 @@ def get_funders(funder_list):
             funder_record, parse_log = parse_organization(record)
             if get_log or parse_log:
                 log += get_log + parse_log
-            else:
-                funders.append(funder_record)
+            #change by Dan
+            #else:
+            funders.append(funder_record)
 
     return funders, log
 
