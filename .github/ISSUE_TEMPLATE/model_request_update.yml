@@ -308,9 +308,19 @@ body:
     attributes:
       value: "## Section 5: Feeback"
 
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting a new model to the M@TE collection. 
+        This information provided in this form will enable us to produce a metadata file for you model, and present you model on our website.
+        We hope this process has been useful! 
+        But remember this is just a starting point. Once we create a repository for you model, you are free to customize the repository and metadata as you wish. 
+        The README.md file in this repository privides an overview of the remainign model subission steps.
+
   - type: textarea
     attributes:
       label: Please provide any feedback on the model submission process?
+      placeholder: "Did you find any terminology confusing? Did you have issues with adding files? Is there important information about your model that that we didn't collect?"
       description: |
-        Did you find any terminology confusing? Did you have issues with adding files?
+        
 
