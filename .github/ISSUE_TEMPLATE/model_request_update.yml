@@ -58,7 +58,7 @@ body:
     id: about_metadata_tags
     attributes:
       label: -> model category
-      description: "Select relevant boxes"
+      description: "Select relevant fields"
       multiple: true
       options:
         - "model published in study"
@@ -68,6 +68,16 @@ body:
         - "forward model"
         - "inverse model"
         - "other"
+
+  - type: dropdown
+    id: status_metadata_tags
+    attributes:
+      label: -> model status
+      description: "Select relevant fields"
+      multiple: false
+      options:
+        - "completed"
+        - "ongoing"
 
   - type: input
     id: pub_doi
@@ -209,21 +219,23 @@ body:
     attributes:
       label: -> software framework DOI/URI
       placeholder: "https://doi.org/10.5281/zenodo.7455999"
-      description: "By providing a DOI, we can prefill some of the remaining fields for Section 3"
+      description: |
+        Software framework would typcically refer to a generic modellign code (e.g. Underworld, Badlands, Citcom, FEniCS)
+        Providing a DOI here will usually allow several of the fields below to be filled. 
 
   - type: input
     id: software_framework_repository
     attributes:
       label: -> software framework source repository
       placeholder: "https://github.com/underworldcode/underworld2"
-      description: "If the software has a public source code repositoty, please add it here"
+      description: "If the software has a public source code repository, please add it here"
 
   - type: input
     id: software_framework
     attributes:
       label: -> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM)
       placeholder: "Underworld2"
-      description: "If no input provided, title from software framework DOI will be used"
+      description: "If provided, the name from software framework DOI will be used"
 
   - type: textarea
     id: software_framework_authors
@@ -291,3 +303,23 @@ body:
       label: -> add a description of your model setup
       placeholder: "The model uses a cartesian domain, with size 200 km x 200 km x 300 km."
       description: "Please provide add a brief (< 300 words) description of your model setup, boundary condition, assumptions. Markdown formatting can be used here and will be rendered on the website."
+
+  - type: markdown
+    attributes:
+      value: "## Section 5: Feeback and next steps"
+
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting a new model to the M@TE collection. 
+        This information provided in this form will enable us to produce a metadata file for your model, and showcase the model on our website.
+        The [README.md](https://github.com/ModelAtlasofTheEarth/Model_Submission/blob/main/README.md) file in this repository provides an overview of the remaining model subission steps.
+        Once you click submit, Github actions will parse this form, collect existing metadata, and produce a summary report for your model. 
+        You can maintain a conversation with the M@TE team via the issue thread. 
+
+  - type: textarea
+    attributes:
+      label: Please provide any feedback on the model submission process?
+      placeholder: "Did you find any terminology confusing? Did you have issues with adding files? Is there important information about your model that that we didn't collect?"
+        
+
