@@ -67,32 +67,6 @@ def parse_issue(issue):
 
     error_log = ""
 
-    # Initialize data_dict with all expected keys set to None
-
-    #data_dict = {
-    #    "creator": None,
-    #    "slug": None,
-    #    "for_codes": None,
-    #    "license": None,
-    #    "model_category": None,
-    #    "publication": None,
-    #    "title": None,
-    #    "description": None,
-    #    "authors": None,
-    #    "scientific_keywords": None,
-    #    "funder": None,
-    #    "include_model_code": None,
-    #    "model_code_inputs": None,
-    #    "include_model_output": None,
-    #    "model_output_data": None,
-    #    "software": None,
-    #    "computer_uri": None,
-    #    "landing_image": None,
-    #    "animation": None,
-    #    "graphic_abstract": None,
-    #    "model_setup_figure": None,
-    #    "model_setup_description": None
-    #}
 
     data_dict = {}
 
@@ -304,6 +278,19 @@ def parse_issue(issue):
         error_log += "Warning: No category selected \n"
 
     data_dict["model_category"] = model_category
+
+
+    # model status
+    model_status = []
+    try:
+        model_status = [x.strip() for x in data["-> model status"].split(",")]
+
+        if model_category[0] == "_No response_":
+            error_log += "**Model status**\n"
+            error_log += "Warning: No model status selected \n"
+    except:
+        error_log += "Warning: No model status enrty found \n"
+    data_dict["model_status"] = model_status
 
 
     # title

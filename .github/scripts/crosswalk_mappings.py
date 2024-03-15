@@ -24,7 +24,7 @@ root_node_mapping = {"@id":"./",
             "spatialCoverage":None,
             "isBasedOn":None,
             "isPartOf":None,
-            "creativeWorkStatus":None
+            "creativeWorkStatus":"model_status"
             }
 
 

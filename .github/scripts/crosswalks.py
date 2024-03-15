@@ -78,6 +78,12 @@ def dict_to_report(issue_dict, verbose = False):
         report += f"- {category}   \n"
     report += "  \n"
 
+    # model category
+    report += "**Model Status:**  \n\n"
+    for status in issue_dict["model_status"]:
+        report += f"- {status}   \n"
+    report += "  \n"
+
     # associated publication DOI
     if "@id" in issue_dict["publication"]:
         report += "**Associated Publication title:**  \n\n"
