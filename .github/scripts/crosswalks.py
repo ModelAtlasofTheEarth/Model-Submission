@@ -11,6 +11,8 @@ Ryaml.preserve_quotes = True
 #control the indentation...
 Ryaml.indent(mapping=2, sequence=4, offset=2)
 
+
+
 def dict_to_report(issue_dict, verbose = False):
 
     """
@@ -251,7 +253,7 @@ def dict_to_report(issue_dict, verbose = False):
     return report
 
 
-def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list, filter_entities=True, flat_compact_crate=True):
+def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list, filter_entities=True, flat_compact_crate=True, timestamp = False):
 
     """
     Converts an issue dictionary into a standardized metadata format using Research Object Crate (RO-Crate) structure,
@@ -288,14 +290,16 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
         entity_template = load_entity_template()
         recursively_filter_key(issue_dict_copy, entity_template)
 
-    #load the RO-Crate template
+    #load the RO-Crate template as a Python dictionary
+    #$print(ro_crate.keys())
+    #>>>dict_keys(['@context', '@graph'])
     ro_crate = load_crate_template()
 
     #Apply direct mappings between the issue_dict and the RO-Crate
     dict_to_ro_crate_mapping(ro_crate, issue_dict_copy,  mapping_list)
 
     #Add any further direct changes to the RO-Crate based on issue_dict
-    defaults_and_customise_ro_crate(issue_dict_copy, ro_crate)
+    defaults_and_customise_ro_crate(issue_dict_copy, ro_crate, timestamp=timestamp)
 
 
     #flatten the crate (brings nested entities to the top level)
@@ -310,7 +314,7 @@ def dict_to_metadata(issue_dict, mapping_list=default_issue_entity_mapping_list,
 
     return metadata_out
 
-def dict_to_yaml(issue_dict):
+def dict_to_yaml(issue_dict, timestamp = False):
     '''
 
     Returns:
@@ -322,7 +326,7 @@ def dict_to_yaml(issue_dict):
     map_dictionaries(yaml_dict, issue_dict, issue_yaml_mapping)
     #this function makes some further changes,
     #basically applies fixed so yaml_dict is configured correctly
-    configure_yaml_output_dict(yaml_dict, issue_dict)
+    configure_yaml_output_dict(yaml_dict, issue_dict, timestamp =timestamp)
 
     #convert the dictionary YAML string using ruamel.yaml
 

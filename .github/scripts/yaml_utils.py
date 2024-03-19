@@ -158,7 +158,7 @@ def ensure_path_starts_with_pattern(file_path, pattern='./graphics/'):
     return file_path
 
 def configure_yaml_output_dict(output_dict, issue_dict,
-                               image_path='./graphics/', old_yaml=True):
+                               image_path='./graphics/', old_yaml=True, timestamp=False):
 
     #make some changes (in-place) to output_dict, to help wrangle the yaml output dict
     #many of these simply enforce formatting that is required by the Gatsby YAML frontmatter
@@ -188,11 +188,11 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     #... remove this when we've update website code
     ########################
 
-
     # Format the datetime as specified, with milliseconds set to .000
-    current_utc_datetime = datetime.utcnow()
-    formatted_datetime = current_utc_datetime.strftime('%Y-%m-%dT%H:%M:%S.000Z')
-    output_dict['date'] = formatted_datetime
+    if timestamp:
+        output_dict['date'] = timestamp
+    #
+    #
 
     #enforce list and sytax for FOR codes
     updated_codes = extract_integers(output_dict['for_codes'])

@@ -2,7 +2,7 @@ import requests
 import string
 import json
 import random
-
+from config import MATE_DOI, NCI_RECORD
 
 def recursively_filter_key(obj, entity_template):
 
@@ -464,15 +464,51 @@ def flatten_crate(crate):
         # Handle cases where the input is not structured as expected (e.g., 'crate' is not a dict)
         print(f"Type error: {e}. Please ensure the input crate is a properly structured dictionary.")
 
-def defaults_and_customise_ro_crate(issue_dict, crate):
+
+def find_index_by_id(ro_crate, id_value):
+    list_of_dicts = ro_crate['@graph']
+    # Check if the first parameter is a list
+    if not isinstance(list_of_dicts, list):
+        return "Error: The first parameter must be a list of dictionaries."
+
+    # Check if the list contains dictionaries
+    for item in list_of_dicts:
+        if not isinstance(item, dict):
+            return "Error: All items in the list must be dictionaries."
+
+    for index, dictionary in enumerate(list_of_dicts):
+        # Check if '@id' key exists in the dictionary
+        if '@id' in dictionary:
+            if dictionary['@id'] == id_value:
+                return index
+        else:
+            return "Error: One or more dictionaries in the list do not contain an '@id' key."
+
+    # If the loop completes without returning, the id_value was not found
+    return f"Warning: No dictionary found with '@id' value '{id_value}'."
+
+
+
+def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
 
     """
     Apply any defaults and or customising of the crate based on user input. There is some crossover here with parse_issue, which also applies some default fields
-    In some cases it may be easier to apply these here. Examples are the isPartOf of puiblisher fields 
+    In some cases it may be easier to apply these here. Examples are the isPartOf of puiblisher fields
     """
 
     #publisher default to NCI?
     #isPartOf should default to M@TE collection
+    root_index = find_index_by_id(ro_crate, './')
+    ro_crate['@graph'][root_index]['isPartOf'].append(MATE_DOI)
+    nci_record = {'@type': 'Organization',
+                 '@id': 'https://ror.org/04yx6dh41',
+                 'name': 'National Computational Infrastructure'}
+    ro_crate['@graph'][root_index]['publisher'] = NCI_RECORD
+
+    #add date time as the date published ro-crate
+
+    if timestamp:
+        ro_crate['@graph'][root_index]["datePublished"] = timestamp
 
     #resolve any potential issues with authorship and contribution
 
