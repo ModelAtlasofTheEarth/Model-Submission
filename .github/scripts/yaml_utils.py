@@ -1,6 +1,4 @@
 import re
-from datetime import datetime
-import re
 import copy
 from ruamel.yaml import YAML
 import io

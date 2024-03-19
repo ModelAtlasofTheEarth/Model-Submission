@@ -7,6 +7,8 @@ from copy_files import copy_files
 from ruamel.yaml import YAML
 import io
 import json
+from datetime import datetime
+
 
 # Environment variables
 token = os.environ.get("GITHUB_TOKEN")
