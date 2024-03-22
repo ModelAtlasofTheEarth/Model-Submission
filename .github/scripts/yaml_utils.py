@@ -198,6 +198,13 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     updated_codes = extract_integers(output_dict['for_codes'])
     output_dict.update({'for_codes': updated_codes })
 
+    #By default empty values are empty strings.
+    #som items need to be empyt (i.e. None)
+    if output_dict['featuredpost'] == '':
+        output_dict['featuredpost'] = None
+    if output_dict['status'] == '':
+        output_dict['status'] = None
+
     #append to image_path to image file names if rquired
     for key, im_dict in output_dict['images'].items():
         if output_dict['images'][key]['src'] is None:
