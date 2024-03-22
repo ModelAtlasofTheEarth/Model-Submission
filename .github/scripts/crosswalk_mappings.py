@@ -119,14 +119,14 @@ issue_yaml_mapping = {
     #but would be good to extend so do something get RORs and URLs
     "compute_info.name":"computer_resource.name",
     "compute_info.organisation":"computer_resource.author.name",
-    "compute_info.computer_url":"computer_resource.url",
-    "compute_info.computer_doi":"computer_resource.@id",
+    "compute_info.url":"computer_resource.url",
+    "compute_info.doi":"computer_resource.@id",
     "research_tags":"scientific_keywords",
     "compute_tags":"software.keywords",
     "funder.funder_name":"funder.name",
     "grants_funder.doi":"foo",
     "grants_funder.number_id":"foo",
-    "grants_funder.url":"foo", #this can/shoudl be added without breaking the website
+    "grants_funder.url":"foo", #this can/should be added without breaking the website
     "abstract":"description",
     "images.landing_image.src":"landing_image.filename",
     "images.landing_image.caption":"landing_image.caption",

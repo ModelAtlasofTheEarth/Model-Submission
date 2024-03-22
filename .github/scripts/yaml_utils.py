@@ -78,7 +78,9 @@ def apply_mapping(a, b, c):
     for a_path, b_path in c.items():
         value = navigate_and_retrieve(b, b_path)
         if value is None:
-            print(f"Warning: Key '{b_path}' not found in B. Assigning None to '{a_path}' in A.")
+            #print(f"Warning: Key '{b_path}' not found in B. Assigning None to '{a_path}' in A.")
+            print(f"Warning: Key '{b_path}' not found in B. Assigning empty string to '{a_path}' in A.")
+            value = ''
         navigate_and_assign(a, a_path, value)
 
 def map_dictionaries(a, b, c):
