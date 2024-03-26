@@ -54,6 +54,7 @@
 
 * [M@TE website](https://mate.science)
 * [NCI Data Catalogue](https://geonetwork.nci.org.au/geonetwork/)
+* [AuScope](https://www.auscope.org.au/)
 
 ## Motivation and further reading!
 
