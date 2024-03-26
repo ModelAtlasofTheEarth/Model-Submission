@@ -17,7 +17,7 @@
 * a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/new%20model label will appear on the original issue
 * This will trigger workflows that collect this information and source additional metadata relavant to your model
 * You will see a summary report for your model, including potential missing information or errors (e.g. URLs that didn't resolve)
-* If you have requested the content of your model to be embargoed, you should see a a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/embargo%20requested label. We can still create a model, metadata, and DOI for this model. 
+* If you have requested the content of your model to be embargoed, you should see an https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/embargo%20requested label. We can still create a model, metadata, and DOI for this model. 
   
 
 **2) Editing and review:**
