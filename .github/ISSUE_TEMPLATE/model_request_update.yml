@@ -147,7 +147,7 @@ body:
       value: "_Adding your model code and model output data takes place later, once your model repository has been set up!._"
 
   - type: input
-    id: request embargo
+    id: request_embargo
     attributes:
       label: -> model embargo
       placeholder: "No"
