@@ -146,6 +146,13 @@ body:
     attributes:
       value: "_Adding your model code and model output data takes place later, once your model repository has been set up!._"
 
+  - type: input
+    id: request embargo
+    attributes:
+      label: -> model embargo
+      placeholder: "No"
+      description: "If you would like to request an embargo period, please an estimated date in the form [12/12/24]. Model submission will proceeed as normal, and you will recieve a DOI once your model submission is complete. Model components (input code, output data) will only become downloadable once the embargo has ended.  "
+
   - type: checkboxes
     id: code_include
     attributes:
