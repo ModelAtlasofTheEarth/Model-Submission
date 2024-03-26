@@ -50,13 +50,13 @@
 * Your model will be featured on the M@TE website
 * a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20published label will appear on the original issue
 
-## Links!
+## Links
 
 * [M@TE website](https://mate.science)
 * [NCI Data Catalogue](https://geonetwork.nci.org.au/geonetwork/)
 * [AuScope](https://www.auscope.org.au/)
 
-## Motivation and further reading!
+## Motivation and further reading
 
 * [RO-Crates](https://www.researchobject.org/ro-crate/)
 * [a-decade-of-open-data-in-research](https://scholarlykitchen.sspnet.org/2022/03/30/guest-post-a-decade-of-open-data-in-research-real-change-or-slow-moving-compliance/?informz=1)
