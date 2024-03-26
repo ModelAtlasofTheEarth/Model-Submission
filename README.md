@@ -53,7 +53,7 @@
 ## Links!
 
 * [M@TE website](https://mate.science)
-* [NCI Date Catalogue](https://geonetwork.nci.org.au/geonetwork/)
+* [NCI Data Catalogue](https://geonetwork.nci.org.au/geonetwork/)
 
 ## Motivation and further reading!
 
