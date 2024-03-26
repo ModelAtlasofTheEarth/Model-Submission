@@ -43,3 +43,7 @@ if comment_id:
     comment.edit(report)
 else:
     issue.create_comment(report)
+
+# Add an embargo label if required
+if data["embargo"][0]:
+    issue.add_to_labels('embargo requested')
