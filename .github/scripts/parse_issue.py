@@ -4,6 +4,8 @@ from collections import defaultdict
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software, parse_organization
 from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
+from dateutil import parser
+from datetime import datetime
 
 def read_issue_body(issue_body):
     """
@@ -351,6 +353,30 @@ def parse_issue(issue):
     #############
     # Section 2
     #############
+
+    # embargo, record as a Tuple with a Boolean, and a date
+    model_embargo = (False, datetime.min.strftime('%Y-%m-%d'))
+    try:
+        model_embargo = data["label: -> model embargo?"].strip()
+        if model_category[0] == "_No response_":
+            pass
+        else:
+            try:
+                date_input = parser.parse(model_embargo)
+                #calling the dateutil parser simply provides the error checking.
+                #leading/trailing whitespaces are okay, and get removed.
+                model_embargo = (True, date_input.datetime.min.strftime('%Y-%m-%d') )
+            except:
+                error_log += "Could not parse Embargo date. Check format is  \n"
+    except:
+        error_log += "Warning: No model embargo entry found \n"
+    data_dict["embargo"] = model_embargo
+
+
+
+
+
+
     # include model code
     model_code = data["-> include model code ?"].strip()
     data_dict["include_model_code"] = parse_yes_no_choice(model_code)
