@@ -50,3 +50,19 @@
 * Your model will be featured on the M@TE website
 * a https://github.com/ModelAtlasofTheEarth/Model_Submission/labels/model%20published label will appear on the original issue
 
+## Links!
+
+* [M@TE website](https://mate.science)
+* [NCI Date Catalogue](https://geonetwork.nci.org.au/geonetwork/)
+
+## Motivation and further reading!
+
+* [RO-Crates](https://www.researchobject.org/ro-crate/)
+* [a-decade-of-open-data-in-research](https://scholarlykitchen.sspnet.org/2022/03/30/guest-post-a-decade-of-open-data-in-research-real-change-or-slow-moving-compliance/?informz=1)
+* [what-is-fair-for-geodynamics?](https://blogs.egu.eu/divisions/gd/2020/07/24/what-is-fair-for-geodynamics/)
+* [comses.net](comses.net)
+* [codemeta](https://codemeta.github.io/index.html)
+
+
+
+
