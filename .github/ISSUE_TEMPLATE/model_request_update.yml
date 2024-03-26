@@ -150,10 +150,10 @@ body:
     id: request_embargo
     attributes:
       label: -> model embargo?
-      placeholder: "Leave blank if No, if YES, provide a date in the form 2024-03-26"
+      placeholder: "Leave blank if No, if YES, provide a date in the form 1964-02-29"
       description: |
-        If you would like to request an embargo period, please provide an estimated embargo end date in the form [2024-03-26] (i.e '%Y-%m-%d').
-        Model submission will proceeed as normal, and you will recieve a DOI once your model submission is complete.
+        If you would like to request an embargo period, please provide an estimated end date in the form [1964-02-29] (i.e '%Y-%m-%d').
+        Model submission can proceeed as normal, and you will recieve a DOI once submission is complete.
         Model components (input code, output data) will only become downloadable on the M@TE NCI collection, once the embargo has ended.
 
   - type: checkboxes
