@@ -259,7 +259,10 @@ def parse_issue(issue):
 
     # license
     license = data["-> license"].strip()
-    license_lut = pd.read_csv(".github/resources/licenses.csv", dtype=str)
+    try:
+        license_lut = pd.read_csv("../.github/resources/licenses.csv", dtype=str)
+    except:
+        license_lut = pd.read_csv(".github/resources/licenses.csv", dtype=str)
     #e.g. https://www.researchobject.org/ro-crate/1.1/contextual-entities.html#licensing-access-control-and-copyright
     license_record={"@type": "CreativeWork"}
     if license != "No license":
@@ -357,19 +360,20 @@ def parse_issue(issue):
     # embargo, record as a Tuple with a Boolean, and a date
     model_embargo = (False, datetime.min.strftime('%Y-%m-%d'))
     try:
-        model_embargo = data["label: -> model embargo?"].strip()
-        if model_category[0] == "_No response_":
+        embargo = data["-> model embargo?"].strip()
+        if model_embargo[0] == "_No response_":
             pass
         else:
             try:
-                date_input = parser.parse(model_embargo)
+                date_input = parser.parse(embargo )
                 #calling the dateutil parser simply provides the error checking.
                 #leading/trailing whitespaces are okay, and get removed.
-                model_embargo = (True, date_input.datetime.min.strftime('%Y-%m-%d') )
+                model_embargo = (True, date_input.strftime('%Y-%m-%d') )
             except:
                 error_log += "Could not parse Embargo date. Check format is  \n"
     except:
         error_log += "Warning: No model embargo entry found \n"
+
     data_dict["embargo"] = model_embargo
 
 
