@@ -150,8 +150,11 @@ body:
     id: request_embargo
     attributes:
       label: -> model embargo
-      placeholder: "No"
-      description: "If you would like to request an embargo period, please an estimated date in the form [12/12/24]. Model submission will proceeed as normal, and you will recieve a DOI once your model submission is complete. Model components (input code, output data) will only become downloadable once the embargo has ended.  "
+      placeholder: "Leav blank if No, if YES, provide a date in the form 2024-03-26"
+      description: |
+        If you would like to request an embargo period, please an estimated date in the form [2024-03-26] (i.e '%Y-%m-%d').
+        Model submission will proceeed as normal, and you will recieve a DOI once your model submission is complete.
+        Model components (input code, output data) will only become downloadable once the embargo has ended.
 
   - type: checkboxes
     id: code_include
