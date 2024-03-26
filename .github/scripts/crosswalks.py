@@ -121,7 +121,18 @@ def dict_to_report(issue_dict, verbose = False):
     #############
     # Section 2
     #############
+
     report += "## Section 2: your model code, output data  \n\n"
+
+    # include model code
+    if "embargo" in issue_dict:
+        if issue_dict["embargo"][0] is True:
+            report += "**Embargo on model contents requested until:**   \n\n"
+            report += f"{issue_dict['embargo'][1]} \n\n"
+        else:
+            report +=  "** No embargo on model contents requested**"
+
+
     # include model code
     if "include_model_code" in issue_dict:
         report += "**Include model code:**   \n\n"
