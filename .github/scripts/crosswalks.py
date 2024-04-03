@@ -48,13 +48,13 @@ def dict_to_report(issue_dict, verbose = False):
     report += "  \n"
 
     # model contributors(s)
-    report += "**Model Contributor(s):**  \n\n"
-    for contributor in issue_dict["contributors"]:
-        report += f"- {contributor['givenName']} {contributor['familyName']} "
-        if "@id" in contributor:
-            report += f"([{contributor['@id'].split('/')[-1]}]({contributor['@id']}))"
-        report += "  \n"
-    report += "  \n"
+    #report += "**Model Contributor(s):**  \n\n"
+    #for contributor in issue_dict["contributors"]:
+    #    report += f"- {contributor['givenName']} {contributor['familyName']} "
+    #    if "@id" in contributor:
+    #        report += f"([{contributor['@id'].split('/')[-1]}]({contributor['@id']}))"
+    #    report += "  \n"
+    #report += "  \n"
 
 
 

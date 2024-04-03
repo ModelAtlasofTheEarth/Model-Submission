@@ -28,7 +28,23 @@ def read_issue_body(issue_body):
     return data
 
 
+def null_response_check(string):
+    """
+    This function evaluates whether the input string is either explicitly marked as "_No response_"
+    or is an empty string. It is designed to trigger certain prefill actions or defaults in applications
+    where user inputs can be explicitly stated as no response or left blank.
 
+    Parameters:
+    string (str): The input string to be checked for a null or empty response.
+
+    Returns:
+    bool: True if the input string is "_No response_" or an empty string, indicating a null response.
+          False otherwise.
+    """
+    result = False
+    if string == "_No response_" or string == "":
+        result = True
+    return result
 
 
 def parse_issue(issue):
@@ -151,7 +167,8 @@ def parse_issue(issue):
     # software framework authors
     authors = data['-> software framework authors'].strip().split('\r\n')
 
-    if authors[0] == "_No response_":
+    #if authors[0] == "_No response_":
+    if null_response_check(authors[0]):
         try:
             software_author_list = software_record["author"]
         except:
@@ -167,7 +184,8 @@ def parse_issue(issue):
     # software & algorithm keywords
     software_keywords = [x.strip() for x in data["-> software & algorithm keywords"].split(",")]
 
-    if software_keywords[0] == "_No response_":
+    #if software_keywords[0] == "_No response_":
+    if null_response_check(software_keywords[0]):
         error_log += "**Software & algorithm keywords**\n"
         error_log += "Warning: no keywords given. \n"
     else:
@@ -194,7 +212,8 @@ def parse_issue(issue):
     orcid_id = extract_orcid(creators[0])
     if orcid_id:
         creators = [extract_orcid(p) for p in creators]
-    if creators[0] == "_No response_":
+    #if creators[0] == "_No response_":
+    if null_response_check(creators[0]):
         try:
             creators_list = publication_record["author"]
         except:
@@ -208,35 +227,34 @@ def parse_issue(issue):
     data_dict["creators"] = creators_list
 
 
-    # model contributor
-    contributors = data['-> model contributors'].strip().split('\r\n')
+    # model contributors. This has been depricated. Now we simply record Creators, and submitter.
+    #contributors = data['-> model contributors'].strip().split('\r\n')
     #test if the input has an orcid type, and if so, make sure only the orcid id is present
-    orcid_id = extract_orcid(contributors[0])
-    if orcid_id:
-        contributors = [extract_orcid(p) for p in contributors]
-    if contributors[0] == "_No response_":
-        try:
-            contributors_list = publication_record["author"]
-        except:
-            contributors_list = []
-            error_log += "**Model contributors**\n"
-            error_log += "Error: no contributors found \n"
-    else:
-        contributors_list, log = get_authors(contributors)
-        if log:
-            error_log += "**Model contributors**\n" + log
-    data_dict["contributors"] = contributors_list
-
+    #orcid_id = extract_orcid(contributors[0])
+    #if orcid_id:
+    #    contributors = [extract_orcid(p) for p in contributors]
+    #if contributors[0] == "_No response_":
+    #    try:
+    #        contributors_list = publication_record["author"]
+    #    except:
+    #        contributors_list = []
+    #        error_log += "**Model contributors**\n"
+    #        error_log += "Error: no contributors found \n"
+    #else:
+    #    contributors_list, log = get_authors(contributors)
+    #    if log:
+    #        error_log += "**Model contributors**\n" + log
+    #data_dict["contributors"] = contributors_list
 
     #now apply some logic? to the list of people involved...
     #remove any creators from contributors list so these do not intersect (currently only uses @id to match)
-    data_dict['contributors'] = remove_duplicates(data_dict['creators'], data_dict['contributors'])
+    #data_dict['contributors'] = remove_duplicates(data_dict['creators'], data_dict['contributors'])
 
     #check if the submitter is either a creator of contributor.
     #If not, make them a contrinbutor.
-    result = remove_duplicates(data_dict['contributors'], (remove_duplicates(data_dict['creators'], [data_dict['submitter']] )))
-    if result:
-        data_dict['contributors'] = result
+    #result = remove_duplicates(data_dict['contributors'], (remove_duplicates(data_dict['creators'], [data_dict['submitter']] )))
+    #if result:
+    #    data_dict['contributors'] = result
 
 
     # slug
@@ -277,7 +295,8 @@ def parse_issue(issue):
     # model category
     model_category = [x.strip() for x in data["-> model category"].split(",")]
 
-    if model_category[0] == "_No response_":
+    #if model_category[0] == "_No response_":
+    if null_response_check(model_category[0]):
         model_category = []
         error_log += "**Model category**\n"
         error_log += "Warning: No category selected \n"
@@ -290,7 +309,8 @@ def parse_issue(issue):
     try:
         model_status = [x.strip() for x in data["-> model status"].split(",")]
 
-        if model_category[0] == "_No response_":
+        #if model_status[0] == "_No response_":
+        if null_response_check(model_status[0]):
             error_log += "**Model status**\n"
             error_log += "Warning: No model status selected \n"
     except:
@@ -301,7 +321,8 @@ def parse_issue(issue):
     # title
     title = data["-> title"].strip()
 
-    if title == "_No response_":
+    #if title == "_No response_":
+    if null_response_check(title):
         try:
             title = publication_record['name']
         except:
@@ -314,7 +335,8 @@ def parse_issue(issue):
     # description
     abstract = data["-> description"].strip()
 
-    if abstract == "_No response_":
+    #if abstract == "_No response_":
+    if null_response_check(abstract):
         try:
             abstract = publication_record['abstract']
         except:
@@ -329,7 +351,8 @@ def parse_issue(issue):
     # scientific keywords
     keywords = [x.strip() for x in data["-> scientific keywords"].split(",")]
 
-    if keywords[0] == "_No response_":
+    #if keywords[0] == "_No response_":
+    if null_response_check(keywords[0]):
         keywords = []
         error_log += "**Scientific keywords**\n"
         error_log += "Warning: No keywords given \n"
@@ -339,7 +362,8 @@ def parse_issue(issue):
     # funder
     funders = [x.strip() for x in data["-> funder"].split(",")]
 
-    if funders[0] == "_No response_":
+    #if funders[0] == "_No response_":
+    if null_response_check(funders[0]):
         try:
             funder_list = publication_record['funder']
         except:
@@ -361,7 +385,8 @@ def parse_issue(issue):
     model_embargo = (False, datetime.min.strftime('%Y-%m-%d'))
     try:
         embargo = data["-> model embargo?"].strip()
-        if model_embargo[0] == "_No response_":
+        #if model_embargo[0] == "_No response_":
+        if null_response_check(model_embargo[0]):
             pass
         else:
             try:
@@ -390,7 +415,8 @@ def parse_issue(issue):
     # model code/inputs DOI
     model_code_doi = data["-> model code/inputs DOI"].strip()
 
-    if model_code_doi == "_No response_":
+    #if model_code_doi == "_No response_":
+    if null_response_check(model_code_doi):
         model_code_doi = ""
         error_log += "**Model code/inputs DOI**\n"
         error_log += "Warning: No DOI/URI provided. \n"
@@ -405,7 +431,8 @@ def parse_issue(issue):
     # model code/inputs notes
     model_code_notes = data["-> model code/inputs notes"].strip()
 
-    if model_code_notes == "_No response_":
+    #if model_code_notes == "_No response_":
+    if null_response_check(model_code_notes):
         model_code_notes = ""
         error_log += "**Model code/inputs notes**\n"
         error_log += "Warning: No notes provided.\n"
@@ -430,7 +457,8 @@ def parse_issue(issue):
     orcid_id = extract_orcid(data_creators[0])
     if orcid_id:
         data_creators = [extract_orcid(p) for p in data_creators]
-    if data_creators[0] == "_No response_":
+    #if data_creators[0] == "_No response_":
+    if null_response_check(data_creators[0]):
         #add top level creator
         data_creators_list = data_dict["creators"]
         error_log += "**Model creators**\n"
@@ -446,7 +474,9 @@ def parse_issue(issue):
     # model output URI/DOI
     model_output_doi = data["-> model output data DOI"].strip()
 
-    if model_output_doi == "_No response_":
+    #if model_output_doi == "_No response_":
+    if null_response_check(model_output_doi):
+    #data_creators[0]
         model_output_doi = ""
         error_log += "**Model output DOI**\n"
         error_log += "Warning: No DOI/URI provided. \n"
@@ -461,7 +491,8 @@ def parse_issue(issue):
     # model output notes
     model_output_notes = data["-> model output data notes"].strip()
 
-    if model_output_notes == "_No response_":
+    #if model_output_notes == "_No response_":
+    if null_response_check(model_output_notes):
         model_output_notes = ""
         error_log += "**Model data notes**\n"
         error_log += "Warning: No notes provided.\n"
@@ -471,7 +502,8 @@ def parse_issue(issue):
     # model output size
     model_output_size = data["-> model output data size"].strip()
 
-    if model_output_size == "_No response_":
+    #if model_output_size == "_No response_":
+    if null_response_check(model_output_size):
             model_output_size = ""
             error_log += "**Model data size**\n"
             error_log += "Warning: No notes provided.\n"
@@ -492,7 +524,8 @@ def parse_issue(issue):
     computer_record = {}
     log1 = ''
     computer_uri = data["-> computer URI/DOI"].strip()
-    if computer_uri == "_No response_":
+    #if computer_uri == "_No response_":
+    if null_response_check(computer_uri):
         error_log += "**Computer URI/DOI**\n"
         error_log += "Warning: No URI/DOI provided. \n"
     else:
@@ -531,7 +564,8 @@ def parse_issue(issue):
     # landing page image and caption
     img_string = data["-> add landing page image and caption"].strip()
 
-    if img_string == "_No response_":
+    #if img_string == "_No response_":
+    if null_response_check(img_string):
         error_log += "**Landing page image**\n"
         error_log += "Error: No image uploaded.\n\n"
     else:

@@ -171,19 +171,19 @@ def configure_yaml_output_dict(output_dict, issue_dict,
         creator['ORCID'] = extract_orcid_id(creator['ORCID'])
 
     #change format of ORCiD ids if required
-    for contributor in output_dict['contributors']:
-        contributor['ORCID'] = extract_orcid_id(contributor['ORCID'])
+    #for contributor in output_dict['contributors']:
+    #    contributor['ORCID'] = extract_orcid_id(contributor['ORCID'])
 
 
 
     ########################
     #Now we're going to to a hotfix to sync the names with the website terminology
     ########################
-    if old_yaml is True:
-        output_dict['authors'] = copy.deepcopy(output_dict['creators']) + copy.deepcopy(output_dict['contributors'])
-        output_dict['contributor'] = copy.deepcopy(output_dict['submitter'])
-        del output_dict['contributors']
-        del output_dict['creators']
+    #if old_yaml is True:
+    #    output_dict['authors'] = copy.deepcopy(output_dict['creators']) + copy.deepcopy(output_dict['contributors'])
+    #    output_dict['contributor'] = copy.deepcopy(output_dict['submitter'])
+    #    del output_dict['contributors']
+    #    del output_dict['creators']
     ########################
     #... remove this when we've update website code
     ########################
@@ -205,13 +205,22 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     if output_dict['status'] == '':
         output_dict['status'] = None
 
-    #append to image_path to image file names if rquired
+    #append image_path to image file names if required
     for key, im_dict in output_dict['images'].items():
         if output_dict['images'][key]['src'] is None:
             pass
         else:
             path = ensure_path_starts_with_pattern(output_dict['images'][key]['src'], image_path)
             output_dict['images'][key]['src'] = path
+
+    #append image_path to animation file name if required
+    if output_dict['animation']['src'] is None:
+        pass
+    else:
+        path = ensure_path_starts_with_pattern(output_dict['animation']['src'], image_path)
+        output_dict['animation']['src'] = path
+
+
 
     #check that any structures that need to be in lists are in lists
     if not isinstance(output_dict['software'], list):
