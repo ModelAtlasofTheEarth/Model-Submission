@@ -3,6 +3,8 @@ import string
 import json
 import random
 from config import MATE_DOI, NCI_RECORD
+import re
+
 
 def recursively_filter_key(obj, entity_template):
 
@@ -489,6 +491,40 @@ def find_index_by_id(ro_crate, id_value):
 
 
 
+def extract_project_description(owner, repo):
+    """
+    Download the README.md file from a GitHub repository and extract the text under the 'Project Description' heading.
+
+    Parameters:
+    owner (str): The GitHub username or organization that owns the repository.
+    repo (str): The name of the repository.
+
+    Returns:
+    str: The extracted text under the 'Project Description' heading, or an error message if not found.
+    """
+    # Construct the URL for the raw README.md file
+    url = f'https://raw.githubusercontent.com/{owner}/{repo}/main/README.md'
+
+    # Send a GET request to the URL
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        # If the request is successful, find the section under 'Project Description'
+        content = response.text
+        pattern = r'(?<=## Project Description\n)(.*?)(?=\n## |\Z)'
+        match = re.search(pattern, content, re.DOTALL)
+
+        if match:
+            # If the pattern is found, return the matched text
+            return match.group(0).strip()
+        else:
+            return "The 'Project Description' section was not found in the README.md file."
+    else:
+        # If the request is not successful, return an error message
+        return f"Failed to download README.md: HTTP {response.status_code}"
+
+
+
 def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
 
     """
@@ -509,6 +545,10 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
 
     if timestamp:
         ro_crate['@graph'][root_index]["datePublished"] = timestamp
+
+    #add the project Description
+    proj_description = extract_project_description("ModelAtlasofTheEarth", "metadata_schema")
+    ro_crate['@graph'][root_index]["description"] = proj_description
 
     #resolve any potential issues with authorship and contribution
 

@@ -93,9 +93,9 @@ def dict_to_report(issue_dict, verbose = False):
 
 
 
-    # description
-    report += "**Description:**  \n\n"
-    report += issue_dict["description"] + "\n\n"
+    # abstract
+    report += "**Abstract:**  \n\n"
+    report += issue_dict["abstract"] + "\n\n"
 
 
 

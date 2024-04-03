@@ -8,8 +8,11 @@ root_node_mapping = {"@id":"./",
             "@type":None,
             "alternateName":"slug",
             "name":"title",
-            #could also be abstract
-            "description":"description",
+            #abstract used to provide a description of the model
+            "abstract":"abstract",
+            #description used for higher level overview of M@TE and metadata
+            #this gets filled in from the Project Description text from https://github.com/ModelAtlasofTheEarth/metadata_schema/README.md
+            "description":None,
             "creator":"creators",
             "contributor":"contributor",
             "citation":"publication",
@@ -127,7 +130,7 @@ issue_yaml_mapping = {
     "grants_funder.doi":"foo",
     "grants_funder.number_id":"foo",
     "grants_funder.url":"foo", #this can/should be added without breaking the website
-    "abstract":"description",
+    "abstract":"abstract",
     "images.landing_image.src":"landing_image.filename",
     "images.landing_image.caption":"landing_image.caption",
     "images.graphic_abstract.src":"graphic_abstract.filename",

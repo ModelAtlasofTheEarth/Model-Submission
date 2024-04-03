@@ -312,17 +312,17 @@ def parse_issue(issue):
     data_dict["title"] = title
 
     # description
-    description = data["-> description"].strip()
+    abstract = data["-> description"].strip()
 
-    if description == "_No response_":
+    if abstract == "_No response_":
         try:
-            description = publication_record['abstract']
+            abstract = publication_record['abstract']
         except:
-            description = ""
-            error_log += "**Description**\n"
-            error_log += "Error: no descrition found, nor abstract for associated publication \n"
+            abstract = ""
+            error_log += "**abstract**\n"
+            error_log += "Error: no abstract entered, nor abstract for associated publication \n"
 
-    data_dict["description"] = description
+    data_dict["abstract"] = abstract
 
 
 
