@@ -39,8 +39,7 @@ body:
     id: model-license
     attributes:
       label: -> license
-      description: "To include your model in the [M@TE collection](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/home) (and receive a DOI) you must select an open licence. The standard license for data-sets on the NCI is [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/deed.en) for details. Please choose one of the following open licences, or supply a url for a licence (preferably a link to license text) in the box below. By selecting a licence you are indicating that you are the owner of the data, or have the agreement / approval of the owner. This license will cover all files/data you submit. To support the dissemination of this model, the metadata produced in the model submission process will be licensed under CC-BY-4.0."
-      options:
+      description: "To include your model in the [M@TE collection](https://geonetwork.nci.org.au/geonetwork/srv/eng/catalog.search#/home) (and receive a DOI) you must select an open licence. The recommended license for datasets is [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/deed.en) . Please choose one of the following open licences or supply a url for a licence (preferably a link to license text) in the box below. By selecting a licence, you are warranting that you are the owner of  the Model and/or have the right to publish the Model under the following open licence. This license will cover all files/data you submit unless specified otherwise."
         - CC-BY-4.0
         - AGPL-3.0
         - GPL-3.0
@@ -53,6 +52,8 @@ body:
         - No license
     validations:
       required: true
+
+
 
   - type: input
     id: alt_licence_url
