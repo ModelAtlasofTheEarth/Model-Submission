@@ -38,8 +38,8 @@ body:
   - type: dropdown
     id: model-license
     attributes:
-      label: -> license
-      description: "foo"
+      label: -> model category
+      description: "Select relevant fields"
         - CC-BY-4.0
         - AGPL-3.0
         - GPL-3.0
