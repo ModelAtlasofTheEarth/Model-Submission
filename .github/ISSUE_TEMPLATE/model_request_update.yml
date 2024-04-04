@@ -54,6 +54,14 @@ body:
     validations:
       required: true
 
+- type: input
+    id: alt_licence_url
+    attributes:
+      label: -> alternative licence URL
+      description: "If an alternative (open) licence is required, please provide a URL."
+    validations:
+      required: false
+
   - type: dropdown
     id: about_metadata_tags
     attributes:
