@@ -50,7 +50,7 @@ body:
         - MIT
         - BSL-1.0
         - Unlicense
-        - No license
+        - alternative
     validations:
       required: true
 
