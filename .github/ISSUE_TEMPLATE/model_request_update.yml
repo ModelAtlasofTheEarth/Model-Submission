@@ -39,7 +39,7 @@ body:
     id: model-license
     attributes:
       label: -> license
-      description: "foo"
+      description: "To include your model to M@TE collection NCI (and receive a DOI) you must select an open licence. If you do not wish to have this model as part of the NCI M@TE collection, you are free to skip this section. The standard license for data-sets on the NCI is CC-BY-4.0. See https://creativecommons.org/licenses/by/4.0/deed.en for details. Please choose one of the following open licences, or supply a url for a licence (preferably a link to license text) in the box below. By selecting a licence you are indicating that you are the owner of the data, or have the agreement / approval of the owner. This license will cover all files/data you submit. To support the dissemination of this model, the metadata produced in the model submission process will be licensed under CC-BY-4.0."
       options:
         - CC-BY-4.0
         - AGPL-3.0
@@ -53,14 +53,6 @@ body:
         - No license
     validations:
       required: true
-
-- type: input
-    id: alt_licence_url
-    attributes:
-      label: -> alternative licence URL
-      description: "If an alternative (open) licence is required, please provide a URL."
-    validations:
-      required: false
 
   - type: dropdown
     id: about_metadata_tags
