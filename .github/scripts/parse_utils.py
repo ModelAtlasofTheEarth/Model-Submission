@@ -284,3 +284,77 @@ def remove_duplicates(list_a, list_b):
                 filtered_b_list.append(item)
 
     return filtered_b_list
+
+def process_funding_data(input_string):
+
+    """
+    Processes an input string containing research funding data to extract information about funders and their grants.
+
+    The input string should consist of lines, each representing funding data in the format "funder, grantnumber",
+    where "grantnumber" is optional. The function identifies whether the funder is a simple name, a URL, or a ROR
+    address and processes it accordingly to construct schema.org Organization and Grant records.
+
+    If the funder information is a URL, it attempts to find the corresponding organization using ROR.org. For ROR
+    addresses, it retrieves the JSON-LD record for the organization. Simple names are directly converted into
+    Organization records. Grant numbers, if provided, are associated with their funders in the resulting data.
+
+    Funders mentioned in the grant information are also included in the overall funders list, ensuring there are
+    no duplicates in the final output.
+
+    Parameters:
+    - input_string (str): A multiline string where each line contains funder information followed by an optional
+                          grant number, separated by a comma.
+
+    Returns:
+    - dict: A dictionary with two keys: 'funders' and 'funding'. 'funders' is a list of unique funders represented
+            as schema.org Organization objects. 'funding' is a list of grants, each associated with a funder.
+
+    Note:
+    - If the input is an empty string or invalid, the function returns empty lists for both 'funders' and 'funding'.
+    - This function relies on external helper functions `get_funders` for ROR addresses and `search_organization`
+      for URLs to find organizations. Proper implementations of these functions are required.
+    """
+
+    schema_funders = []
+    schema_funding = []
+
+    for line in input_string.split('\n'):
+        if line == '':
+            pass
+        else:
+            parts = line.split(',', 1)  # Split by the first comma only
+            funder_info = parts[0].strip()
+            grant_number = parts[1].strip() if len(parts) > 1 else None
+            print(funder_info, grant_number)
+
+            # Check if the funder info is a simple name, URL, or ROR address
+            if re.match(r'^https?:\/\/ror\.org\/', funder_info):  # ROR address
+                organization, log = get_funders([funder_info])
+            elif re.match(r'^https?:\/\/', funder_info):  # URL
+                try:
+                    ror= search_organization(funder_info)
+                    organization, log = get_funders(funder_info)
+                except:
+                    organization = {'@type': 'Organization', 'name': ''}
+                    log = "Can't find funding Organisation"
+
+            else:  # Simple name
+                organization = {'@type': 'Organization', 'name': funder_info}
+
+            # Handle grant number and organization association
+            if grant_number:
+                schema_funding.append({
+                    '@type': 'Grant',
+                    'funder': organization,
+                    'identifier': grant_number
+                })
+            else:
+                schema_funders.append(organization)
+
+        # Add organizations from funding to funders, avoiding duplicates
+        for funding_entry in schema_funding:
+            if funding_entry['funder'] not in schema_funders:
+                schema_funders.append(funding_entry['funder'])
+
+
+    return {'funders': schema_funders, 'funding': schema_funding}
