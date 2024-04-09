@@ -131,12 +131,12 @@ body:
       placeholder: "keyword1, keyword2, ..."
       description: "if no input provided, info. from publication DOI will be used"
 
-  - type: input
+  - type: textarea
     id: funder_ROR_URI
     attributes:
       label: -> funder
-      placeholder: "https://www.arc.gov.au/"
-      description: "Please provide a ROR/URI for funding organization. Search for RORs here: https://ror.org/"
+      placeholder: "https://www.arc.gov.au/, #mygrantnumber"
+      description: "Please provide a ROR/UR for funding organization. Search for RORs here: https://ror.org/"
 
   - type: markdown
     attributes:
