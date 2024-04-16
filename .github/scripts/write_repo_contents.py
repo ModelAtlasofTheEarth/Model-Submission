@@ -74,7 +74,10 @@ if data["software"]["keywords"]:
     keywords += data["software"]["keywords"]
 
 #ensure keywords have valid format
-keywords = [item[:50].lower() for item in keywords]
+def sanitize_string(s):
+    return re.sub(r'[^a-z0-9-]','-', s)
+
+keywords = [sanitize_string(item[:50].lower()) for item in keywords]
 
 print(keywords)
 
