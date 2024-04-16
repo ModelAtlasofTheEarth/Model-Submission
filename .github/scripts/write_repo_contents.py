@@ -1,4 +1,5 @@
 import os
+import re
 from github import Github, Auth
 from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml, dict_to_report
