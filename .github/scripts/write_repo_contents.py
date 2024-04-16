@@ -71,7 +71,7 @@ update_info = model_repo.update_file(
 # Add issue keywords as repository topics
 keywords = data["scientific_keywords"]
 if data["software"]["keywords"]:
-    keywords.append(data["software"]["keywords"])
+    keywords += data["software"]["keywords"]
 
 model_repo.replace_topics(keywords)
 
