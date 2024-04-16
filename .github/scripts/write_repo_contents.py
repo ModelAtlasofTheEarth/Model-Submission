@@ -67,6 +67,14 @@ update_info = model_repo.update_file(
     sha=file_contents.sha  # SHA of the file to update
 )
 
+#######
+# Add issue keywords as repository topics
+keywords = data["scientific_keywords"]
+if data["software"]["keywords"]:
+    keywords.append(data["software"]["keywords"])
+
+model_repo.replace_topics(keywords)
+
 
 #######
 # fomat and write the web YAML
