@@ -73,6 +73,9 @@ keywords = data["scientific_keywords"]
 if data["software"]["keywords"]:
     keywords += data["software"]["keywords"]
 
+#ensure keywords have valid format
+keywords = [item[:50].lower() for item in keywords]
+
 model_repo.replace_topics(keywords)
 
 
