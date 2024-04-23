@@ -3,7 +3,7 @@ import pandas as pd
 from collections import defaultdict
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software, parse_organization
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, process_funding_data, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
 from dateutil import parser
 from datetime import datetime
 
@@ -362,22 +362,26 @@ def parse_issue(issue):
     data_dict["scientific_keywords"] = keywords
 
     # funder
-    funders = [x.strip() for x in data["-> funder"].split(",")]
+    #funders = [x.strip() for x in data["-> funder"].split(",")]
+
+    funders_string = data["-> funder"]
+    funders_dict = process_funding_data(funders_string)
 
     #if funders[0] == "_No response_":
-    if null_response_check(funders[0]):
-        try:
-            funder_list = publication_record['funder']
-        except:
-            funder_list = []
-            error_log += "**Funder**\n"
-            error_log += "Warning: No funders provided or found in publication. \n"
-    else:
-        funder_list, log = get_funders(funders)
-        if log:
-            error_log += "**Funder**\n" + log
-
-    data_dict["funder"] = funder_list
+    #if null_response_check(funders[0]):
+    #    try:
+    #        funder_list = publication_record['funder']
+    #    except:
+    #        funder_list = []
+    #        error_log += "**Funder**\n"
+    #        error_log += "Warning: No funders provided or found in publication. \n"
+    #else:
+    #    funder_list, log = get_funders(funders)
+    #    if log:
+    #        error_log += "**Funder**\n" + log
+    #
+    data_dict["funder"] = funders_dict['funders']
+    data_dict["funding"] = funders_dict['funding']
 
     #############
     # Section 2

@@ -319,37 +319,36 @@ def process_funding_data(input_string):
     schema_funding = []
 
     for line in input_string.split('\n'):
-        if line == '':
-            pass
+        if not line.strip():
+            continue
+        parts = line.split(',', 1)  # Split by the first comma only
+        funder_info = parts[0].strip()
+        grant_number = parts[1].strip() if len(parts) > 1 else None
+        #print(funder_info, grant_number)
+        # Check if the funder info is a simple name, URL, or ROR address
+        if re.match(r'^https?:\/\/ror\.org\/', funder_info):  # ROR address
+            results, log = get_funders([funder_info])
+            organization = results[0] if isinstance(results, list) and results else {'@type': 'Organization', 'name': ''}
+        elif re.match(r'^https?:\/\/', funder_info):  # URL
+            try:
+                ror= search_organization(funder_info)
+                result, log = get_funders(funder_info)
+                organization = results[0] if isinstance(results, list) and results else {'@type': 'Organization', 'name': ''}
+            except:
+                #make a minimal record, using the url as @id
+                organization = {'@type': 'Organization', '@id': funder_info,  'name': ''}
+                log = "Can't find funding Organisation"
+        else:  # Simple name
+            organization = {'@type': 'Organization', 'name': funder_info}
+        # Handle grant number and organization association
+        if grant_number:
+            schema_funding.append({
+                '@type': 'Grant',
+                'funder': organization,
+                'identifier': grant_number
+            })
         else:
-            parts = line.split(',', 1)  # Split by the first comma only
-            funder_info = parts[0].strip()
-            grant_number = parts[1].strip() if len(parts) > 1 else None
-            print(funder_info, grant_number)
-
-            # Check if the funder info is a simple name, URL, or ROR address
-            if re.match(r'^https?:\/\/ror\.org\/', funder_info):  # ROR address
-                organization, log = get_funders([funder_info])
-            elif re.match(r'^https?:\/\/', funder_info):  # URL
-                try:
-                    ror= search_organization(funder_info)
-                    organization, log = get_funders(funder_info)
-                except:
-                    organization = {'@type': 'Organization', 'name': ''}
-                    log = "Can't find funding Organisation"
-
-            else:  # Simple name
-                organization = {'@type': 'Organization', 'name': funder_info}
-
-            # Handle grant number and organization association
-            if grant_number:
-                schema_funding.append({
-                    '@type': 'Grant',
-                    'funder': organization,
-                    'identifier': grant_number
-                })
-            else:
-                schema_funders.append(organization)
+            schema_funders.append(organization)
 
         # Add organizations from funding to funders, avoiding duplicates
         for funding_entry in schema_funding:
