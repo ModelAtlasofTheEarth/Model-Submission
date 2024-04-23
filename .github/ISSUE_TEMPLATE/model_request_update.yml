@@ -21,7 +21,7 @@ body:
     id: submitter
     attributes:
       label: -> submitter ORCID (or name)
-      placeholder: "0000-0002-1270-4377 (Carey, Sam)"
+      placeholder: "e.g., 0000-0002-1270-4377 (or, Carey, Sam)"
       description: "Please provide the ORCiD (or Familyname, GivenName) associated with the person submitting the model. This is not necessarily the model creator."
     validations:
       required: true
@@ -30,7 +30,7 @@ body:
     id: slug
     attributes:
       label: -> slug
-      placeholder: "carey-1965-expansion"
+      placeholder: "e.g., carey-1965-expansion"
       description: "Please provide a slug for the model, using format 'familyname-year-keyword'. This will be used as the name of the model repository, and be used in URLs/DOIs. "
     validations:
       required: true
@@ -91,7 +91,7 @@ body:
     id: pub_doi
     attributes:
       label: -> associated publication DOI
-      placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
+      placeholder: "e.g., https://doi.org/10.47366/sabia.v5n1a3."
       description: "By providing an associated publication DOI, we can prefill many of the remaining fields for Section 1. If no associated publication is provided, the following fields should be provided"
 
 
@@ -105,7 +105,7 @@ body:
     id: model_creators
     attributes:
       label: -> model creators
-      placeholder: "ORCID iD (or Citizen, Jane)"
+      placeholder: "e.g., ORCID iD (or Citizen, Jane)"
       description: "Please provide ORCID iDs for the primary creators of the model (or FamilyName(s), GivenName(s)), one per line.
       If no input provided, all authors from the publication DOI will be added."
 
@@ -113,14 +113,14 @@ body:
     id: title
     attributes:
       label: -> title
-      placeholder: "title of you model"
+      placeholder: "e.g., title of you model"
       description: "If no input provided, info. from publication DOI will be used"
 
   - type: textarea
     id: description
     attributes:
       label: -> description
-      placeholder: "model description"
+      placeholder: "e.g., model description"
       description: "if no input provided, info. from publication DOI will be used. Markdown formatting can be used here and will be rendered on the website."
 
 
@@ -128,7 +128,7 @@ body:
     id: keywords
     attributes:
       label: -> scientific keywords
-      placeholder: "keyword1, keyword2, ..."
+      placeholder: "e.g., keyword1, keyword2, ..."
       description: "if no input provided, info. from publication DOI will be used"
 
   - type: textarea
@@ -157,7 +157,7 @@ body:
     id: request_embargo
     attributes:
       label: -> model embargo?
-      placeholder: "Leave blank if No, if YES, provide a date in the form 1964-02-29"
+      placeholder: "Leave blank if No, if YES, provide a date in the form e.g., 1964-02-29"
       description: |
         If you would like to request an embargo period, please provide an estimated end date in the form [1964-02-29] (i.e '%Y-%m-%d').
         Model submission can proceeed as normal, and you will recieve a DOI once submission is complete.
@@ -177,14 +177,14 @@ body:
     id: code_doi
     attributes:
       label: -> model code/inputs DOI
-      placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
+      placeholder: "e.g., https://doi.org/10.47366/sabia.v5n1a3."
       description: "Does your model code/input data have an existing DOI (or URL. e.g., github repo.)?"
 
   - type: textarea
     id: code_notes
     attributes:
       label: -> model code/inputs notes
-      placeholder: "Model is setup with a Python script, model.py, with X parameter provided as an argument"
+      placeholder: "e.g., Model is setup with a Python script, model.py, with X parameter provided as an argument"
       description: "Please provide a basic description of your model code/input"
 
   - type: checkboxes
@@ -201,7 +201,7 @@ body:
     id: data_creators
     attributes:
       label: -> data creators
-      placeholder: "ORCID iD (or Citizen, Jane)"
+      placeholder: "e.g., ORCID iD (or Citizen, Jane)"
       description: "Please provide ORCID iDs for the person(s) who ran the computation to produce this dataset (or FamilyName(s), GivenName(s)), one per line.
       This field is relavent if a model has been re-run by someone other than the model creator. If blank this field defaults to the list of creators."
 
@@ -209,7 +209,7 @@ body:
     id: data_doi
     attributes:
       label: -> model output data DOI
-      placeholder: "https://doi.org/10.47366/sabia.x5n1a3."
+      placeholder: "e.g., https://doi.org/10.47366/sabia.x5n1a3."
       description: "Does your model output data have an existing DOI (or URL. e.g., github repo.)?"
 
   - type: textarea
@@ -223,7 +223,7 @@ body:
     id: data_size
     attributes:
       label: -> model output data size
-      placeholder: "Model output data have a total size of ~ 128 Gb."
+      placeholder: "e.g., Model output data have a total size of ~ 128 Gb."
       description: "Please provide an estimate of the total file size you wish to contribute."
 
   - type: markdown
@@ -235,7 +235,7 @@ body:
     id: software_framework_doi_uri
     attributes:
       label: -> software framework DOI/URI
-      placeholder: "https://doi.org/10.5281/zenodo.7455999"
+      placeholder: "e.g., https://doi.org/10.5281/zenodo.7455999"
       description: |
         Software framework would typcically refer to a generic modellign code (e.g. Underworld, Badlands, Citcom, FEniCS)
         Providing a DOI here will usually allow several of the fields below to be filled. 
@@ -244,35 +244,35 @@ body:
     id: software_framework_repository
     attributes:
       label: -> software framework source repository
-      placeholder: "https://github.com/underworldcode/underworld2"
+      placeholder: "e.g., https://github.com/underworldcode/underworld2"
       description: "If the software has a public source code repository, please add it here"
 
   - type: input
     id: software_framework
     attributes:
       label: -> name of primary software framework (e.g. Underworld, ASPECT, Badlands, OpenFOAM)
-      placeholder: "Underworld2"
+      placeholder: "e.g., Underworld2"
       description: "If provided, the name from software framework DOI will be used"
 
   - type: textarea
     id: software_framework_authors
     attributes:
       label: -> software framework authors
-      placeholder: "ORCID iD (or Citizen, Jane)"
+      placeholder: "e.g., ORCID iD (or Citizen, Jane)"
       description: "Please provide ORCID iDs for software framework authors (or FamilyName(s), GivenName(s)), one per line. If no input provided, authors from software framework DOI will be used"
 
   - type: input
     id: software_keywords
     attributes:
       label: -> software & algorithm keywords
-      placeholder: "Python, Finite element, MPI ..."
+      placeholder: "e.g., Python, Finite element, MPI ..."
       description: "Separate keywords by comma"
 
   - type: input
     id: compute_doi
     attributes:
       label: -> computer URI/DOI
-      placeholder: "https://doi.org/10.47366/sabia.v5n1a3."
+      placeholder: "e.g., https://doi.org/10.47366/sabia.v5n1a3."
       description: "Please provide a DOI/URI for the computation resource (if relavent)"
 
 
@@ -290,35 +290,35 @@ body:
     id: web_landing_page
     attributes:
       label: -> add landing page image and caption
-      placeholder: "Caption for landing page image"
+      placeholder: "e.g., Caption for landing page image"
       description: "Please provide a landing page image by dragging an image file into this box. Max file size is 2 Mb. JPEG, PNG, SVG, PDF, PPTX, or ZIP are supported. Please also provide a short caption."
 
   - type: textarea
     id: web_animation
     attributes:
       label: -> add an animation (if relevant)
-      placeholder: "Caption for model animation"
+      placeholder: "e.g., Caption for model animation"
       description: "Please provide an animation by dragging a file into this box. GIF, MOV, MP4 are supported. Max file size is 20 Mb. Please also provide a short caption."
 
   - type: textarea
     id: graphic_abstract
     attributes:
       label: -> add a graphic abstract figure (if relevant)
-      placeholder: "Caption for graphic abstract"
+      placeholder: "e.g., Caption for graphic abstract"
       description: "Please provide a graphic abstract, or a figure that summariese key finding. Max file size is 2 Mb.  Please also provide a short caption."
 
   - type: textarea
     id: model_setup
     attributes:
       label: -> add a model setup figure (if relevant)
-      placeholder: "Caption for model setup figure"
+      placeholder: "e.g., Caption for model setup figure"
       description: "Please provide a  model setup image by dragging an image file into this box. Max file size is 2 Mb.  Please also provide a short caption."
 
   - type: textarea
     id: model_setup_description
     attributes:
       label: -> add a description of your model setup
-      placeholder: "The model uses a cartesian domain, with size 200 km x 200 km x 300 km."
+      placeholder: "e.g., The model uses a cartesian domain, with size 200 km x 200 km x 300 km."
       description: "Please provide add a brief (< 300 words) description of your model setup, boundary condition, assumptions. Markdown formatting can be used here and will be rendered on the website."
 
   - type: markdown
