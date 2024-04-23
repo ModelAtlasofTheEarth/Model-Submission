@@ -138,8 +138,9 @@ body:
       placeholder: |
         https://www.arc.gov.au/, #123_m@te
         Another funding body
+        https://ror.org/021nxhr62, another_grant_ID
       description: |
-        Comma separated lines, in the form funding body, grant_id. 
+        Comma separated lines, in the form "funding body, grant_id". 
         Funding body is preferably a ROR, but can also be a URL or simply a name in plain text.
         Search for RORs here: https://ror.org/
         The grant_id part is optional.
