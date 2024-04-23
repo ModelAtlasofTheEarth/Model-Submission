@@ -136,7 +136,10 @@ body:
     attributes:
       label: -> funder
       placeholder: "https://www.arc.gov.au/, #mygrantnumber"
-      description: "Please provide a ROR/UR for funding organization. Search for RORs here: https://ror.org/"
+      description: |
+        Comma separated lines, in the form funding body, grant_id. The grant_id part is optional.
+        Funding body is preferably a ROR, but can also be a URL or simply a name in plain text.
+        Search for RORs here: https://ror.org/
 
   - type: markdown
     attributes:
