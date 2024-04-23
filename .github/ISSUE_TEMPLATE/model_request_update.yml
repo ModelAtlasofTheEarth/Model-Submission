@@ -136,7 +136,7 @@ body:
     attributes:
       label: -> funder
       placeholder: |
-        https://www.arc.gov.au/, #123_m@te
+        https://www.arc.gov.au/, myGrant#id
         Another funding body
         https://ror.org/021nxhr62, another_grant_ID
       description: |
