@@ -1,7 +1,7 @@
 ---
 name: New model request
 description: Submit a new model request
-title: "M@TE submission request from [@username]"
+title: "M@TE submission request from [@your-github-username]"
 labels: ["new model"]
 
 body:
@@ -141,9 +141,9 @@ body:
         https://ror.org/021nxhr62, another_grant_ID
       description: |
         Comma separated lines, in the form "funding body, grant_id". 
-        Funding body is preferably a ROR, but can also be a URL or simply a name in plain text.
+        **Funding body** is preferably an ROR-URL, but can also be a Organizational URL, or simply a name in plain text.
         Search for RORs here: https://ror.org/
-        The grant_id part is optional.
+        The **grant_id** part is optional.
 
   - type: markdown
     attributes:
