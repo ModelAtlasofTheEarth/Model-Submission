@@ -546,6 +546,9 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
     if timestamp:
         ro_crate['@graph'][root_index]["datePublished"] = timestamp
 
+    #add any custom text, such as ["model_setup_description"]
+
+
     #add the project Description
     proj_description = extract_project_description("ModelAtlasofTheEarth", "metadata_schema")
     ro_crate['@graph'][root_index]["description"] = proj_description

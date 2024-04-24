@@ -285,6 +285,48 @@ def remove_duplicates(list_a, list_b):
 
     return filtered_b_list
 
+
+def parse_size(size_str, base_unit=1024):
+
+    """
+    Parse a human-readable size string into bytes.
+
+    Args:
+        size_str (str): The size string to parse (e.g. "1KB", "2MB", etc.)
+        base_unit (int, optional): The base unit to use for calculations (default: 1024)
+
+    Returns:
+        tuple: A tuple containing the parsed value (or None if it can't be parsed) and an error log string
+    """
+
+    error_log = ""
+    value = None
+    try:
+        size_str = size_str.replace(" ", "")  # remove spaces
+        match = re.search(r"(\d+)(~?)([kKmMgGtTpP]?[bB]?)", size_str)
+        if match:
+            value = int(match.group(1))
+            unit = match.group(3).upper()
+            units = {
+                "KB": 1,
+                "MB": 2,
+                "GB": 3,
+                "TB": 4,
+                "PB": 5,
+                "K": 1,
+                "M": 2,
+                "G": 3,
+                "T": 4,
+                "P": 5
+            }
+            value = value * (base_unit ** units.get(unit, 0))
+        else:
+            error_log = "Invalid size string"
+    except ValueError as e:
+        error_log = str(e)
+    #print(value, error_log)
+    return value, error_log
+
 def process_funding_data(input_string):
 
     """

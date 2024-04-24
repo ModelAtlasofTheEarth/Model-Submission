@@ -3,7 +3,7 @@ import pandas as pd
 from collections import defaultdict
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software, parse_organization
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, process_funding_data, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, process_funding_data, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates, parse_size
 from dateutil import parser
 from datetime import datetime
 
@@ -507,6 +507,7 @@ def parse_issue(issue):
 
     # model output size
     model_output_size = data["-> model output data size"].strip()
+    data_bytes_value = None
 
     #if model_output_size == "_No response_":
     if null_response_check(model_output_size):
@@ -514,7 +515,12 @@ def parse_issue(issue):
             error_log += "**Model data size**\n"
             error_log += "Warning: No notes provided.\n"
 
-    model_output_record["size"] = model_output_size
+    data_bytes_value, size_error_log = parse_size(model_output_size)
+
+    if size_error_log:
+        error_log +=size_error_log
+
+    model_output_record["size"] = data_bytes_value
 
     data_dict["model_output_data"] = model_output_record
 
