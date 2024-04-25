@@ -418,6 +418,74 @@ def load_entity_template(entity_template_url="https://raw.githubusercontent.com/
         return None
 
 
+def get_next_id(existing_ids):
+    """
+    Generates the next unique ID based on the highest existing ID found.
+    """
+    if not existing_ids:
+        return '#b1'  # Start from 1 if no IDs found yet
+    max_id = max(existing_ids)
+    next_id = max_id + 1
+    return f'#b{next_id}'
+
+def update_ids(entity, pattern, existing_ids):
+    """
+    Recursively updates '@id' fields in an entity if they are not valid or missing,
+    ensuring not to overwrite valid existing '@id' values and generating unique IDs.
+    """
+    if isinstance(entity, dict):
+        # If '@id' exists, check if it's valid
+        if '@id' in entity:
+            if isinstance(entity['@id'], str) and pattern.match(entity['@id']):
+                # Extract number from existing valid ID and update the set of IDs
+                num = int(pattern.findall(entity['@id'])[0])
+                existing_ids.add(num)
+            elif not entity['@id']:  # Check if @id is empty
+                # Assign a new unique ID
+                new_id = get_next_id(existing_ids)
+                entity['@id'] = new_id
+                existing_ids.add(int(pattern.findall(new_id)[0]))
+        else:
+            # No '@id' field present, create a new one
+            new_id = get_next_id(existing_ids)
+            entity['@id'] = new_id
+            existing_ids.add(int(pattern.findall(new_id)[0]))
+
+        # Recursively process other dictionary values
+        for key, value in entity.items():
+            update_ids(value, pattern, existing_ids)
+
+    elif isinstance(entity, list):
+        # Process each item in the list recursively
+        for item in entity:
+            update_ids(item, pattern, existing_ids)
+
+def update_blank_node_ids(ro_crate):
+    """
+    Traverse the '@graph' in an RO-Crate JSON-LD document and recursively update blank node IDs,
+    respecting existing valid '@id' and ensuring no duplicates.
+    """
+    if '@graph' not in ro_crate:
+        return ro_crate
+
+    pattern = re.compile(r'^#b(\d+)$')
+    existing_ids = set()
+
+    # First collect all valid existing IDs
+    for entity in ro_crate['@graph']:
+        update_ids(entity, pattern, existing_ids)
+
+    # Reset existing IDs to handle updates properly
+    existing_ids.clear()
+
+    # Now update invalid or missing IDs
+    for entity in ro_crate['@graph']:
+        update_ids(entity, pattern, existing_ids)
+
+    return ro_crate
+
+
+
 def flatten_crate(crate):
     """
     Flattens a given RO-Crate by processing its '@graph' attribute. It iteratively applies two functions to each
@@ -442,6 +510,9 @@ def flatten_crate(crate):
     which are applied to each entity. It does not perform any validation on the input crate structure.
     """
 
+    #should make this in-place, like most of the other functions
+    crate = update_blank_node_ids(crate)
+
     try:
         current_length = len(crate['@graph'])
         previous_length = current_length - 1
@@ -452,7 +523,7 @@ def flatten_crate(crate):
 
             for i in range(current_length):
                 # Apply the two functions to each entity in the '@graph'
-                search_replace_blank_node_ids(crate, i)
+                #search_replace_blank_node_ids(crate, i)
                 search_replace_sub_dict(crate, i)
 
             # Update the current length after modifications
