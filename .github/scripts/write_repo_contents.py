@@ -48,8 +48,8 @@ try:
     #compacted = jsonld.compact(flattened,
     #                           ctx = ["https://w3id.org/ro/crate/1.1/context",
     #                                "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld"])
-    flat_compacted = jsonld.compact(flattened,
-                               ctx = default_context)
+    flat_compacted = json.dumps(jsonld.compact(flattened,
+                               ctx = default_context))
 
 except:
     flat_compacted = dict_to_metadata(data, flat_compact_crate=True, timestamp= timestamp)
