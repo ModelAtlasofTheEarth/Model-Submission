@@ -9,6 +9,8 @@ from ruamel.yaml import YAML
 import io
 import json
 from datetime import datetime
+from pyld import jsonld
+
 
 
 # Environment variables
@@ -38,11 +40,25 @@ data, error_log = parse_issue(issue)
 # Convert dictionary to metadata json
 metadata = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
 
+try:
+    flattened = jsonld.flatten(json.loads(rocrate))
+    #compact against the default schemas:
+    default_context = rocratedict['@context']
+    #compacted = jsonld.compact(flattened,
+    #                           ctx = ["https://w3id.org/ro/crate/1.1/context",
+    #                                "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld"])
+    flat_compacted = jsonld.compact(flattened,
+                               ctx = default_context)
+
+except:
+    flat_compacted = dict_to_metadata(data, flat_compact_crate=True, timestamp= timestamp)
+
+
 #FOR TESTING - print out dictionary as a comment
 issue.create_comment("# M@TE crate \n"+str(metadata))
 
 # Move files to repo
-model_repo.create_file("ro-crate-metadata.json","add ro-crate",metadata)
+model_repo.create_file("ro-crate-metadata.json","add ro-crate",flat_compacted)
 #we should do this this as part of the copy to website action
 model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate",metadata)
 
