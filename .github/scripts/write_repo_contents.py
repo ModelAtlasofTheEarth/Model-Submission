@@ -39,6 +39,7 @@ data, error_log = parse_issue(issue)
 
 # Convert dictionary to metadata json
 metadata = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
+rocratedict = json.loads(metadata)
 
 try:
     flattened = jsonld.flatten(json.loads(metadata))
