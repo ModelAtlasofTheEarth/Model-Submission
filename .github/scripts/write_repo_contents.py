@@ -41,7 +41,7 @@ data, error_log = parse_issue(issue)
 metadata = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
 
 try:
-    flattened = jsonld.flatten(json.loads(rocrate))
+    flattened = jsonld.flatten(json.loads(metadata))
     #compact against the default schemas:
     default_context = rocratedict['@context']
     #compacted = jsonld.compact(flattened,
