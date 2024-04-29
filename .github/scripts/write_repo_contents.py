@@ -72,7 +72,8 @@ except:
 issue.create_comment("# M@TE crate \n"+str(metadata))
 
 # Move files to repo
-model_repo.create_file("ro-crate-metadata.json","add ro-crate",flat_compacted)
+flat_compacted_str = json.dumps(flat_compacted)
+model_repo.create_file("ro-crate-metadata.json","add ro-crate",flat_compacted_str)
 #we should do this this as part of the copy to website action
 model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate",metadata)
 
