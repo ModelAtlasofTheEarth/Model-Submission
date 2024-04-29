@@ -3,6 +3,7 @@ import re
 from github import Github, Auth
 from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml, dict_to_report
+from ro_crate_utils import get_default_contexts
 from yaml_utils import format_yaml_string
 from copy_files import copy_files
 from ruamel.yaml import YAML
@@ -42,16 +43,28 @@ metadata = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp
 rocratedict = json.loads(metadata)
 
 try:
-    flattened = jsonld.flatten(json.loads(metadata))
-    #compact against the default schemas:
-    default_context = rocratedict['@context']
-    #compacted = jsonld.compact(flattened,
-    #                           ctx = ["https://w3id.org/ro/crate/1.1/context",
-    #                                "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld"])
-    flat_compacted = json.dumps(jsonld.compact(flattened,
-                               ctx = default_context))
+
+    context_list,context_dict = get_default_contexts(verbose=True)
+    ctx = context_dict["@context"]
+    # Expand the document using the specific contexts
+    # this will get rid of any items that are not defined in the schema
+    expanded = jsonld.expand(rocratedict, options={"expandContext": ctx})
+
+    #flatten the document using the specific contexts
+    flattened = jsonld.flatten(expanded)
+
+    #I have figured out how to compact against multiple contexts, so thise will only compact
+    #against the value of context_list[0], which is "https://w3id.org/ro/crate/1.1/context"
+    flat_compacted =  jsonld.compact(flattened , ctx = context_list[0]['@context'],
+                           options={"compactArrays": True, "graph": False})
+
+    #compacted contains the full the context. We don't need these,URLs are sufficient.
+    flat_compacted['@context'] = rocratedict['@context']
+
 
 except:
+    #use the flattening routine we wrote
+    #this is not necessary fully compacted (although we try to build compact records)
     flat_compacted = dict_to_metadata(data, flat_compact_crate=True, timestamp= timestamp)
 
 

@@ -4,7 +4,7 @@ import json
 import random
 from config import MATE_DOI, NCI_RECORD
 import re
-
+import glob
 
 def recursively_filter_key(obj, entity_template):
 
@@ -627,3 +627,82 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
     #resolve any potential issues with authorship and contribution
 
     pass
+
+
+def build_context_list(urls):
+    """
+    Creates a list of context dictionaries from a list of URLs.
+
+    Args:
+    urls (list of str): List of URLs pointing to JSON-LD context documents.
+
+    Returns:
+    list of dict: List containing context dictionaries with URLs.
+    """
+    context_list = [{"@context": url} for url in urls]
+    return context_list
+
+
+
+def get_default_contexts(context_urls=[
+    "https://w3id.org/ro/crate/1.1/context",
+    "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld"],
+    verbose=False):
+    """
+    Loads JSON-LD contexts from specified URLs or local files as a fallback.
+
+    Attempts to fetch context data from each URL provided. If fetching fails,
+    it falls back to loading context JSON files from local directories. The contexts
+    are merged into a single dictionary.
+
+    Args:
+    context_urls (list of str): URLs from which to try to load context data.
+    verbose (bool): If True, prints messages about the loading process and errors.
+
+    Returns:
+    context_list: a list containing dictionaries with individual contexts
+    dict: A dictionary containing the merged context data from all successful sources.
+    """
+
+    # Define paths for local testing and GitHub workflow
+    try:
+        directory_path = "../.github/resources"
+        local_paths = glob.glob(f'{directory_path}/*context.jsonld')
+    except:
+        directory_path = ".github/resources"
+        local_paths = glob.glob(f'{directory_path}/*context.jsonld')
+
+    context_list = []
+
+    # Attempt to load contexts from URLs
+    for url in context_urls:
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raises an HTTPError for bad requests
+            context = response.json()
+            context_list.append(context)
+            if verbose:
+                print(f"Loaded context from URL: {url}")
+        except requests.exceptions.RequestException as e:
+            if verbose:
+                print(f"Failed to load context from URL {url}: {e}")
+
+    # If no contexts loaded from URLs, fallback to local files
+    if not context_list:
+        for filepath in local_paths:
+            try:
+                with open(filepath, 'r') as file:
+                    context = json.load(file)
+                    context_list.append(context)
+                    if verbose:
+                        print(f"Loaded context from local file: {filepath}")
+            except Exception as e:
+                if verbose:
+                    print(f"Error reading local context file {filepath}: {e}")
+
+    # Merge the contexts into a single dictionary
+    merged_context = {}
+    for context in context_list:
+        merged_context.update(context)
+
+    return context_list, merged_context
