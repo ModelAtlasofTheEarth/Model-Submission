@@ -645,10 +645,13 @@ def build_context_list(urls):
 
 
 def get_default_contexts(context_urls=[
-    "https://w3id.org/ro/crate/1.1/context",
-    "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld"],
+    "https://w3id.org/ro/crate/1.1/context"],
     verbose=False):
     """
+    [
+    "https://w3id.org/ro/crate/1.1/context",
+    "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld"],
+
     Loads JSON-LD contexts from specified URLs or local files as a fallback.
 
     Attempts to fetch context data from each URL provided. If fetching fails,
@@ -662,15 +665,22 @@ def get_default_contexts(context_urls=[
     Returns:
     context_list: a list containing dictionaries with individual contexts
     dict: A dictionary containing the merged context data from all successful sources.
+
+    Note:
+    this function was set up to try to work with multiple contexts, however this is not working properly
+    currently, it just returns the default ro-crate context ("https://w3id.org/ro/crate/1.1/context") in json format.
+    
     """
 
     # Define paths for local testing and GitHub workflow
     try:
         directory_path = "../.github/resources"
         local_paths = glob.glob(f'{directory_path}/*context.jsonld')
+        #local_paths = glob.glob(f'{directory_path}/rocrate_context.jsonld')
     except:
         directory_path = ".github/resources"
         local_paths = glob.glob(f'{directory_path}/*context.jsonld')
+        #local_paths = glob.glob(f'{directory_path}/rocrate_context.jsonld')
 
     context_list = []
 

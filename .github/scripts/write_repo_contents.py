@@ -11,6 +11,7 @@ import io
 import json
 from datetime import datetime
 from pyld import jsonld
+import copy
 
 
 
@@ -41,10 +42,16 @@ data, error_log = parse_issue(issue)
 # Convert dictionary to metadata json
 metadata = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
 rocratedict = json.loads(metadata)
+default_context_list = copy.deepcopy(rocratedict['@context'])
 
 try:
 
-    context_list,context_dict = get_default_contexts(verbose=True)
+    context_list, context_dict = get_default_contexts(context_urls=["https://w3id.org/ro/crate/1.1/context"],
+         verbose=True)
+
+    #we're going to delete the  rocratedict context, so we expand in terms of the contexts provided by get_default_contexts
+    del rocratedict['@context']
+
     ctx = context_dict["@context"]
     # Expand the document using the specific contexts
     # this will get rid of any items that are not defined in the schema
@@ -55,11 +62,13 @@ try:
 
     #I have figured out how to compact against multiple contexts, so thise will only compact
     #against the value of context_list[0], which is "https://w3id.org/ro/crate/1.1/context"
-    flat_compacted =  jsonld.compact(flattened , ctx = context_list[0]['@context'],
+    flat_compacted =  jsonld.compact(flattened , ctx = ctx,
                            options={"compactArrays": True, "graph": False})
 
+    rocratedict.update({'@context':default_context_list})
+    flat_compacted.update({'@context':default_context_list})
     #compacted contains the full the context. We don't need these,URLs are sufficient.
-    flat_compacted['@context'] = rocratedict['@context']
+    #flat_compacted['@context'] = rocratedict['@context']
 
 
 except:
