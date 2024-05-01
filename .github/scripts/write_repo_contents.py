@@ -93,10 +93,10 @@ model_repo.create_file("ro-crate-metadata.json","add ro-crate", rocratestr_flatc
 model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate", rocratestr_nested)
 
 #######
-#Save the trail of metadata sources to .metadata_trail
+#Save the trail of metadata sources to metadata_trail
 issue_dict_str = json.dumps(data)
-model_repo.create_file(".metadata_trail/issue_body.md","add issue_body", issue.body)
-model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
+model_repo.create_file("metadata_trail/issue_body.md","add issue_body", issue.body)
+model_repo.create_file("metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
 
 #######
 csv_buffer = StringIO()
@@ -106,7 +106,7 @@ nci_iso_record.to_csv(csv_buffer, index=False)
 # Reset buffer position to the beginning
 csv_buffer.seek(0)
 csv_content = csv_buffer.getvalue()
-model_repo.create_file(".metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
+model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
 
 #####Create the README.md
 
