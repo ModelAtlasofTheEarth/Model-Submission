@@ -1,10 +1,12 @@
 import json
 from ro_crate_utils import *
 from crosswalk_mappings import *
+from nci_iso_tools import *
 from yaml_utils import *
 import ruamel.yaml
 import copy
 from pyld import jsonld
+import pandas as pd
 
 Ryaml = ruamel.yaml.YAML(typ=['rt', 'string'])
 Ryaml.preserve_quotes = True
@@ -348,3 +350,68 @@ def dict_to_yaml(issue_dict, timestamp = False):
     #to write directly to the ./website/graphics
     return yaml_dict
     #return formatted_yaml_string
+
+
+
+def metadata_to_nci(ro_crate):
+
+    #put the @graph array into a dictionary/nested format, where the @id field becomes the key
+    ro_crate_nested = graph_to_nested_dict(ro_crate["@graph"])
+    #extract funders and authors into a NCI/ISO format
+    funders = extract_funder_details(ro_crate_nested)
+    authors = extract_creator_details(ro_crate_nested)
+
+    root = 'root'  # Key for root element
+    #license_id = ro_crate_nested.get_nested(f"{root}.license.@id") #get the license id
+    license_id = ro_crate_nested.get_nested(f"{root}.license") #get the license id
+
+    fields_data = {
+        "Title*": list_to_string(ro_crate_nested.get_nested(f"{root}.name")),
+        "Dataset version*": list_to_string(ro_crate_nested.get_nested(f"{root}.version")),
+        "Abstract*": list_to_string(ro_crate_nested.get_nested(f"{root}.description")) + " The following is an abstract describing the scientific context for this model: " + list_to_string(ro_crate_nested.get_nested(f"{root}.abstract")),
+        "Topic category*": list_to_string(ro_crate_nested.get_nested(f"{root}.keywords")),
+        "Field of research (FOR)*": list_to_string(ro_crate_nested.get_nested(f"{root}.about.@id")),
+        "License*": ro_crate_nested[license_id]['description'],
+        "Dataset lineage information*": "",
+        "Dataset format*": "",
+        "Dataset status": list_to_string(ro_crate_nested.get_nested(f"{root}.creativeWorkStatus")),
+        "Maintenance frequency*": "",
+        "Temporal extents* (if applicable)": "",
+        "Spatial extents* (if applicable)": "",
+        "Owner* (if applicable)": "",
+        "Credit": "",
+        "Supplemental or supporting material": "",
+        "Local NCI file path": "",
+        "DOI (NCI Internal Field)": "",
+        "Keyword/s": list_to_string(ro_crate_nested.get_nested(f"{root}.keywords"))
+    }
+
+    fields_df = pd.DataFrame(list(fields_data.items()), columns=["Field", "Value"])
+
+    #update specific fields that need tailoring
+    #ro_crate_data['@graph'][1]['alternateName']
+
+    #fields_df
+    #nci_file_path = ro_crate_nested.get_nested(f"{root}.alternateName")
+    #"Local NCI file path": "",
+
+
+
+    # Handling authors as before
+    authors_rows = [
+        {"Field": f"Author {i}", "Value": f"{author['Last name']}, {author['First name']}, {author['Organization']}, {author['Email']}, {author['ORCID ID']}"}
+        for i, author in enumerate(authors, start=1)
+    ]
+    authors_df = pd.DataFrame(authors_rows)
+
+    # Handling funders
+    funder_rows = []
+    for funder in funders:
+        funder_rows.append({"Field": "Organisation/funding agency name", "Value": funder['name']})
+        funder_rows.append({"Field": "Funding/award description or title", "Value": funder['grant_id']})
+        funder_rows.append({"Field": "Email address for the organisation/agency (if applicable)", "Value": funder['email']})
+    funders_df = pd.DataFrame(funder_rows)
+
+    # Concatenate all parts into a single DataFrame
+    result_df = pd.concat([fields_df, authors_df, funders_df ], ignore_index=True)
+    return result_df
