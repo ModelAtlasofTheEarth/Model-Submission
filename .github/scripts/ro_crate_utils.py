@@ -669,7 +669,7 @@ def get_default_contexts(context_urls=[
     Note:
     this function was set up to try to work with multiple contexts, however this is not working properly
     currently, it just returns the default ro-crate context ("https://w3id.org/ro/crate/1.1/context") in json format.
-    
+
     """
 
     # Define paths for local testing and GitHub workflow
@@ -716,3 +716,32 @@ def get_default_contexts(context_urls=[
         merged_context.update(context)
 
     return context_list, merged_context
+
+def replace_keys_recursive(obj):
+    """
+    Recursively walks through a nested dictionary and replaces keys 'id' and 'type'
+    with '@id' and '@type' respectively.
+
+    Args:
+    obj (dict, list, set): The input object to transform.
+
+    Returns:
+    dict, list, set: The transformed object with keys replaced.
+    """
+    if isinstance(obj, dict):
+        new_dict = {}
+        for key, value in obj.items():
+            new_key = key
+            if key == 'id':
+                new_key = '@id'
+            elif key == 'type':
+                new_key = '@type'
+            new_dict[new_key] = replace_keys_recursive(value)
+        return new_dict
+    elif isinstance(obj, list):
+        return [replace_keys_recursive(item) for item in obj]
+    elif isinstance(obj, set):
+        # Convert set to list, process it, and convert it back to set
+        return set(replace_keys_recursive(list(obj)))
+    else:
+        return obj

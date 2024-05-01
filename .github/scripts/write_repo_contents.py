@@ -3,7 +3,7 @@ import re
 from github import Github, Auth
 from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml, dict_to_report
-from ro_crate_utils import get_default_contexts
+from ro_crate_utils import replace_keys_recursive
 from yaml_utils import format_yaml_string
 from copy_files import copy_files
 from ruamel.yaml import YAML
@@ -40,51 +40,57 @@ model_repo = g.get_repo(f"{model_owner}/{model_repo_name}")
 data, error_log = parse_issue(issue)
 
 # Convert dictionary to metadata json
-metadata = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
-rocratedict = json.loads(metadata)
+rocratestr_nested = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
+rocratedict = json.loads(rocratestr_nested)
 default_context_list = copy.deepcopy(rocratedict['@context'])
 
 try:
-
-    context_list, context_dict = get_default_contexts(context_urls=["https://w3id.org/ro/crate/1.1/context"],
-         verbose=True)
+    #context_list, context_dict = get_default_contexts(context_urls=["https://w3id.org/ro/crate/1.1/context"],
+    #     verbose=True)
 
     #we're going to delete the  rocratedict context, so we expand in terms of the contexts provided by get_default_contexts
-    del rocratedict['@context']
+    #del rocratedict['@context']
 
-    ctx = context_dict["@context"]
+    #ctx = context_dict["@context"]
     # Expand the document using the specific contexts
     # this will get rid of any items that are not defined in the schema
-    expanded = jsonld.expand(rocratedict, options={"expandContext": ctx})
+    #expanded = jsonld.expand(rocratedict, options={"expandContext": ctx})
 
     #flatten the document using the specific contexts
-    flattened = jsonld.flatten(expanded)
+    #flattened = jsonld.flatten(expanded)
 
     #I have figured out how to compact against multiple contexts, so thise will only compact
     #against the value of context_list[0], which is "https://w3id.org/ro/crate/1.1/context"
-    flat_compacted =  jsonld.compact(flattened , ctx = ctx,
-                           options={"compactArrays": True, "graph": False})
+    #flat_compacted =  jsonld.compact(flattened , ctx = ctx,
+    #                       options={"compactArrays": True, "graph": False})
 
-    rocratedict.update({'@context':default_context_list})
-    flat_compacted.update({'@context':default_context_list})
+    #rocratedict.update({'@context':default_context_list})
+    #flat_compacted.update({'@context':default_context_list})
     #compacted contains the full the context. We don't need these,URLs are sufficient.
     #flat_compacted['@context'] = rocratedict['@context']
 
+    expanded = jsonld.expand(rocratedict)
+    flattened  = jsonld.flatten(expanded)
+    rocratedict['@graph'] = flattened
+    #this strips the @ from the @ids,
+    flatcompact = jsonld.compact(rocratedict, ctx  = default_context_list)
+    #add the @ back to type, id
+    flatcompact = replace_keys_recursive(flatcompact)
 
 except:
     #use the flattening routine we wrote
     #this is not necessary fully compacted (although we try to build compact records)
-    flat_compacted = dict_to_metadata(data, flat_compact_crate=True, timestamp= timestamp)
+    flatcompact = dict_to_metadata(data, flat_compact_crate=True, timestamp= timestamp)
 
 
 #FOR TESTING - print out dictionary as a comment
-issue.create_comment("# M@TE crate \n"+str(metadata))
+#issue.create_comment("# M@TE crate \n"+str(metadata))
 
 # Move files to repo
-flat_compacted_str = json.dumps(flat_compacted)
-model_repo.create_file("ro-crate-metadata.json","add ro-crate",flat_compacted_str)
+rocratestr_flatcompact= json.dumps(flatcompact)
+model_repo.create_file("ro-crate-metadata.json","add ro-crate", rocratestr_flatcompact)
 #we should do this this as part of the copy to website action
-model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate",metadata)
+model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate", rocratestr_nested)
 
 #######
 #Save the trail of metadata sources to .metadata_trail

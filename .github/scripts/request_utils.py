@@ -1,5 +1,7 @@
 import requests
 import os
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # Base URLs configuration
 BASE_URLS = {
@@ -16,6 +18,19 @@ TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", 10))
 # Initialize a requests session
 session = requests.Session()
 
+
+# Configure retries
+max_retries = 3  # Set the maximum number of retries
+retry_strategy = Retry(
+    total=max_retries,
+    status_forcelist=[429, 500, 502, 503, 504],  # Specify which status codes to retry on
+    allowed_methods=["HEAD", "GET", "OPTIONS"],  # Use `allowed_methods` for urllib3 v1.26.0 or later
+    backoff_factor=1  # Defines the delay between retries
+)
+adapter = HTTPAdapter(max_retries=retry_strategy)
+session.mount("http://", adapter)
+session.mount("https://", adapter)
+
 def get_record(record_type, record_id):
     log = ""
     metadata = {}
@@ -23,14 +38,11 @@ def get_record(record_type, record_id):
     if record_type not in BASE_URLS:
         raise ValueError(f"Record type `{record_type}` not supported")
 
-    # Define content types to try
-    content_types = ["application/ld+json", "application/json"]
-
-    # Iterate over URLs and content types to fetch the record
-    #for url in urls:
-
     url = BASE_URLS[record_type] + record_id
     print(url)
+
+    # Define content types to try
+    content_types = ["application/ld+json", "application/json"]
 
     for content_type in content_types:
         headers = {"Content-Type": content_type, "Accept": content_type}
@@ -53,6 +65,7 @@ def get_record(record_type, record_id):
         log += "Failed to fetch metadata with any content type or URL.\n"
 
     return metadata, log
+
 
 def search_organization(org_url):
     log = ""
@@ -103,4 +116,5 @@ def check_uri(uri):
         return "OK"
 
     except Exception as err:
-        return err.args[0]
+        #return err.args[0]
+        return str(err)  # 01/05/24: Convert the error to a string to avoid TypeError when we concatenate to log

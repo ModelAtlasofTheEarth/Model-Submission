@@ -567,6 +567,9 @@ def parse_issue(issue):
         else:
             error_log += "**Computer URI/DOI**\n" + response + log1 + "\n"
 
+            #except:
+            #error_log += "**Computer URI/DOI**\n" + "there was a problem parsing Computer URI/DOI" + log1 + "\n"
+
 
     data_dict["computer_resource"] = computer_record
 
