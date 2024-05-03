@@ -330,7 +330,7 @@ body:
       value: |
         Thanks for submitting a new model to the M@TE collection. 
         This information provided in this form will enable us to produce a metadata file for your model, and showcase the model on our website.
-        The [README.md](https://github.com/ModelAtlasofTheEarth/Model_Submission/blob/main/README.md) file in this repository provides an overview of the remaining model subission steps.
+        The [README.md](https://github.com/ModelAtlasofTheEarth/model_submission/blob/main/README.md) file in this repository provides an overview of the remaining model subission steps.
         Once you click submit, Github actions will parse this form, collect existing metadata, and produce a summary report for your model. 
         You can maintain a conversation with the M@TE team via the issue thread. 
 
