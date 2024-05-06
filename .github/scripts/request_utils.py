@@ -118,3 +118,16 @@ def check_uri(uri):
     except Exception as err:
         #return err.args[0]
         return str(err)  # 01/05/24: Convert the error to a string to avoid TypeError when we concatenate to log
+
+
+
+def download_license_text(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.text
+        else:
+            return "# please refer to the metadata file (ro-crate-metadata.json) for information on model license"
+    except Exception as e:
+        print(f"Error downloading license text: {e}")
+        return "please refer to the metadata file (ro-crate-metadata.json) for information on model license"
