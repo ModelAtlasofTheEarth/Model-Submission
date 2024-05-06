@@ -5,6 +5,7 @@ from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml, dict_to_report, metadata_to_nci
 from ro_crate_utils import replace_keys_recursive
 from yaml_utils import format_yaml_string
+from request_utils import download_license_text
 from copy_files import copy_files
 from ruamel.yaml import YAML
 import io
@@ -45,29 +46,6 @@ rocratedict = json.loads(rocratestr_nested)
 default_context_list = copy.deepcopy(rocratedict['@context'])
 
 try:
-    #context_list, context_dict = get_default_contexts(context_urls=["https://w3id.org/ro/crate/1.1/context"],
-    #     verbose=True)
-
-    #we're going to delete the  rocratedict context, so we expand in terms of the contexts provided by get_default_contexts
-    #del rocratedict['@context']
-
-    #ctx = context_dict["@context"]
-    # Expand the document using the specific contexts
-    # this will get rid of any items that are not defined in the schema
-    #expanded = jsonld.expand(rocratedict, options={"expandContext": ctx})
-
-    #flatten the document using the specific contexts
-    #flattened = jsonld.flatten(expanded)
-
-    #I have figured out how to compact against multiple contexts, so thise will only compact
-    #against the value of context_list[0], which is "https://w3id.org/ro/crate/1.1/context"
-    #flat_compacted =  jsonld.compact(flattened , ctx = ctx,
-    #                       options={"compactArrays": True, "graph": False})
-
-    #rocratedict.update({'@context':default_context_list})
-    #flat_compacted.update({'@context':default_context_list})
-    #compacted contains the full the context. We don't need these,URLs are sufficient.
-    #flat_compacted['@context'] = rocratedict['@context']
 
     expanded = jsonld.expand(rocratedict)
     flattened  = jsonld.flatten(expanded)
@@ -107,6 +85,15 @@ nci_iso_record.to_csv(csv_buffer, index=False)
 csv_buffer.seek(0)
 csv_content = csv_buffer.getvalue()
 model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
+
+#####Save license
+
+try:
+    license_url = str(data['license']['url'])
+except:
+    license_url = ''
+license_txt = download_license_text(license_url)
+model_repo.create_file("LICENSE","add license text", license_txt)
 
 #####Create the README.md
 
