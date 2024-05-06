@@ -115,39 +115,55 @@ update_info = model_repo.update_file(
 
 #####Add to README.md in subdirectories:
 
-# Path to the README.md file
-pre_notes = "'## Notes:\n ' "
+pre_notes = "## Notes:\n"
 try:
     notes = data['model_code_inputs']['notes']
-except:
+except KeyError:
     notes = ""
+
 file_path = 'model_code_inputs/README.md'
-# Retrieve the file to get its SHA and content
+
+# Retrieve the existing content of the README.md file
 file_contents = model_repo.get_contents(file_path)
+existing_content = file_contents.decoded_content.decode()
 
+# Concatenate the existing content with the new notes
+updated_content = existing_content + '\n' + pre_notes + notes
+
+# Update the README.md file with the combined content
 update_info = model_repo.update_file(
-    path=file_path,  # Path to the file in the repository
-    message='Updated the README.md',  # Commit message
-    content=pre_notes + notes,  # New content for the file
-    sha=file_contents.sha  # SHA of the file to update
+    path=file_path,
+    message='Updated the README.md',
+    content=updated_content,
+    sha=file_contents.sha
 )
+print("README.md updated successfully!")
 
-# Path to the README.md file
-pre_notes = "'## Notes:\n ' "
+
+##########
+pre_notes = "## Notes:\n"
 try:
     notes = data['model_output_data']['notes']
-except:
+except KeyError:
     notes = ""
-file_path = 'model_output_data/README.md'
-# Retrieve the file to get its SHA and content
-file_contents = model_repo.get_contents(file_path)
 
+file_path = 'model_output_data/README.md'
+
+# Retrieve the existing content of the README.md file
+file_contents = model_repo.get_contents(file_path)
+existing_content = file_contents.decoded_content.decode()
+
+# Concatenate the existing content with the new notes
+updated_content = existing_content + '\n' + pre_notes + notes
+
+# Update the README.md file with the combined content
 update_info = model_repo.update_file(
-    path=file_path,  # Path to the file in the repository
-    message='Updated the README.md',  # Commit message
-    content=pre_notes + notes,  # New content for the file
-    sha=file_contents.sha  # SHA of the file to update
+    path=file_path,
+    message='Updated the README.md',
+    content=updated_content,
+    sha=file_contents.sha
 )
+print("README.md updated successfully!")
 
 
 
