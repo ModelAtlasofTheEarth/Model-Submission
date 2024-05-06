@@ -113,6 +113,45 @@ update_info = model_repo.update_file(
     sha=file_contents.sha  # SHA of the file to update
 )
 
+#####Add to README.md in subdirectories:
+
+# Path to the README.md file
+pre_notes = "'## Notes:\n ' "
+try:
+    notes = data['model_code_inputs']['notes']
+except:
+    notes = ""
+file_path = 'model_code_inputs/README.md'
+# Retrieve the file to get its SHA and content
+file_contents = model_repo.get_contents(file_path)
+
+update_info = model_repo.update_file(
+    path=file_path,  # Path to the file in the repository
+    message='Updated the README.md',  # Commit message
+    content=pre_notes + notes,  # New content for the file
+    sha=file_contents.sha  # SHA of the file to update
+)
+
+# Path to the README.md file
+pre_notes = "'## Notes:\n ' "
+try:
+    notes = data['model_output_data']['notes']
+except:
+    notes = ""
+file_path = 'model_output_data/README.md'
+# Retrieve the file to get its SHA and content
+file_contents = model_repo.get_contents(file_path)
+
+update_info = model_repo.update_file(
+    path=file_path,  # Path to the file in the repository
+    message='Updated the README.md',  # Commit message
+    content=pre_notes + notes,  # New content for the file
+    sha=file_contents.sha  # SHA of the file to update
+)
+
+
+
+
 #######
 # Add issue keywords as repository topics
 keywords = data["scientific_keywords"]
