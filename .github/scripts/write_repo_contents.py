@@ -67,8 +67,10 @@ except:
 # Move files to repo
 rocratestr_flatcompact= json.dumps(flatcompact)
 model_repo.create_file("ro-crate-metadata.json","add ro-crate", rocratestr_flatcompact)
+#it would be good to remove this duplication and instead copy the main file across
+model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate", rocratestr_flatcompact)
 #we should do this this as part of the copy to website action
-model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate", rocratestr_nested)
+model_repo.create_file("metadata_trail/ro-crate-metadata-nested.json", "add nested ro-crate to metadata_trail", rocratestr_nested)
 
 #######
 #Save the trail of metadata sources to metadata_trail
