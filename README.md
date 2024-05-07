@@ -3,6 +3,8 @@
 
 [![M@TE collection on NCI](https://img.shields.io/badge/get-PDF-blue.svg)](http://dx.doi.org/10.25914/yrzp-g882)
 
+[![DOI:<10.25914/yrzp-g882>](http://img.shields.io/badge/DOI-<your number>-<colour hexcode>.svg)](<doi link>)
+
 ## Model submission overview and objectives
 
 * M@TE models begin their life as github repositories, based on a [this repository template](https://github.com/ModelAtlasofTheEarth/mate_model_template)
