@@ -158,41 +158,44 @@ def ensure_path_starts_with_pattern(file_path, pattern='./graphics/'):
     return file_path
 
 def configure_yaml_output_dict(output_dict, issue_dict,
-                               image_path='./graphics/', old_yaml=True, timestamp=False):
+                               image_path='./graphics/',
+                               nci_file_path_base='/g/data/nm08/MATE/',
+                               timestamp=False):
+
+                               #nci_file_path_base
 
     #make some changes (in-place) to output_dict, to help wrangle the yaml output dict
-    #many of these simply enforce formatting that is required by the Gatsby YAML frontmatter
 
     #add in the template key for this page
     output_dict['templateKey'] = 'model'
+
+    #include_model_code
+    if issue_dict['slug']:
+        path_slug = issue_dict['slug']
+    elif issue_dict['proposed_slug']:
+            path_slug = issue_dict['proposed_slug']
+    else:
+        path_slug = 'PENDING'
+
+    ## add the NCI_file_path
+    if issue_dict["include_model_output"]:
+        data_file_path = nci_file_path_base + path_slug + '/model_output_data'
+        output_dict['dataset']['nci_file_path'] = data_file_path
+
+    if issue_dict["include_model_code"]:
+        code_file_path = nci_file_path_base + path_slug + '/model_code_inputs'
+        output_dict['model_files']['nci_file_path'] = code_file_path
+
 
     #change format of ORCiD ids if required
     for creator in output_dict['creators']:
         creator['ORCID'] = extract_orcid_id(creator['ORCID'])
 
-    #change format of ORCiD ids if required
-    #for contributor in output_dict['contributors']:
-    #    contributor['ORCID'] = extract_orcid_id(contributor['ORCID'])
 
-
-
-    ########################
-    #Now we're going to to a hotfix to sync the names with the website terminology
-    ########################
-    #if old_yaml is True:
-    #    output_dict['authors'] = copy.deepcopy(output_dict['creators']) + copy.deepcopy(output_dict['contributors'])
-    #    output_dict['contributor'] = copy.deepcopy(output_dict['submitter'])
-    #    del output_dict['contributors']
-    #    del output_dict['creators']
-    ########################
-    #... remove this when we've update website code
-    ########################
 
     # Format the datetime as specified, with milliseconds set to .000
     if timestamp:
         output_dict['date'] = timestamp
-    #
-    #
 
     #enforce list and sytax for FOR codes
     updated_codes = extract_integers(output_dict['for_codes'])

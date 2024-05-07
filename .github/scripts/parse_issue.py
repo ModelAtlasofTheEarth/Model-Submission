@@ -259,6 +259,7 @@ def parse_issue(issue):
 
     # slug
     proposed_slug = data["-> slug"].strip()
+    data_dict["proposed_slug"] = proposed_slug
 
     slug, log = validate_slug(proposed_slug)
     data_dict["slug"] = slug
@@ -451,7 +452,11 @@ def parse_issue(issue):
 
     # include model output data
     model_output = data["-> include model output data?"].strip()
+    #having this outside the record
+    #anticipates that we might choose not to build the record if False
     data_dict["include_model_output"] = parse_yes_no_choice(model_output)
+
+
 
     # model output data
     model_output_record = {}

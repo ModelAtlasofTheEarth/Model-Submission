@@ -146,11 +146,15 @@ issue_yaml_mapping = {
     #but for the website they should point to the NCI collection
     'model_setup_info.url':'foo',
     'model_setup_info.summary':'model_setup_description',
-    'model_files.url':'foo',
-    'model_files.notes':'foo',
+    'model_files.url':'model_code_inputs.url',
+    'model_files.notes':'model_code_inputs.notes',
     'model_files.file_tree':'foo',
-    "dataset.url":"model_data.url",
-    "dataset.notes":"model_data.notes",
-    "dataset.doi":"model_data.doi",
-    "dataset.notes":"model_data.notes"
+    'model_files.existing_identifier':'model_code_inputs.doi',
+    'model_files.nci_file_path':'foo',
+    'model_files.include':'include_model_code',
+    "dataset.url":"model_output_data.url",
+    "dataset.notes":"model_output_data.notes",
+    'dataset.existing_identifier':'model_output_data.doi',
+    'dataset.nci_file_path':'foo',
+    'dataset.include':'include_model_output'
 }
