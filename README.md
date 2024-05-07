@@ -1,9 +1,9 @@
 # Welcome to the Model Atlas of The Earth (M@TE)
 
 
-[![M@TE collection on NCI](https://img.shields.io/badge/get-PDF-blue.svg)](http://dx.doi.org/10.25914/yrzp-g882)
+M@TE collection on NCI 
 
-[![DOI:<10.25914/yrzp-g882>](http://img.shields.io/badge/DOI-<your number>-<colour hexcode>.svg)](<doi link>)
+![Static Badge](https://img.shields.io/badge/DOI-10.25914%2Fyrzp--g882-blue)
 
 ## Model submission overview and objectives
 
