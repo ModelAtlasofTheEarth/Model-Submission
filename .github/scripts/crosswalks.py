@@ -368,21 +368,21 @@ def metadata_to_nci(ro_crate):
     fields_data = {
         "Title*": list_to_string(ro_crate_nested.get_nested(f"{root}.name")),
         "Dataset version*": list_to_string(ro_crate_nested.get_nested(f"{root}.version")),
-        "Abstract*": list_to_string(ro_crate_nested.get_nested(f"{root}.description")) + " The following is an abstract describing the scientific context for this model: " + list_to_string(ro_crate_nested.get_nested(f"{root}.abstract")),
-        "Topic category*": list_to_string(ro_crate_nested.get_nested(f"{root}.keywords")),
+        "Abstract*": list_to_string(ro_crate_nested.get_nested(f"{root}.abstract")),
+        "Topic category*": "geoscientificInformation",
         "Field of research (FOR)*": list_to_string(ro_crate_nested.get_nested(f"{root}.about.@id")),
         "License*": ro_crate_nested[license_id]['description'],
-        "Dataset lineage information*": "",
+        "Dataset lineage information*": list_to_string(ro_crate_nested.get_nested(f"{root}.description")),
         "Dataset format*": "",
         "Dataset status": list_to_string(ro_crate_nested.get_nested(f"{root}.creativeWorkStatus")),
-        "Maintenance frequency*": "",
+        "Maintenance frequency*": "as needed",
         "Temporal extents* (if applicable)": "",
         "Spatial extents* (if applicable)": "",
         "Owner* (if applicable)": "",
         "Credit": "",
         "Supplemental or supporting material": "",
         "Local NCI file path": "",
-        "DOI (NCI Internal Field)": "",
+        "DOI (NCI Internal Field)": list_to_string(ro_crate_nested.get_nested(f"{root}.identifier")),
         "Keyword/s": list_to_string(ro_crate_nested.get_nested(f"{root}.keywords"))
     }
 
