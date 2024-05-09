@@ -93,6 +93,7 @@ issue_yaml_mapping = {
     'for_codes':'for_codes.termCode',
     'status':'foo',
     'doi':'foo',
+    'creditText':'foo',
     "software.name":"software.name",
     "software.doi":"software.@id",
     "software.url_source":"software.codeRepository",
