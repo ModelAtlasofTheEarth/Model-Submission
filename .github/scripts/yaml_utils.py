@@ -159,7 +159,7 @@ def ensure_path_starts_with_pattern(file_path, pattern='./graphics/'):
 
 def configure_yaml_output_dict(output_dict, issue_dict,
                                image_path='./graphics/',
-                               nci_file_path_base='/g/data/nm08/MATE/',
+                               thredds_base ="dapds00.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html",
                                timestamp=False):
 
                                #nci_file_path_base
@@ -177,14 +177,13 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     else:
         path_slug = 'PENDING'
 
+    thredds_string = thredds_base.format(path_slug)
     ## add the NCI_file_path
     if issue_dict["include_model_output"]:
-        data_file_path = nci_file_path_base + path_slug + '/model_output_data'
-        output_dict['dataset']['nci_file_path'] = data_file_path
+        output_dict['dataset']['nci_file_path'] = thredds_string + '/model_output_data'
 
     if issue_dict["include_model_code"]:
-        code_file_path = nci_file_path_base + path_slug + '/model_code_inputs'
-        output_dict['model_files']['nci_file_path'] = code_file_path
+        output_dict['model_files']['nci_file_path'] =  thredds_string + '/model_code_inputs'
 
 
     #change format of ORCiD ids if required

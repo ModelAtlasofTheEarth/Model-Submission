@@ -594,13 +594,20 @@ def extract_project_description(owner, repo):
         # If the request is not successful, return an error message
         return f"Failed to download README.md: HTTP {response.status_code}"
 
+def construct_full_url(base_url, identifier):
+    # Insert the identifier into the base URL at the placeholder position
+    full_url = base_url.format(identifier)
+    return full_url
 
 
-def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
+
+def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False,thredds_base ="dapds00.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html"):
 
     """
     Apply any defaults and or customising of the crate based on user input. There is some crossover here with parse_issue, which also applies some default fields
     In some cases it may be easier to apply these here. Examples are the isPartOf of puiblisher fields
+
+    should put thredds_base in a globals file!
     """
 
     #publisher default to NCI?
@@ -611,6 +618,10 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
                  '@id': 'https://ror.org/04yx6dh41',
                  'name': 'National Computational Infrastructure'}
     ro_crate['@graph'][root_index]['publisher'] = NCI_RECORD
+
+    #add the thredds URL
+    thredds_string = thredds_base.format(ro_crate['@graph'][root_index]['alternateName'])
+    ro_crate['@graph'][root_index]['url'] = thredds_string
 
     #add date time as the date published ro-crate
 
