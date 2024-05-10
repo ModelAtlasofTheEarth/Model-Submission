@@ -2,7 +2,7 @@ import requests
 import string
 import json
 import random
-from config import MATE_DOI, NCI_RECORD
+from config import MATE_DOI, NCI_RECORD, AUSCOPE_RECORD, MATE_THREDDS_BASE
 import re
 import glob
 
@@ -601,30 +601,22 @@ def construct_full_url(base_url, identifier):
 
 
 
-def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False,thredds_base ="dapds00.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html"):
+def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
 
     """
     Apply any defaults and or customising of the crate based on user input. There is some crossover here with parse_issue, which also applies some default fields
     In some cases it may be easier to apply these here. Examples are the isPartOf of puiblisher fields
-
-    should put thredds_base in a globals file!
     """
 
-    #publisher default to NCI?
-    #isPartOf should default to M@TE collection
+    #add soem deafaul parts of the record thredds URL
     root_index = find_index_by_id(ro_crate, './')
     ro_crate['@graph'][root_index]['isPartOf'].append(MATE_DOI)
-    nci_record = {'@type': 'Organization',
-                 '@id': 'https://ror.org/04yx6dh41',
-                 'name': 'National Computational Infrastructure'}
-    ro_crate['@graph'][root_index]['publisher'] = NCI_RECORD
-
-    #add the thredds URL
-    thredds_string = thredds_base.format(ro_crate['@graph'][root_index]['alternateName'])
+    ro_crate['@graph'][root_index]['publisher'] = [AUSCOPE_RECORD, NCI_RECORD]
+    thredds_string = MATE_THREDDS_BASE.format(ro_crate['@graph'][root_index]['alternateName'])
     ro_crate['@graph'][root_index]['url'] = thredds_string
 
-    #add date time as the date published ro-crate
 
+    #add date time as the date published ro-crate
     if timestamp:
         ro_crate['@graph'][root_index]["datePublished"] = timestamp
 
@@ -632,8 +624,9 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False,thredd
 
 
     #add the project Description
-    proj_description = extract_project_description("ModelAtlasofTheEarth", "metadata_schema")
-    ro_crate['@graph'][root_index]["description"] = proj_description
+    #description repurposed for Plain Language Summary!!!
+    #proj_description = extract_project_description("ModelAtlasofTheEarth", "metadata_schema")
+    #ro_crate['@graph'][root_index]["description"] = proj_description
 
     #resolve any potential issues with authorship and contribution
 

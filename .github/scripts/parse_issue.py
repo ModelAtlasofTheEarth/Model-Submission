@@ -335,8 +335,8 @@ def parse_issue(issue):
 
     data_dict["title"] = title
 
-    # description
-    abstract = data["-> description"].strip()
+    # abstract
+    abstract = data["-> abstract"].strip()
 
     #if abstract == "_No response_":
     if null_response_check(abstract):
@@ -349,7 +349,8 @@ def parse_issue(issue):
 
     data_dict["abstract"] = abstract
 
-
+    # description - brief plain langauge summary.
+    description = data["-> description"].strip()
 
     # scientific keywords
     keywords = [x.strip() for x in data["-> scientific keywords"].split(",")]
