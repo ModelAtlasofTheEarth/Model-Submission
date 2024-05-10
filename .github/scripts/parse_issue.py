@@ -351,6 +351,7 @@ def parse_issue(issue):
 
     # description - brief plain langauge summary.
     description = data["-> description"].strip()
+    data_dict["description"] = description
 
     # scientific keywords
     keywords = [x.strip() for x in data["-> scientific keywords"].split(",")]
