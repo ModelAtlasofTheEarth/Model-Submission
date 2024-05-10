@@ -224,7 +224,7 @@ body:
     id: data_notes
     attributes:
       label: -> model output data notes
-      placeholder: "output data primarily consists of ~ 1000 *.vtk files, each representing an output timestep, with a total size of 66 Gb."
+      placeholder: "e.g., output data primarily consists of ~ 1000 *.vtk files, each representing an output timestep, with a total size of 66 Gb."
       description: "Please provide a basic description of your output data"
 
   - type: input
@@ -331,7 +331,7 @@ body:
 
   - type: markdown
     attributes:
-      value: "## Section 5: Feeback and next steps"
+      value: "## Section 5: Feedback and next steps"
 
   - type: markdown
     attributes:
