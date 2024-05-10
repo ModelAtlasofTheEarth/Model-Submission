@@ -120,9 +120,17 @@ body:
     id: description
     attributes:
       label: -> description
-      placeholder: "e.g., model description"
-      description: "if no input provided, info. from publication DOI will be used. Markdown formatting can be used here and will be rendered on the website."
-
+      placeholder: "This model was developed in order to...."
+      description: "A brief model description. Preferably plain language, and < 100 words."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: abstract
+    attributes:
+      label: -> abstract
+      placeholder: "Your scientific abstract"
+      description: "if no input provided, abstract from publication DOI will be used. Markdown formatting can be used here and will be rendered on the website."
 
   - type: input
     id: keywords
