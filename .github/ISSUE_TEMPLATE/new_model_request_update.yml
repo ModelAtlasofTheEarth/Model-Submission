@@ -1,5 +1,5 @@
 ---
-name: New model request
+name: New model request - update test
 description: Submit a new model request
 title: "M@TE submission request from [@your-github-username]"
 labels: ["test -don't use"]
