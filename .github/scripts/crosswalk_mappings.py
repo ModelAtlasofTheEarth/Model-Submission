@@ -125,7 +125,7 @@ issue_yaml_mapping = {
     "compute_info.organisation":"computer_resource.author.name",
     "compute_info.url":"computer_resource.url",
     "compute_info.doi":"computer_resource.@id",
-    "research_tags":"scientific_keywords",
+    #"research_tags":"scientific_keywords",
     "compute_tags":"software.keywords",
     "funder.name":"funder.name",
     "funder.doi":"funder.@id",
