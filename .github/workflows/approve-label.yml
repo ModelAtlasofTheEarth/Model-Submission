@@ -172,7 +172,7 @@ jobs:
           OWNER: ${{ github.event.repository.owner.login }}
           SUBMITTER: ${{ github.event.issue.user.login }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          TEMPLATE: mate_model_template
+          TEMPLATE: mate-model-template
           FLAGS: --public
         run: |
           REPO_NAME=$(python3 .github/scripts/generate_identifier.py)
