@@ -170,7 +170,7 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     #add in the template key for this page
     output_dict['templateKey'] = 'model'
     #add the licence file default name
-    output_dict['licence']['licence_file'] = 'LICENSE'
+    output_dict['licence']['licence_file'] = 'license.txt'
 
     #include_model_code
     if issue_dict['slug']:
