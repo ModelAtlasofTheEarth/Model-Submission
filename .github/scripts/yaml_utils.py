@@ -166,8 +166,11 @@ def configure_yaml_output_dict(output_dict, issue_dict,
 
     #make some changes (in-place) to output_dict, to help wrangle the yaml output dict
 
+    #add in defaults that aren't handled elsewhere
     #add in the template key for this page
     output_dict['templateKey'] = 'model'
+    #add the licence file default name
+    output_dict['licence']['licence_file'] = 'LICENSE'
 
     #include_model_code
     if issue_dict['slug']:
@@ -238,6 +241,8 @@ def configure_yaml_output_dict(output_dict, issue_dict,
         output_dict['associated_publication']['date']       = issue_dict['publication']['isPartOf'][0]['datePublished']
     except:
         pass
+
+
 
 def save_yaml_with_header(yaml_content, file_path=None):
 
