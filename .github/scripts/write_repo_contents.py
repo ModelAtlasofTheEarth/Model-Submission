@@ -96,7 +96,7 @@ except:
     license_url = ''
 license_txt = download_license_text(license_url)
 model_repo.create_file("LICENSE","add license text", license_txt)
-model_repo.create_file("website_material/LICENSE","add license text", license_txt)
+model_repo.create_file("website_material/license.txt","add license text", license_txt)
 
 
 #####Create the README.md
