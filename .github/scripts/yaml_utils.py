@@ -230,8 +230,8 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     #check that any structures that need to be in lists are in lists
     if not isinstance(output_dict['software'], list):
         output_dict['software'] = [output_dict['software']]
-    #if not isinstance(output_dict['research_tags'], list):
-    #        output_dict['research_tags'] = [output_dict['research_tags']]
+    if not isinstance(output_dict['research_tags'], list):
+            output_dict['research_tags'] = [output_dict['research_tags']]
 
 
     #Add any additional mappings that we can't manage in the generalised function
