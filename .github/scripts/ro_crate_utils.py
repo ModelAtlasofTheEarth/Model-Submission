@@ -5,6 +5,9 @@ import random
 from config import MATE_DOI, NCI_RECORD, AUSCOPE_RECORD, MATE_THREDDS_BASE
 import re
 import glob
+from collections.abc import MutableMapping
+from fuzzywuzzy import fuzz, process
+
 
 def recursively_filter_key(obj, entity_template):
 
@@ -749,3 +752,57 @@ def replace_keys_recursive(obj):
         return set(replace_keys_recursive(list(obj)))
     else:
         return obj
+
+
+
+def collect_person_ids(data, person_records):
+    """
+    Recursively collects Person records with @id and stores them in person_records.
+
+    Args:
+        data: The input data structure (dict or list) to traverse.
+        person_records: A dictionary to store the collected Person records.
+    """
+    if isinstance(data, list):
+        for item in data:
+            collect_person_ids(item, person_records)
+    elif isinstance(data, MutableMapping):
+        if data.get('@type') == 'Person' and '@id' in data:
+            key = f"{data.get('givenName')} {data.get('familyName')}"
+            if key not in person_records:
+                person_records[key] = data.get('@id')
+        for value in data.values():
+            collect_person_ids(value, person_records)
+
+def assign_missing_ids(data, person_records, threshold=80):
+    """
+    Recursively assigns missing @id to Person records using fuzzy matching.
+
+    Args:
+        data: The input data structure (dict or list) to traverse.
+        person_records: A dictionary of collected Person records with their @id.
+        threshold: The minimum similarity score for fuzzy matching (default is 80).
+    """
+    if isinstance(data, list):
+        for item in data:
+            assign_missing_ids(item, person_records, threshold)
+    elif isinstance(data, MutableMapping):
+        if data.get('@type') == 'Person' and '@id' not in data:
+            key = f"{data.get('givenName')} {data.get('familyName')}"
+            best_match = process.extractOne(key, person_records.keys(), scorer=fuzz.token_sort_ratio)
+            if best_match and best_match[1] >= threshold:
+                data['@id'] = person_records[best_match[0]]
+        for value in data.values():
+            assign_missing_ids(value, person_records, threshold)
+
+def assign_ids(metadata, threshold=80):
+    """
+    Collects Person records with @id and assigns missing @id to Person records in metadata.
+
+    Args:
+        metadata: The input metadata dictionary to process.
+        threshold: The minimum similarity score for fuzzy matching (default is 80).
+    """
+    person_records = {}
+    collect_person_ids(metadata, person_records)
+    assign_missing_ids(metadata, person_records, threshold)

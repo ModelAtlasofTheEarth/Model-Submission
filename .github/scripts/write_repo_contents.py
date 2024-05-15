@@ -3,7 +3,7 @@ import re
 from github import Github, Auth
 from parse_issue import parse_issue
 from crosswalks import dict_to_metadata, dict_to_yaml, dict_to_report, metadata_to_nci
-from ro_crate_utils import replace_keys_recursive
+from ro_crate_utils import replace_keys_recursive, assign_ids
 from yaml_utils import format_yaml_string
 from request_utils import download_license_text
 from copy_files import copy_files
@@ -44,6 +44,8 @@ data, error_log = parse_issue(issue)
 rocratestr_nested = dict_to_metadata(data, flat_compact_crate=False, timestamp= timestamp)
 rocratedict = json.loads(rocratestr_nested)
 default_context_list = copy.deepcopy(rocratedict['@context'])
+#patch missign ids on Person Records
+assign_ids(rocratedict['@graph'])
 
 try:
 

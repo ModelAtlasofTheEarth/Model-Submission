@@ -14,6 +14,9 @@ def encode(name, i):
 	return result_str
 
 
+#Dan added the 'Moved Permanently' condition as a bandaid fix for repos that have been deleted
+#functionality here may need improvement/rethinking.
+
 def exists(model_id):
 	cmd = "curl https://api.github.com/repos/ModelAtlasofTheEarth/{0}".format(model_id)
 	output = json.loads(run_command_check_output(cmd))
