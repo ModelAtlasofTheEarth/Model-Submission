@@ -608,7 +608,7 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
     In some cases it may be easier to apply these here. Examples are the isPartOf of puiblisher fields
     """
 
-    #add soem deafaul parts of the record thredds URL
+    #add some default parts of the record
     root_index = find_index_by_id(ro_crate, './')
     ro_crate['@graph'][root_index]['isPartOf'].append(MATE_DOI)
     ro_crate['@graph'][root_index]['publisher'] = [AUSCOPE_RECORD, NCI_RECORD]

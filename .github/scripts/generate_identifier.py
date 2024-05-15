@@ -19,7 +19,7 @@ def exists(model_id):
 	output = json.loads(run_command_check_output(cmd))
 
 	if "message" in output:
-		if output["message"] == "Not Found":
+		if output["message"] == "Not Found" or output["message"] == 'Moved Permanently':
 			return False
 		else:
 			return True
