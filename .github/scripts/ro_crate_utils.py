@@ -2,7 +2,7 @@ import requests
 import string
 import json
 import random
-from config import MATE_DOI, NCI_RECORD, AUSCOPE_RECORD, MATE_THREDDS_BASE
+from config import *
 import re
 import glob
 from collections.abc import MutableMapping
@@ -615,8 +615,20 @@ def defaults_and_customise_ro_crate(issue_dict, ro_crate, timestamp=False):
     root_index = find_index_by_id(ro_crate, './')
     ro_crate['@graph'][root_index]['isPartOf'].append(MATE_DOI)
     ro_crate['@graph'][root_index]['publisher'] = [AUSCOPE_RECORD, NCI_RECORD]
-    thredds_string = MATE_THREDDS_BASE.format(ro_crate['@graph'][root_index]['alternateName'])
-    ro_crate['@graph'][root_index]['url'] = thredds_string
+    #add the mate.science url for this model
+    #the logic is that the metadata captures all of the access points:
+    # the root identifier is the doi that points to the geonetwork record
+    # the root url points to the model on the mate website and the mate github
+    # the model_outputs/model_outputs url is the thredds URL
+    mate_science_url = MATE_WEBSITE + 'models/{}/'
+    mate_gh_url = MATE_GITHUB + '{}/'
+    slug = ro_crate['@graph'][root_index]['alternateName']
+    ro_crate['@graph'][root_index]['url'] = [mate_science_url.format(slug), mate_gh_url.format(slug)]
+    thredds_string = MATE_THREDDS_BASE.format(slug)
+    roc_index = find_index_by_id(ro_crate, 'model_outputs')
+    ro_crate['@graph'][roc_index]['url'] = thredds_string
+    roc_index = find_index_by_id(ro_crate, 'model_inputs')
+    ro_crate['@graph'][roc_index]['url'] = thredds_string
 
 
     #add date time as the date published ro-crate

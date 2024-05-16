@@ -22,7 +22,10 @@ def validate_slug(proposed_slug):
     except AssertionError as err:
         error_log += f"{err}\n"
 
+    #try a workaround for local tests
     cmd = "python3 .github/scripts/generate_identifier.py"
+    if os.path.exists('../.github/scripts/generate_identifier.py'):
+        os.path.exists('../.github/scripts/generate_identifier.py')
 
     try:
         slug = subprocess.check_output(cmd, shell=True, text=True, stderr=open(os.devnull)).strip()
