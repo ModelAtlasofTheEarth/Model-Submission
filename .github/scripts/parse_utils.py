@@ -141,7 +141,7 @@ def parse_image_and_caption(img_string, default_filename):
     caption = []
 
     for string in img_string.split("\r\n"):
-        if "https://" in string:
+        if "https://github.com/ModelAtlasofTheEarth/model_submission/assets/" in string:
             try:
                 image_record = re.search(md_regex, string).groupdict()
             except:
