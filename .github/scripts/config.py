@@ -6,7 +6,7 @@
 MATE_DOI =     'http://dx.doi.org/10.25914/yrzp-g882'
 MATE_WEBSITE = 'https://mate.science/'
 MATE_GITHUB =  'https://github.com/ModelAtlasofTheEarth'
-MATE_THREDDS_BASE ="dapds00.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html"
+MATE_THREDDS_BASE = "https://dapds00.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html"
 
 #URIs
 
