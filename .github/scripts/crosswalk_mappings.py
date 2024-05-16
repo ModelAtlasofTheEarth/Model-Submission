@@ -138,7 +138,7 @@ issue_yaml_mapping = {
     "images.landing_image.src":"landing_image.filename",
     "images.landing_image.caption":"landing_image.caption",
     "images.graphic_abstract.src":"graphic_abstract.filename",
-    "images.graphic_abstract.caption":"graphic_abstract.filename",
+    "images.graphic_abstract.caption":"graphic_abstract.caption",
     "images.model_setup.src":"model_setup_figure.filename",
     "images.model_setup.caption":"model_setup_figure.caption",
     "animation.src":"animation.filename",
