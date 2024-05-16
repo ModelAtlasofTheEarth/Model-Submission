@@ -212,7 +212,7 @@ def configure_yaml_output_dict(output_dict, issue_dict,
 
     #append image_path to image file names if required
     for key, im_dict in output_dict['images'].items():
-        if output_dict['images'][key]['src'] is None:
+        if not output_dict['images'][key]['src']:
             pass
         else:
             path = ensure_path_starts_with_pattern(output_dict['images'][key]['src'], image_path)

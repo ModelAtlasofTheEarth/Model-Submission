@@ -585,11 +585,13 @@ def parse_issue(issue):
     #############
     # landing page image and caption
     img_string = data["-> add landing page image and caption"].strip()
+    empty_image_record = {"filename":"", "url": ""}
 
     #if img_string == "_No response_":
     if null_response_check(img_string):
         error_log += "**Landing page image**\n"
         error_log += "Error: No image uploaded.\n\n"
+        data_dict["landing_image"] = empty_image_record
     else:
         landing_image_record, log = parse_image_and_caption(img_string, "landing_image")
         if log:
@@ -602,6 +604,7 @@ def parse_issue(issue):
     if img_string == "_No response_":
         error_log += "**Animation**\n"
         error_log += "Warning: No animation uploaded.\n\n"
+        data_dict["animation"] = empty_image_record
     else:
         animation_record, log = parse_image_and_caption(img_string, "animation")
         if log:
@@ -614,6 +617,7 @@ def parse_issue(issue):
     if img_string == "_No response_":
         error_log += "**Graphic abstract**\n"
         error_log += "Warning: No image uploaded.\n\n"
+        data_dict["graphic_abstract"] = empty_image_record
     else:
         graphic_abstract_record, log = parse_image_and_caption(img_string, "graphic_abstract")
         if log:
@@ -626,6 +630,7 @@ def parse_issue(issue):
     if img_string == "_No response_":
         error_log += "**Model setup figure**\n"
         error_log += "Warning: No image uploaded.\n\n"
+        data_dict["model_setup_figure"] = empty_image_record
     else:
         model_setup_fig_record, log = parse_image_and_caption(img_string, "model_setup")
         if log:
