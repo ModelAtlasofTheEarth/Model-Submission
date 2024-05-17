@@ -138,6 +138,7 @@ def parse_image_and_caption(img_string, default_filename):
 
     md_regex = r"\[(?P<filename>.*?)\]\((?P<url>.*?)\)"
     html_regex = r'alt="(?P<filename>[^"]+)" src="(?P<url>[^"]+)"'
+    pattern = re.compile(r"https://github.com/ModelAtlasofTheEarth/[^/]+/assets/")
 
     # Hack to recognise SVG files
     filetype.add_type(Svg())
@@ -145,7 +146,8 @@ def parse_image_and_caption(img_string, default_filename):
     caption = []
 
     for string in img_string.split("\r\n"):
-        if "https://github.com/ModelAtlasofTheEarth/model_submission/assets/" in string:
+        #if "https://github.com/ModelAtlasofTheEarth/model_submission/assets/" in string:
+        if pattern.search(string):
             try:
                 image_record = re.search(md_regex, string).groupdict()
             except:
