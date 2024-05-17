@@ -169,8 +169,10 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     #add in defaults that aren't handled elsewhere
     #add in the template key for this page
     output_dict['templateKey'] = 'model'
-    #add the licence file default name
+    #add the licence file default name (path relative to index.md)
     output_dict['licence']['licence_file'] = 'license.txt'
+    #add location of the the metadata file (path relative to index.md)
+    output_dict['metadataFile'] = 'ro-crate-metadata.json'
 
     #include_model_code
     if issue_dict['slug']:
