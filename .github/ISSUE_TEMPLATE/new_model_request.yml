@@ -290,7 +290,7 @@ body:
 
   - type: markdown
     attributes:
-      value: "In this section we will gather some information so we can display your model on mate.science. Not all items are required, but we need at least on image!
+      value: "In this section we will gather some information so we can display your model on mate.science. Not all items are required, but we need at least one image!"
 
   - type: textarea
     id: web_landing_page
