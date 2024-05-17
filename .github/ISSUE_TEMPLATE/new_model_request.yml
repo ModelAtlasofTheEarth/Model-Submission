@@ -292,14 +292,14 @@ body:
     attributes:
       value: "In this section we will gather some information so we can display your model on mate.science. Please leave blank if you do not want this to occur. Note that files and text can be added/changed later!"
 
-
-
   - type: textarea
     id: web_landing_page
     attributes:
       label: -> add landing page image and caption
       placeholder: "e.g., Caption for landing page image"
       description: "Please provide a landing page image by dragging an image file into this box. Max file size is 2 Mb. JPEG, PNG, SVG, PDF, PPTX, or ZIP are supported. Please also provide a short caption."
+    validations:
+      required: true
 
   - type: textarea
     id: web_animation
