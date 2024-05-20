@@ -83,7 +83,7 @@ model_repo.create_file("metadata_trail/issue_dict.json","add issue_dict", issue_
 #######
 csv_buffer = StringIO()
 #get a iso record as pandas df...
-nci_iso_record = metadata_to_nci(flatcompact)
+nci_iso_record = metadata_to_nci(rocratedict)
 nci_iso_record.to_csv(csv_buffer, index=False)
 # Reset buffer position to the beginning
 csv_buffer.seek(0)

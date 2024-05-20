@@ -38,16 +38,20 @@ def extract_creator_details(ro_crate_nested):
 
 def extract_funder_details(ro_crate_nested):
     funders = []
+
     # Extract 'funder' entries directly using NestedDict indexing
     root_funders = ro_crate_nested.get_nested('root.funder') or []
     for funder in root_funders:
+        # Use the funder record directly if it doesn't have an '@id'
         if "@id" in funder:
             funder_details = ro_crate_nested[funder["@id"]]
-            funders.append({
-                "name": funder_details.get("name", "Unknown"),
-                "grant_id": "No grant ID provided",  # Default text for missing grant IDs
-                "email": "Email not provided"  # Default text assuming no email provided
-            })
+        else:
+            funder_details = funder
+        funders.append({
+            "name": funder_details.get("name", "Unknown"),
+            "grant_id": "No grant ID provided",  # Default text for missing grant IDs
+            "email": "Email not provided"  # Default text assuming no email provided
+        })
 
     # Extract 'funding' entries, which are typically grants
     root_fundings = ro_crate_nested.get_nested('root.funding') or []
@@ -55,8 +59,11 @@ def extract_funder_details(ro_crate_nested):
         if "@id" in funding:
             funding_details = ro_crate_nested[funding["@id"]]
             # Handle nested 'funder' information within 'funding'
-            if "funder" in funding_details and "@id" in funding_details["funder"]:
-                funder_info = ro_crate_nested[funding_details["funder"]["@id"]]
+            if "funder" in funding_details:
+                if "@id" in funding_details["funder"]:
+                    funder_info = ro_crate_nested[funding_details["funder"]["@id"]]
+                else:
+                    funder_info = funding_details["funder"]
                 funder_name = funder_info.get("name", "Unknown")
             else:
                 funder_name = "Unknown"  # Default text if funder name is not available
