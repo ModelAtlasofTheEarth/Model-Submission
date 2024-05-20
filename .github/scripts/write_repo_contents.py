@@ -175,8 +175,8 @@ print("README.md updated successfully!")
 #######
 # Add issue keywords as repository topics
 keywords = []
-sciencekeywords = issue_dict.get("scientific_keywords", [])
-softwarekeywords = issue_dict["software"].get("keywords", [])
+sciencekeywords = data.get("scientific_keywords", [])
+softwarekeywords = data["software"].get("keywords", [])
 keywords += sciencekeywords + softwarekeywords
 
 #ensure keywords have valid format
