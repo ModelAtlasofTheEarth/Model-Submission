@@ -20,15 +20,15 @@ def list_to_string(value):
 
 
 def extract_creator_details(ro_crate_nested):
-    creators = [ro_crate_nested[key] for key in ro_crate_nested if key.startswith("http://orcid.org/")]
+    creators = ro_crate_nested.get('root', {}).get('creator', [])
     creator_details = []
     for creator in creators:
         details = {
-            "Last name": creator.get("familyName", ""),
-            "First name": creator.get("givenName", ""),
-            "Organization": "Unknown",  # Placeholder, as organization is not directly provided
-            "Email": "Unknown",  # Placeholder, as email is not directly provided
-            "ORCID ID": creator["@id"]
+            "Last name": creator.get("familyName", "Unknown"),  # Default to "Unknown" if not provided
+            "First name": creator.get("givenName", "Unknown"),  # Default to "Unknown" if not provided
+            "Organization": creator.get("affiliation", {}).get("name", "Unknown") if "affiliation" in creator else "Unknown",
+            "Email": creator.get("email", "Unknown"),  # Default to "Unknown" if not provided
+            "ORCID ID": creator.get("@id", "Unknown")  # Default to "Unknown" if not provided
         }
         creator_details.append(details)
     return creator_details
@@ -44,7 +44,7 @@ def extract_funder_details(ro_crate_nested):
     for funder in root_funders:
         # Use the funder record directly if it doesn't have an '@id'
         if "@id" in funder:
-            funder_details = ro_crate_nested[funder["@id"]]
+            funder_details = ro_crate_nested.get(funder["@id"], {})
         else:
             funder_details = funder
         funders.append({
@@ -57,11 +57,11 @@ def extract_funder_details(ro_crate_nested):
     root_fundings = ro_crate_nested.get_nested('root.funding') or []
     for funding in root_fundings:
         if "@id" in funding:
-            funding_details = ro_crate_nested[funding["@id"]]
+            funding_details = ro_crate_nested.get(funding["@id"], {})
             # Handle nested 'funder' information within 'funding'
             if "funder" in funding_details:
                 if "@id" in funding_details["funder"]:
-                    funder_info = ro_crate_nested[funding_details["funder"]["@id"]]
+                    funder_info = ro_crate_nested.get(funding_details["funder"]["@id"], {})
                 else:
                     funder_info = funding_details["funder"]
                 funder_name = funder_info.get("name", "Unknown")

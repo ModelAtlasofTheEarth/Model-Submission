@@ -371,7 +371,7 @@ def metadata_to_nci(ro_crate):
         "Abstract*": list_to_string(ro_crate_nested.get_nested(f"{root}.abstract")),
         "Topic category*": "geoscientificInformation",
         "Field of research (FOR)*": list_to_string(ro_crate_nested.get_nested(f"{root}.about.@id")),
-        "License*": ro_crate_nested[license_id]['description'],
+        "License*": ro_crate_nested.get_nested(f"{root}.license.description"),
         "Dataset lineage information*": list_to_string(ro_crate_nested.get_nested(f"{root}.description")),
         "Dataset format*": "",
         "Dataset status": list_to_string(ro_crate_nested.get_nested(f"{root}.creativeWorkStatus")),
