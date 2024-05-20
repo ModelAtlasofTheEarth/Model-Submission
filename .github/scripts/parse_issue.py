@@ -209,10 +209,9 @@ def parse_issue(issue):
     # model creators
     creators = data['-> model creators'].strip().split('\r\n')
     #test if the input has an orcid type, and if so, make sure only the orcid id is present
-    orcid_id = extract_orcid(creators[0])
-    if orcid_id:
-        creators = [extract_orcid(p) for p in creators]
-    #if creators[0] == "_No response_":
+
+
+    #first check for null response, and try to use publication record
     if null_response_check(creators[0]):
         try:
             creators_list = publication_record["author"]
@@ -220,10 +219,18 @@ def parse_issue(issue):
             creators_list = []
             error_log += "**Model creators**\n"
             error_log += "Error: no creators found \n"
+
+    #now if we got returned a response, try to parse it
     else:
+        for index, item in enumerate(creators):
+            orcid_id = extract_orcid(item )
+            if orcid_id:
+                creators[index] = orcid_id
+
         creators_list, log = get_authors(creators)
         if log:
             error_log += "**Model creators**\n" + log
+
     data_dict["creators"] = creators_list
 
 
@@ -472,7 +479,7 @@ def parse_issue(issue):
         data_creators = [extract_orcid(p) for p in data_creators]
     #if data_creators[0] == "_No response_":
     if null_response_check(data_creators[0]):
-        #add top level creator
+        #if no respones, add the root entity creators
         data_creators_list = data_dict["creators"]
         error_log += "**Model creators**\n"
         error_log += "Error: no data creators found \n"

@@ -231,18 +231,12 @@ def extract_orcid(input_str):
     >>> extract_orcid("John Doe")  # Invalid input
     None
     """
-    orcid_pattern = re.compile(r'(?:https?://orcid\.org/)?([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X])')
 
-    # Search for the pattern in the input string
+    orcid_pattern = re.compile(r'\d{4}-\d{4}-\d{4}-\d{3}[0-9X]')
     match = orcid_pattern.search(input_str)
-
-    # If a match is found, return the ORCiD ID
     if match:
-        return match.group(1)
-    else:
-        # If no match is found, return None
-        return None
-
+        return match.group(0)
+    return None
 
 
 def is_orcid(input_str):
