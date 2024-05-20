@@ -42,26 +42,47 @@ def validate_slug(proposed_slug):
 
 
 def parse_name_or_orcid(name_or_orcid):
-    error_log = ""
+    """
+    Distinguishes between a name and an ORCID ID, returning the corresponding author record.
 
-    if is_orcid_format(name_or_orcid):
-        orcid_record, log1 = get_record("author", name_or_orcid)
+    Parameters:
+    name_or_orcid (str): The input string which could be either a name in the format 'last name(s), first name(s)' or an ORCID ID.
+
+    Returns:
+    dict: Author record.
+    str: Error log.
+    """
+    error_log = ""
+    orcid_id = extract_orcid(name_or_orcid)
+
+    if orcid_id:
+        orcid_record, log1 = get_record("author", orcid_id)
         author_record, log2 = parse_author(orcid_record)
         if log1 or log2:
             error_log += log1 + log2
+        # Extract the name if present
+        name_part = re.sub(r'\(.*?\)|\[.*?\]', '', name_or_orcid).strip()
+        if name_part:
+            try:
+                familyName, givenName = [name.strip() for name in re.split(r',\s*', name_part)]
+                author_record["givenName"] = givenName
+                author_record["familyName"] = familyName
+            except ValueError:
+                pass  # Ignore name extraction errors
     else:
         try:
-            familyName, givenName = name_or_orcid.split(",")
+            familyName, givenName = [name.strip() for name in re.split(r',\s*', name_or_orcid)]
             author_record = {
                 "@type": "Person",
                 "givenName": givenName,
                 "familyName": familyName,
             }
-        except:
-            error_log += f"- Error: name `{name_or_orcid}` in unexpected format. Expected `last name(s), first name(s)` or ORCID. \n"
+        except ValueError:
+            error_log += f"- Error: name `{name_or_orcid}` in unexpected format. Expected `last name(s), first name(s)` or ORCID.\n"
             author_record = {}
 
     return author_record, error_log
+
 
 def parse_yes_no_choice(input):
     if "X" in input:
