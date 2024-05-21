@@ -90,7 +90,7 @@ issue_yaml_mapping = {
     'date':'foo',
     'featuredpost':'foo',
     'for_codes':'for_codes.termCode',
-    'status':'foo',
+    'status':'model_status',
     'doi':'foo',
     'url':'url',
     'creditText':'foo',

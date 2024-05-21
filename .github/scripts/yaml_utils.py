@@ -2,7 +2,7 @@ import re
 import copy
 from ruamel.yaml import YAML
 import io
-from config import MATE_DOI, NCI_RECORD, AUSCOPE_RECORD, MATE_THREDDS_BASE
+from config import *
 
 
 def navigate_and_assign(source, path, value):
@@ -164,6 +164,14 @@ def configure_yaml_output_dict(output_dict, issue_dict,
 
                                #nci_file_path_base
 
+    #establish the slug that is beign used
+    if issue_dict['slug']:
+        path_slug = issue_dict['slug']
+    elif issue_dict['proposed_slug']:
+            path_slug = issue_dict['proposed_slug']
+    else:
+        path_slug = 'PENDING'
+
     #make some changes (in-place) to output_dict, to help wrangle the yaml output dict
 
     #add in defaults that aren't handled elsewhere
@@ -174,13 +182,9 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     #add location of the the metadata file (path relative to index.md)
     output_dict['metadataFile'] = 'ro-crate-metadata.json'
 
-    #include_model_code
-    if issue_dict['slug']:
-        path_slug = issue_dict['slug']
-    elif issue_dict['proposed_slug']:
-            path_slug = issue_dict['proposed_slug']
-    else:
-        path_slug = 'PENDING'
+
+
+
 
     thredds_string = MATE_THREDDS_BASE.format(path_slug)
     ## add the NCI_file_path
@@ -191,6 +195,9 @@ def configure_yaml_output_dict(output_dict, issue_dict,
     if issue_dict["include_model_code"]:
         output_dict['model_files']['nci_file_path'] =  thredds_string #+ '/model_code_inputs'
 
+    #url string
+    url_string = MATE_WEBSITE + '/models/{}'.format(path_slug)
+    output_dict['url'] = url_string
 
     #change format of ORCiD ids if required
     for creator in output_dict['creators']:
