@@ -47,6 +47,17 @@ default_context_list = copy.deepcopy(rocratedict['@context'])
 #patch missign ids on Person Records
 assign_ids(rocratedict['@graph'])
 
+
+#######
+csv_buffer = StringIO()
+#get a iso record as pandas df...
+nci_iso_record = metadata_to_nci(rocratedict)
+nci_iso_record.to_csv(csv_buffer, index=False)
+# Reset buffer position to the beginning
+csv_buffer.seek(0)
+csv_content = csv_buffer.getvalue()
+model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
+
 try:
 
     expanded = jsonld.expand(rocratedict)
@@ -80,15 +91,7 @@ issue_dict_str = json.dumps(data)
 model_repo.create_file("metadata_trail/issue_body.md","add issue_body", issue.body)
 model_repo.create_file("metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
 
-#######
-csv_buffer = StringIO()
-#get a iso record as pandas df...
-nci_iso_record = metadata_to_nci(rocratedict)
-nci_iso_record.to_csv(csv_buffer, index=False)
-# Reset buffer position to the beginning
-csv_buffer.seek(0)
-csv_content = csv_buffer.getvalue()
-model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
+
 
 #####Save license
 
