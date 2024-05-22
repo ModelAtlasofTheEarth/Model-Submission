@@ -420,3 +420,27 @@ def process_funding_data(input_string):
 
 
     return {'funders': schema_funders, 'funding': schema_funding}
+
+
+
+def identify_separator(input_string):
+    # Strip leading and trailing whitespace and split by newline to get lines
+    lines = input_string.strip().split('\n')
+
+    # Count the number of commas and newlines
+    comma_count = sum(line.count(',') for line in lines)
+    newline_count = len(lines) - 1
+
+    # Heuristics: more commas than newlines => CSV
+    if comma_count > newline_count:
+        return 'csv'
+    else:
+        return 'newline'
+
+def separate_string(input_string):
+    separator_type = identify_separator(input_string)
+
+    if separator_type == 'csv':
+        return [x.strip() for line in input_string.strip().split('\n') for x in line.split(',')]
+    elif separator_type == 'newline':
+        return [line.strip() for line in input_string.strip().split('\n') if line]

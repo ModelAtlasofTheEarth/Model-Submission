@@ -3,7 +3,7 @@ import pandas as pd
 from collections import defaultdict
 from request_utils import get_record, check_uri
 from parse_metadata_utils import parse_publication, parse_software, parse_organization
-from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, process_funding_data, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates, parse_size
+from parse_utils import parse_name_or_orcid, parse_yes_no_choice, get_authors, get_funders, process_funding_data, parse_image_and_caption, validate_slug, extract_doi_parts, extract_orcid, remove_duplicates, parse_size, identify_separator, separate_string
 from dateutil import parser
 from datetime import datetime
 
@@ -182,7 +182,8 @@ def parse_issue(issue):
             error_log += "**Software framework authors**\n" + log
 
     # software & algorithm keywords
-    software_keywords = [x.strip() for x in data["-> software & algorithm keywords"].split(",")]
+    #software_keywords = [x.strip() for x in data["-> software & algorithm keywords"].split(",")]
+    software_keywords = separate_string(data["-> software & algorithm keywords"])
 
     #if software_keywords[0] == "_No response_":
     if null_response_check(software_keywords[0]):
@@ -303,7 +304,8 @@ def parse_issue(issue):
     data_dict["license"] = license_record
 
     # model category
-    model_category = [x.strip() for x in data["-> model category"].split(",")]
+    #model_category = [x.strip() for x in data["-> model category"].split(",")]
+    model_category = separate_string(data["-> model category"])
 
     #if model_category[0] == "_No response_":
     if null_response_check(model_category[0]):
@@ -317,7 +319,8 @@ def parse_issue(issue):
     # model status
     model_status = []
     try:
-        model_status = [x.strip() for x in data["-> model status"].split(",")]
+        #model_status = [x.strip() for x in data["-> model status"].split(",")]
+        model_status = separate_string(data["-> model status"])
 
         #if model_status[0] == "_No response_":
         if null_response_check(model_status[0]):
@@ -361,7 +364,8 @@ def parse_issue(issue):
     data_dict["description"] = description
 
     # scientific keywords
-    keywords = [x.strip() for x in data["-> scientific keywords"].split(",")]
+    #keywords = [x.strip() for x in data["-> scientific keywords"].split(",")]
+    keywords = separate_string(data["-> scientific keywords"])
 
     #if keywords[0] == "_No response_":
     if null_response_check(keywords[0]):
