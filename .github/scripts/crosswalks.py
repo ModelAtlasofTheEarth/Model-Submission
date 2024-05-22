@@ -7,6 +7,7 @@ import ruamel.yaml
 import copy
 from pyld import jsonld
 import pandas as pd
+from config import MATE_GADI
 
 Ryaml = ruamel.yaml.YAML(typ=['rt', 'string'])
 Ryaml.preserve_quotes = True
@@ -360,10 +361,10 @@ def metadata_to_nci(ro_crate):
     #extract funders and authors into a NCI/ISO format
     funders = extract_funder_details(ro_crate_nested)
     authors = extract_creator_details(ro_crate_nested)
-
     root = 'root'  # Key for root element
-    #license_id = ro_crate_nested.get_nested(f"{root}.license.@id") #get the license id
-    license_id = ro_crate_nested.get_nested(f"{root}.license") #get the license id
+
+    #build up any composite values
+    nci_file_path =  MATE_GADI + ro_crate_nested.get_nested(f"{root}.alternateName")
 
     fields_data = {
         "Title*": list_to_string(ro_crate_nested.get_nested(f"{root}.name")),
@@ -381,7 +382,7 @@ def metadata_to_nci(ro_crate):
         "Owner* (if applicable)": "",
         "Credit": "",
         "Supplemental or supporting material": "",
-        "Local NCI file path": "",
+        "Local NCI file path": nci_file_path,
         "DOI (NCI Internal Field)": list_to_string(ro_crate_nested.get_nested(f"{root}.identifier")),
         "Keyword/s": list_to_string(ro_crate_nested.get_nested(f"{root}.keywords"))
     }

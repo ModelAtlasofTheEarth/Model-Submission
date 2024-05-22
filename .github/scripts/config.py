@@ -3,9 +3,11 @@
 # Example of global parameters
 
 #DOIS
-MATE_DOI =     'http://dx.doi.org/10.25914/yrzp-g882'
-MATE_WEBSITE = 'https://mate.science/'
-MATE_GITHUB =  'https://github.com/ModelAtlasofTheEarth/'
+MATE_DOI          = 'http://dx.doi.org/10.25914/yrzp-g882'
+MATE_WEBSITE      = 'https://mate.science/'
+MATE_GITHUB       = 'https://github.com/ModelAtlasofTheEarth/'
+MATE_GADI         = '/g/data/nm08/MATE/'
+
 #MATE_THREDDS_BASE = "https://dapds00.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html"
 #updated version: https://opus.nci.org.au/display/NDP/THREDDS+Upgrade
 MATE_THREDDS_BASE = "https://thredds.nci.org.au/thredds/catalog/nm08/MATE/{}/catalog.html"

@@ -49,6 +49,7 @@ assign_ids(rocratedict['@graph'])
 
 
 #######
+#Not sure why, but placing this block above the flatten block made a difference.
 csv_buffer = StringIO()
 #get a iso record as pandas df...
 nci_iso_record = metadata_to_nci(rocratedict)
@@ -58,6 +59,7 @@ csv_buffer.seek(0)
 csv_content = csv_buffer.getvalue()
 model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
 
+#This is modifying rocratedict in place, which was not the intention 
 try:
 
     expanded = jsonld.expand(rocratedict)
