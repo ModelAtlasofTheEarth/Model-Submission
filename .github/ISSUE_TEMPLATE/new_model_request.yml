@@ -1,7 +1,7 @@
 ---
 name: New model request
 description: Submit a new model request
-title: "M@TE submission request from [@your-github-username]"
+title: "M@TE model submission request [model title will appear here]"
 labels: ["new model"]
 
 body:
