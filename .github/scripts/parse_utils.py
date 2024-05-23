@@ -153,41 +153,97 @@ def get_funders(funder_list):
     return funders, log
 
 
+# def parse_image_and_caption(img_string, default_filename):
+#     log = ""
+#     image_record = {}
+#
+#     md_regex = r"\[(?P<filename>.*?)\]\((?P<url>.*?)\)"
+#     html_regex = r'alt="(?P<filename>[^"]+)" src="(?P<url>[^"]+)"'
+#     pattern = re.compile(r"https://github.com/ModelAtlasofTheEarth/[^/]+/assets/")
+#
+#     # Hack to recognise SVG files
+#     filetype.add_type(Svg())
+#
+#     caption = []
+#
+#     for string in img_string.split("\r\n"):
+#         #if "https://github.com/ModelAtlasofTheEarth/model_submission/assets/" in string:
+#         if pattern.search(string):
+#             try:
+#                 image_record = re.search(md_regex, string).groupdict()
+#             except:
+#                 if string.startswith("https://"):
+#                     image_record = {"filename": default_filename, "url": string}
+#                 elif "src" in string:
+#                     image_record = re.search(html_regex, string).groupdict()
+#                 else:
+#                     log += "Error: Could not parse image file and caption\n"
+#         else:
+#             caption.append(string)
+#
+#     # Get correct file extension for images
+#     if "url" in image_record:
+#         response = requests.get(image_record["url"])
+#         content_type = response.headers.get("Content-Type")[:5]
+#         if content_type in ["video", "image"]:
+#             image_record["filename"] += "." + filetype.get_type(mime=response.headers.get("Content-Type")).extension
+#
+#     image_record["caption"] = "\n".join(caption)
+#
+#     if not caption:
+#         log += "Error: No caption found for image.\n"
+#
+#     return image_record, log
+
+
+#Modification to deal with pdf better
+#original function above
 def parse_image_and_caption(img_string, default_filename):
     log = ""
     image_record = {}
 
+    # Regex to match Markdown image syntax
     md_regex = r"\[(?P<filename>.*?)\]\((?P<url>.*?)\)"
+    # Regex to match HTML image syntax
     html_regex = r'alt="(?P<filename>[^"]+)" src="(?P<url>[^"]+)"'
-    pattern = re.compile(r"https://github.com/ModelAtlasofTheEarth/[^/]+/assets/")
+    # Pattern to identify the URL structure
+    pattern = re.compile(r"https://github.com/ModelAtlasofTheEarth/[^/]+/assets/|https://github.com/ModelAtlasofTheEarth/[^/]+/files/")
 
-    # Hack to recognise SVG files
+    # Adding support for SVG files
     filetype.add_type(Svg())
 
     caption = []
 
+    # Split the input string by line
     for string in img_string.split("\r\n"):
-        #if "https://github.com/ModelAtlasofTheEarth/model_submission/assets/" in string:
+        # Check if the line contains the expected URL pattern
         if pattern.search(string):
             try:
+                # Try to match the Markdown image format
                 image_record = re.search(md_regex, string).groupdict()
             except:
                 if string.startswith("https://"):
+                    # If it is a URL, use the default filename
                     image_record = {"filename": default_filename, "url": string}
                 elif "src" in string:
+                    # Try to match the HTML image format
                     image_record = re.search(html_regex, string).groupdict()
                 else:
                     log += "Error: Could not parse image file and caption\n"
         else:
             caption.append(string)
 
-    # Get correct file extension for images
+    # If the file is not an image but a document (e.g., PDF), handle it separately
     if "url" in image_record:
         response = requests.get(image_record["url"])
-        content_type = response.headers.get("Content-Type")[:5]
-        if content_type in ["video", "image"]:
-            image_record["filename"] += "." + filetype.get_type(mime=response.headers.get("Content-Type")).extension
+        content_type = response.headers.get("Content-Type")
+        if content_type.startswith("image"):
+            image_record["filename"] += "." + filetype.get_type(mime=content_type).extension
+        else:
+            # For non-image files, use the original filename without modification
+            image_record["filename"] = image_record["filename"]
 
+    # Join the collected caption lines into a single string
     image_record["caption"] = "\n".join(caption)
 
     if not caption:
