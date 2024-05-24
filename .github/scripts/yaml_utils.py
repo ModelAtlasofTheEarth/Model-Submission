@@ -235,13 +235,33 @@ def configure_yaml_output_dict(output_dict, issue_dict,
         path = ensure_path_starts_with_pattern(output_dict['animation']['src'], image_path)
         output_dict['animation']['src'] = path
 
+    #the followign files are array types
+    #for_codes, status, software, creators, associated_publication,
+    #research_tags, compute_tags, funder funding, images, model_files, dataset
 
 
-    #check that any structures that need to be in lists are in lists
+
+    #check that any structures that need to be in lists/arrays are in lists/arrays
+    #mainly this is just to get the right structures out for Gatsby,
+    #for instance, the concatenation for tags requires arrays - can't be strings
+    #and an array with an empty string results in a empty tag (a hyphen)
+
     if not isinstance(output_dict['software'], list):
-        output_dict['software'] = [output_dict['software']]
+        if output_dict['software']:
+            output_dict['software'] = [output_dict['software']]
+        #return an empty list, not a list of empty string
+        else:
+            output_dict['software'] = []
     if not isinstance(output_dict['research_tags'], list):
-            output_dict['research_tags'] = [output_dict['research_tags']]
+            if output_dict['research_tags']:
+                output_dict['research_tags'] = [output_dict['research_tags']]
+            else:
+                output_dict['research_tags'] = []
+    if not isinstance(output_dict['compute_tags'], list):
+            if output_dict['compute_tags']:
+                output_dict['compute_tags'] = [output_dict['compute_tags']]
+            else:
+                output_dict['compute_tags'] = []
 
 
     #Add any additional mappings that we can't manage in the generalised function
