@@ -200,6 +200,7 @@ def dict_to_report(issue_dict, verbose = False):
                 report += "  \n"
             report += "  \n"
 
+
     # software & algorithm keywords
     if "keywords" in issue_dict["software"]:
         report += "**Software & algorithm keywords:**  \n\n"
@@ -260,9 +261,9 @@ def dict_to_report(issue_dict, verbose = False):
     #    report += "**Model setup description:**  \n"
     #    report += f"{issue_dict['model_setup_description']}\n\n"
 
-    if verbose is True:
-        report += "  \n ** Dumping dictionary during testing **  \n"
-        report += str(issue_dict)
+    #if verbose is True:
+    #    report += "  \n ** Dumping dictionary during testing **  \n"
+    #    report += str(issue_dict)
 
     return report
 

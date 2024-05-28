@@ -59,7 +59,7 @@ csv_buffer.seek(0)
 csv_content = csv_buffer.getvalue()
 model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
 
-#This is modifying rocratedict in place, which was not the intention 
+#This is modifying rocratedict in place, which was not the intention
 try:
 
     expanded = jsonld.expand(rocratedict)
@@ -109,7 +109,7 @@ model_repo.create_file("website_material/license.txt","add license text", licens
 #####Create the README.md
 
 pre_report = '# New [M@TE](https://mate.science/)! model: \n ' +  '_we have provided a summary of your model as a starting point for the README, feel free to edit_' + '\n'
-report = dict_to_report(data)
+report = dict_to_report(data, verbose = True)
 # Path to the README.md file
 file_path = 'README.md'
 # Retrieve the file to get its SHA and content
