@@ -110,10 +110,10 @@ issue_yaml_mapping = {
     'creators.name': 'creators.givenName',
     'creators.family_name': 'creators.familyName',
     'creators.ORCID': 'creators.@id',
-    "associated_publication.authors":"publication.author",
-    "associated_publication.title":"publication.name",
-    "associated_publication.doi":"publication.@id",
-    "associated_publication.url":"publication.url",
+    #"associated_publication.authors":"publication.author",
+    #"associated_publication.title":"publication.name",
+    #"associated_publication.doi":"publication.@id",
+    #"associated_publication.url":"publication.url",
     #currently the mapping functionality cannot handle the heavilty nested
     #structure of publications, requiring access like issue_dict['publication']['isPartOf'][0]['isPartOf']['name'][0]
     #so these get added as a hack in the function configure_yaml_output_dict

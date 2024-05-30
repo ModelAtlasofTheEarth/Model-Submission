@@ -3,6 +3,7 @@ import copy
 from ruamel.yaml import YAML
 import io
 from config import *
+from parse_utils import extract_doi_parts
 
 
 def navigate_and_assign(source, path, value):
@@ -158,6 +159,74 @@ def ensure_path_starts_with_pattern(file_path, pattern='./graphics/'):
 
     return file_path
 
+
+def clean_up_authors(authors, remove=None):
+    if remove is None:
+        remove = []
+
+    for author in authors:
+        # Remove specified keys
+        for key in remove:
+            if key in author:
+                del author[key]
+
+        # Change @id key to ORCID
+        if '@id' in author:
+            author['ORCID'] = author.pop('@id')
+
+        # Process affiliations if they exist and if 'affiliation' is not in the remove list
+        if 'affiliation' in author and 'affiliation' not in remove:
+            for affiliation in author['affiliation']:
+                # Remove specified keys from affiliations
+                for key in remove:
+                    if key in affiliation:
+                        del affiliation[key]
+
+    return authors
+
+def process_publication_authors(data, remove=None):
+    if remove is None:
+        remove = []
+
+    # Process associated_publication authors
+    if 'associated_publication' in data and 'authors' in data['associated_publication']:
+        data['associated_publication']['authors'] = clean_up_authors(data['associated_publication']['authors'], remove)
+
+    # Process creators
+    if 'creators' in data:
+        data['creators'] = clean_up_authors(data['creators'], remove)
+
+    return data
+
+def convert_author_records(author_records, remove=['orcid', 'affiliation']):
+    result = []
+    for record in author_records:
+        author_dict = {
+            'name': record.get('givenName', ''),
+            'family_name': record.get('familyName', ''),
+            'orcid': record.get('@id', ''),
+            'affiliations': [affiliation.get('name', '') for affiliation in record.get('affiliation', [])]
+        }
+
+        # Remove specified keys
+        for key in remove:
+            if key in author_dict:
+                author_dict.pop(key)
+
+        result.append(author_dict)
+    return result
+
+def ensure_dict(value):
+    if isinstance(value, list):
+        if len(value) > 0 and isinstance(value[0], dict):
+            return value[0]
+        else:
+            return {}  # Return an empty dictionary if the list is empty or doesn't contain dictionaries
+    elif isinstance(value, dict):
+        return value
+    else:
+        return {}
+
 def configure_yaml_output_dict(output_dict, issue_dict,
                                image_path='./graphics/',
                                timestamp=False):
@@ -241,17 +310,22 @@ def configure_yaml_output_dict(output_dict, issue_dict,
 
 
 
-    #check that any structures that need to be in lists/arrays are in lists/arrays
+    #ensure that any structures that need to be formatted in a certain way
     #mainly this is just to get the right structures out for Gatsby,
     #for instance, the concatenation for tags requires arrays - can't be strings
     #and an array with an empty string results in a empty tag (a hyphen)
 
-    if not isinstance(output_dict['software'], list):
-        if output_dict['software']:
-            output_dict['software'] = [output_dict['software']]
-        #return an empty list, not a list of empty string
-        else:
-            output_dict['software'] = []
+    #if not isinstance(output_dict['software'], list):
+    #    if output_dict['software']:
+    #        output_dict['software'] = [output_dict['software']]
+    #    #return an empty list, not a list of empty string
+    #    else:
+    #        output_dict['software'] = []
+
+    #at this stage gatsby only configured to deal with single software record
+    #this takes the first record if a list is encountered 
+    output_dict['software'] = ensure_dict(output_dict['software'])
+
     if not isinstance(output_dict['research_tags'], list):
             if output_dict['research_tags']:
                 output_dict['research_tags'] = [output_dict['research_tags']]
@@ -265,12 +339,27 @@ def configure_yaml_output_dict(output_dict, issue_dict,
 
 
     #Add any additional mappings that we can't manage in the generalised function
+    output_dict['associated_publication'] = {}
     try:
+        output_dict['associated_publication']['title']      = issue_dict['publication']['name']
+        output_dict['associated_publication']['url']        = issue_dict['publication']['@id']
+        output_dict['associated_publication']['doi']        = extract_doi_parts(issue_dict['publication']['@id'])
         output_dict['associated_publication']['publisher']  = issue_dict['publication']['isPartOf'][0]['isPartOf']['publisher']
         output_dict['associated_publication']['journal']    = issue_dict['publication']['isPartOf'][0]['isPartOf']['name'][0]
         output_dict['associated_publication']['date']       = issue_dict['publication']['isPartOf'][0]['datePublished']
+
+        pub_authors = convert_author_records(issue_dict['publication']['author'],
+                                    remove=['orcid','affiliation', 'affiliations'])
+
+        output_dict['associated_publication']['authors'] = pub_authors
+
     except:
         pass
+
+    #this type of things should really be done in a centralised/structured way...
+    #anyway, this function is exchange @id for ORCID, amnd removign the remove=[] items from the
+    #publication authors.
+    output_dict = process_publication_authors(output_dict, remove=['@type', 'affiliation'])
 
 
 
@@ -302,6 +391,8 @@ def format_yaml_string(web_yaml_dict):
     yaml.preserve_quotes = True
     #control the indentation...
     yaml.indent(mapping=2, sequence=4, offset=2)
+    # Set the width to a large number to avoid line breaks
+    yaml.width = 10000
     # Use an in-memory text stream to hold the YAML content
     stream = io.StringIO()
     stream.write('---\n')
