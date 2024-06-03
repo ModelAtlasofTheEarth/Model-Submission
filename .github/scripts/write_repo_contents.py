@@ -57,7 +57,7 @@ nci_iso_record.to_csv(csv_buffer, index=False)
 # Reset buffer position to the beginning
 csv_buffer.seek(0)
 csv_content = csv_buffer.getvalue()
-model_repo.create_file("metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
+model_repo.create_file(".metadata_trail/nci_iso.csv","add nci_iso record csv", csv_content)
 
 #This is modifying rocratedict in place, which was not the intention
 try:
@@ -83,15 +83,15 @@ except:
 rocratestr_flatcompact= json.dumps(flatcompact)
 model_repo.create_file("ro-crate-metadata.json","add ro-crate", rocratestr_flatcompact)
 #it would be good to remove this duplication and instead copy the main file across
-model_repo.create_file("website_material/ro-crate-metadata.json","add ro-crate", rocratestr_flatcompact)
+model_repo.create_file(".website_material/ro-crate-metadata.json","add ro-crate", rocratestr_flatcompact)
 #we should do this this as part of the copy to website action
-model_repo.create_file("metadata_trail/ro-crate-metadata-nested.json", "add nested ro-crate to metadata_trail", rocratestr_nested)
+model_repo.create_file(".metadata_trail/ro-crate-metadata-nested.json", "add nested ro-crate to .metadata_trail", rocratestr_nested)
 
 #######
-#Save the trail of metadata sources to metadata_trail
+#Save the trail of metadata sources to .metadata_trail
 issue_dict_str = json.dumps(data)
-model_repo.create_file("metadata_trail/issue_body.md","add issue_body", issue.body)
-model_repo.create_file("metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
+model_repo.create_file(".metadata_trail/issue_body.md","add issue_body", issue.body)
+model_repo.create_file(".metadata_trail/issue_dict.json","add issue_dict", issue_dict_str)
 
 
 
@@ -103,7 +103,7 @@ except:
     license_url = ''
 license_txt = download_license_text(license_url)
 model_repo.create_file("LICENSE","add license text", license_txt)
-model_repo.create_file("website_material/license.txt","add license text", license_txt)
+model_repo.create_file(".website_material/license.txt","add license text", license_txt)
 
 
 #####Create the README.md
@@ -200,11 +200,11 @@ model_repo.replace_topics(keywords)
 web_yaml_dict = dict_to_yaml(data, timestamp= timestamp)
 yaml_content_with_frontmatter = format_yaml_string(web_yaml_dict)
 commit_message = 'Add YAML file with front matter'
-model_repo.create_file("website_material/index.md", commit_message, yaml_content_with_frontmatter)
+model_repo.create_file(".website_material/index.md", commit_message, yaml_content_with_frontmatter)
 
 
 # Copy web material to repo
-copy_files(model_repo, "website_material/graphics/", data)
+copy_files(model_repo, ".website_material/graphics/", data)
 
 
 

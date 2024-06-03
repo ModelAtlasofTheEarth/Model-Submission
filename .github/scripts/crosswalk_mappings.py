@@ -57,7 +57,7 @@ model_outputs_node_mapping = {"@id":"model_outputs",
             "fileFormat":None,
             }
 
-website_material_node_mapping = {"@id":"website_material",
+website_material_node_mapping = {"@id":".website_material",
             "@type":None,
             "description":None,
             "creator":"creators",
