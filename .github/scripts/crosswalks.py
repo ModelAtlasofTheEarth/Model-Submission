@@ -62,12 +62,12 @@ def dict_to_report(issue_dict, verbose = False):
 
 
     # slug, this gets mapped to name. This is what the model is called on NCI
-    report += "**Model name:**  \n\n"
+    report += "**Model slug:**  \n\n"
     report += f"`{issue_dict['slug']}` \n\n" + "(this will be the name of the model repository when created) \n\n"
 
 
     # title. Note title doesn't appear in CreativeWorks. This gets mapped to alternateName.
-    report += "**Model long name:**  \n\n"
+    report += "**Model name:**  \n\n"
     report += f"_{issue_dict['title']}_  \n\n"
 
     # license
@@ -94,7 +94,9 @@ def dict_to_report(issue_dict, verbose = False):
         report += "**Associated Publication title:**  \n\n"
         report += f"_[{issue_dict['publication']['name']}]({issue_dict['publication']['@id']})_ \n\n"
 
-
+    # description
+    report += "**Short description:**  \n\n"
+    report += issue_dict["description"] + "\n\n"
 
     # abstract
     report += "**Abstract:**  \n\n"
@@ -133,7 +135,7 @@ def dict_to_report(issue_dict, verbose = False):
             report += "**Embargo on model contents requested until:**   \n\n"
             report += f"{issue_dict['embargo'][1]} \n\n"
         else:
-            report +=  "** No embargo on model contents requested**"
+            report +=  "**No embargo on model contents requested** \n\n"
 
 
     # include model code
