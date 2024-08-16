@@ -5,6 +5,8 @@ import filetype
 import subprocess
 from filetypes import Svg
 
+
+
 #from improved_request_utils import get_record, search_organization
 from request_utils import get_record, search_organization
 from parse_metadata_utils import parse_author, parse_organization
@@ -198,7 +200,7 @@ def get_funders(funder_list):
 
 #Modification to deal with pdf better
 #original function above
-def parse_image_and_caption(img_string, default_filename):
+def parse_image_and_caption_old(img_string, default_filename):
     log = ""
     image_record = {}
 
@@ -250,6 +252,61 @@ def parse_image_and_caption(img_string, default_filename):
         log += "Error: No caption found for image.\n"
 
     return image_record, log
+
+
+def parse_image_and_caption(img_string, default_filename):
+    log = ""
+    image_record = {}
+
+    # Precompile regex patterns
+    md_regex = re.compile(r"\[(?P<filename>.*?)\]\((?P<url>.*?)\)")
+    html_regex = re.compile(r'alt="(?P<filename>[^"]+)" src="(?P<url>[^"]+)"')
+
+    # Combined pattern to match both the old and new GitHub URL structures
+    pattern = re.compile(r"https://github.com/(?:ModelAtlasofTheEarth/[^/]+/(?:assets|files)/|user-attachments/assets/)")
+
+    # Adding support for SVG files
+    filetype.add_type(Svg())
+
+    caption = []
+
+    for string in img_string.split("\r\n"):
+        if pattern.search(string):
+            try:
+                # Try to match the Markdown image format
+                image_record = md_regex.search(string).groupdict()
+            except AttributeError:
+                if string.startswith("https://"):
+                    image_record = {"filename": default_filename, "url": string}
+                elif "src" in string:
+                    try:
+                        image_record = html_regex.search(string).groupdict()
+                    except AttributeError:
+                        log += f"Error: Could not parse HTML image format for line: {string}\n"
+                else:
+                    log += f"Error: Could not parse image file and caption for line: {string}\n"
+        else:
+            caption.append(string)
+
+    if "url" in image_record:
+        response = requests.get(image_record["url"])
+        content_type = response.headers.get("Content-Type", "")
+
+        if content_type.startswith("image"):
+            # Ensure file extension is not duplicated
+            extension = filetype.get_type(mime=content_type).extension
+            if not image_record["filename"].endswith(f".{extension}"):
+                image_record["filename"] += f".{extension}"
+        else:
+            log += f"Warning: File is not an image (Content-Type: {content_type}).\n"
+
+    image_record["caption"] = "\n".join(caption)
+
+    if not caption:
+        log += "Error: No caption found for image.\n"
+
+    return image_record, log
+
 
 
 def extract_doi_parts(doi_string):
