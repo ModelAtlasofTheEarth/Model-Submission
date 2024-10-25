@@ -200,7 +200,7 @@ def get_funders(funder_list):
 
 #Modification to deal with pdf better
 #original function above
-def parse_image_and_caption_old(img_string, default_filename):
+def parse_image_and_caption_old2(img_string, default_filename):
     log = ""
     image_record = {}
 
@@ -254,7 +254,7 @@ def parse_image_and_caption_old(img_string, default_filename):
     return image_record, log
 
 
-def parse_image_and_caption(img_string, default_filename):
+def parse_image_and_caption_old(img_string, default_filename):
     log = ""
     image_record = {}
 
@@ -307,7 +307,70 @@ def parse_image_and_caption(img_string, default_filename):
 
     return image_record, log
 
+# Local cache for URL responses
+url_cache = {}
 
+def parse_image_and_caption(img_string, default_filename):
+    log = ""
+    image_record = {"filename": "", "url": "", "caption": ""}
+
+    # Precompile regex patterns for Markdown image links
+    md_regex = re.compile(r"\[(?P<filename>[^]]+)\]\((?P<url>https?://[^\s)]+)\)")
+    
+    # Combined pattern to match both old and new GitHub URL structures
+    pattern = re.compile(r"https://github.com/(?:ModelAtlasofTheEarth/[^/]+/(?:assets|files)/|user-attachments/assets/)")
+
+    # Adding support for SVG files
+    filetype.add_type(Svg())
+
+    caption = []
+
+    # Split lines and check for patterns
+    for line in img_string.split("\r\n"):
+        # Check if the line matches the Markdown pattern for image links
+        md_match = md_regex.search(line)  
+        if md_match:
+            # Extract filename and URL
+            image_record["filename"] = md_match.group("filename").strip()  # Strip whitespace
+            image_record["url"] = md_match.group("url").strip()  # Strip whitespace
+        elif pattern.search(line):
+            # Fallback for direct URL parsing (though this shouldn't be necessary now)
+            if line.startswith("https://"):
+                image_record["filename"] = default_filename
+                image_record["url"] = line
+        else:
+            # Accumulate the caption lines, trimming whitespace
+            caption.append(line.strip())
+
+    # Join the caption lines
+    if caption:
+        image_record["caption"] = " ".join(caption)
+    else:
+        log += "Error: No caption found for image.\n"
+
+    # Check if URL is available
+    if image_record["url"]:
+        # Check if the URL is already cached
+        if image_record["url"] in url_cache:
+            content_type = url_cache[image_record["url"]]
+        else:
+            try:
+                response = requests.get(image_record["url"], timeout=5)  # Set a timeout for requests
+                content_type = response.headers.get("Content-Type", "")
+                url_cache[image_record["url"]] = content_type  # Cache the response content type
+            except requests.RequestException as e:
+                log += f"Error: Failed to download image. {str(e)}\n"
+                content_type = ""
+
+        if content_type.startswith("image"):
+            # Ensure the file extension is not duplicated
+            extension = filetype.get_type(mime=content_type).extension
+            if not image_record["filename"].endswith(f".{extension}"):
+                image_record["filename"] += f".{extension}"
+        else:
+            log += f"Warning: File is not an image (Content-Type: {content_type}).\n"
+
+    return image_record, log
 
 def extract_doi_parts(doi_string):
     # Regular expression to match a DOI within a string or URL
