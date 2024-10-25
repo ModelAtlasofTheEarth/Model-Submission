@@ -31,7 +31,7 @@ root_node_mapping = {"@id":"./",
             }
 
 
-model_inputs_node_mapping = {"@id":"model_code_inputs",
+model_inputs_node_mapping = {"@id":None,
             "identifier": ["model_code_inputs.doi"],
             "@type":None,
             "description":None,
@@ -45,7 +45,7 @@ model_inputs_node_mapping = {"@id":"model_code_inputs",
             "storageRequirements":None}
 
 
-model_outputs_node_mapping = {"@id":"model_output_data",
+model_outputs_node_mapping = {"@id":None,
             #the list around certain items in the mapping cause the same structure to appear in teh RO-Crate
             "identifier": ["model_output_data.doi"],
             "@type":None,
