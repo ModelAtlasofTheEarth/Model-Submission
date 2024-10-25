@@ -23,10 +23,16 @@ def copy_files(repo, directory, issue_dict):
                 file_path = directory + file_info["filename"]
 
                 # Skip if file already exists in repo
+                file_exists = False
                 try:
                     file_content = repo.get_contents(file_path)
-                    print(f"Skipping {file_key} as the file already exists")
+                    file_exists = True
                 except UnknownObjectException:
+                    file_exists = False
+
+                if file_exists:
+                    print(f"Skipping {file_key} as the file already exists")
+                else:
                     response = requests.get(url)
                     repo.create_file(file_path, "add " + file_info["filename"], response.content)
             else:
