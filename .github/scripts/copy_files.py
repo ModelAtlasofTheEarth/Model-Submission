@@ -1,4 +1,5 @@
 import requests
+from github.GithubException import UnknownObjectException
 
 #def copy_files(repo, directory, issue_dict):
 #	file_keys = ["landing_image", "animation", "graphic_abstract", "model_setup_figure"]
@@ -19,7 +20,14 @@ def copy_files(repo, directory, issue_dict):
 
             # Skip if the URL is an empty string
             if url:
-                response = requests.get(url)
-                repo.create_file(directory + file_info["filename"], "add " + file_info["filename"], response.content)
+                file_path = directory + file_info["filename"]
+
+                # Skip if file already exists in repo
+                try:
+                    file_content = repo.get_contents(file_path)
+                    print(f"Skipping {file_key} as the file already exists")
+                except UnknownObjectException:
+                    response = requests.get(url)
+                    repo.create_file(file_path, "add " + file_info["filename"], response.content)
             else:
                 print(f"Skipping {file_key} as the URL is empty")
